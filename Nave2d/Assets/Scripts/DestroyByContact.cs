@@ -6,11 +6,12 @@ public class DestroyByContact : MonoBehaviour {
 	public GameObject explosion;
 	public GameObject playerExplosion;
 	private GameController gameController;
+	private GameObject GameScreen;
 
 
 	void Start () {
 		GameObject gameControllerObject = GameObject.FindWithTag("GameController");
-
+		GameScreen = GameObject.FindWithTag ("GameScreen");
 		if (gameControllerObject != null) {
 			gameController = gameControllerObject.GetComponent<GameController>();
 		}
@@ -20,9 +21,11 @@ public class DestroyByContact : MonoBehaviour {
 		if (other.tag == "Boundary") {
 			return;
 		}
-		Instantiate (explosion, transform.position, transform.rotation);
+		GameObject newExplosion1 = GameObject.Instantiate (explosion, transform.position, transform.rotation) as GameObject;
+		newExplosion1.transform.parent = GameScreen.transform;
 		if (other.tag == "Player") {
-			Instantiate (playerExplosion, other.transform.position, other.transform.rotation);
+			GameObject newExplosion2 = GameObject.Instantiate (playerExplosion, other.transform.position, other.transform.rotation) as GameObject;
+			newExplosion2.transform.parent = GameScreen.transform;
 			gameController.GameOver();
 		} else {
 			gameController.AddScore (10);

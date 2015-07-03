@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour {
 
 	public GameObject hazard;
-	public Vector3 spawnValues;
+	public Vector3 spawnValuesMIN;
+	public Vector3 spawnValuesMAX;
 	public int hazardCount;
 	public float spawnWait;
 	public float startWait;
@@ -16,15 +17,17 @@ public class GameController : MonoBehaviour {
 	public Text gameOverText;
 	private bool gameOver;
 	private bool restart;
+	public GameObject gameScreen;
 
 
 	IEnumerator spawnWaves () {
 		yield return new WaitForSeconds (startWait);
 		while (true) {
 			for (int i = 0; i < hazardCount; i++) {
-				Vector3 spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
+				Vector3 spawnPosition = new Vector3 (Random.Range (spawnValuesMIN.x, spawnValuesMAX.x), spawnValuesMIN.y, spawnValuesMIN.z);
 				Quaternion spawnRotation = hazard.transform.rotation;
-				Instantiate (hazard, spawnPosition, spawnRotation);
+				GameObject newAsteroid = GameObject.Instantiate (hazard, spawnPosition, spawnRotation) as GameObject;
+				newAsteroid.transform.parent = gameScreen.transform;
 				yield return new WaitForSeconds (spawnWait);
 			}
 			yield return new WaitForSeconds(waveWait);

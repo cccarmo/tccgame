@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
 	public Transform ShotSpawn;
 	public float fireRate;
 	private float nextFire = 0;
+	public GameObject GameScreen;
 
 	void Start () {
 		body = GetComponent<Rigidbody2D> ();
@@ -40,10 +41,11 @@ public class PlayerController : MonoBehaviour {
 
 	void Update() {
 
-		if (Input.GetButton ("Fire1") && Time.time > nextFire) {
+		if (Input.GetKeyDown ("space") && Time.time > nextFire) {
 			GetComponent<AudioSource>().Play();
 			nextFire = Time.time + fireRate;
-			Instantiate (Shot, ShotSpawn.position, ShotSpawn.rotation);
+			GameObject newShot = GameObject.Instantiate (Shot, ShotSpawn.position, ShotSpawn.rotation) as GameObject;
+			newShot.transform.parent = GameScreen.transform;
 
 		}
 
