@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
-
 	public GameObject hazard;
 	public Vector3 spawnValuesMIN;
 	public Vector3 spawnValuesMAX;
@@ -16,13 +15,12 @@ public class GameController : MonoBehaviour {
 	public Text restartText;
 	public Text gameOverText;
 	private bool gameOver;
-	private bool restart;
+	private bool startedSimulation;
 	public GameObject gameScreen;
-
-
-	IEnumerator spawnWaves () {
+	
+	IEnumerator spawnWaves() {
 		yield return new WaitForSeconds (startWait);
-		while (true) {
+		while (!gameOver) {
 			for (int i = 0; i < hazardCount; i++) {
 				Vector3 spawnPosition = new Vector3 (Random.Range (spawnValuesMIN.x, spawnValuesMAX.x), spawnValuesMIN.y, spawnValuesMIN.z);
 				Quaternion spawnRotation = hazard.transform.rotation;
@@ -31,43 +29,41 @@ public class GameController : MonoBehaviour {
 				yield return new WaitForSeconds (spawnWait);
 			}
 			yield return new WaitForSeconds(waveWait);
-
-			if (gameOver) {
-				restartText.text = "Press R to restart";
-				restartText.gameObject.SetActive(true);
-				restart = true;
-				break;
-			}
 		}
 	}
 
-	void UpdateScore () {
+	void UpdateScore() {
 		scoreText.text = "Score = " + score;
 	}
 
 	public void AddScore (int newScoreValue) {
 		score += newScoreValue;
-		UpdateScore ();
+		UpdateScore();
 	}
 	
 	// Use this for initialization
-	void Start () {
-		gameOver = restart = false;
+	void Start() {
+		gameOver = startedSimulation = false;
 		restartText.gameObject.SetActive (false);
 		gameOverText.gameObject.SetActive (false);
 		score = 0;
-		UpdateScore ();
-		StartCoroutine( spawnWaves ());
+		UpdateScore();
 	}
 	
 	public void GameOver () {
-		gameOverText.gameObject.SetActive (true);
+		gameOverText.gameObject.SetActive(true);
+		restartText.text = "Press R to restart";
+		restartText.gameObject.SetActive(true);
 		gameOver = true;
 	}
 
 	void Update () {
-		if (restart && Input.GetKeyDown (KeyCode.R)) {
+		if (startedSimulation && Input.GetKeyDown(KeyCode.R)) {
 			Application.LoadLevel(Application.loadedLevel);
+		}
+		else if (!startedSimulation && Input.GetKeyDown(KeyCode.S)) {
+			startedSimulation = true;
+			StartCoroutine(spawnWaves ());
 		}
 	}
 }

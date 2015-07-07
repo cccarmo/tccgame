@@ -1,9 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\mga\MGA Pro\Unity Project\MGAnity\Assets\Scripts\Process.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerController.cs">
     <Files>
-      <File FileName="..\..\mga\MGA Pro\Unity Project\MGAnity\Assets\Scripts\Scene Scripts\Login.cs" Line="445" Column="1" />
-      <File FileName="..\..\mga\MGA Pro\Unity Project\MGAnity\Assets\Scripts\Process.cs" Line="119" Column="31" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="139" Column="30" />
+      <File FileName="Assets\Scripts\GameController.cs" Line="64" Column="8" />
+      <File FileName="Assets\Scripts\Mover.cs" Line="1" Column="1" />
+      <File FileName="..\..\..\..\Documents\RocketMouse\Assets\Scripts\LaserScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Asteroid.cs" Line="1" Column="1" />
+      <File FileName="..\..\..\..\Documents\RocketMouse\Assets\Scripts\MouseController.cs" Line="12" Column="34" />
+      <File FileName="..\..\..\..\Documents\RocketMouse\Assets\Scripts\GeneratorScript.cs" Line="49" Column="50" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
