@@ -40,11 +40,24 @@ public class PlayerController : MonoBehaviour {
 		interpreter.execute(startedSimulation);
 	}
 	
-	public void moveSpaceship(Vector2 direction, float intensity) {
+	public void moveSpaceship (Vector2 direction, float intensity) {
 		body.velocity = direction * fixedSpeed * intensity;
-		body.rotation = body.velocity.x * (-tilt);
-		body.position = new Vector2 (Mathf.Clamp(body.position.x, boundary.xMin, boundary.xMax), 
-		                             Mathf.Clamp(body.position.y, boundary.yMin, boundary.yMax));
+		//body.rotation = body.velocity.x * (-tilt);
+		//body.position = new Vector2 (Mathf.Clamp(body.position.x, boundary.xMin, boundary.xMax), 
+		                             //Mathf.Clamp(body.position.y, boundary.yMin, boundary.yMax));
+	}
+
+	public void turnSpaceship (TurnDirections direction) {
+		switch (direction) {
+		case TurnDirections.Clockwise :
+			Debug.Log("Clockwise");
+			body.rotation -= 1.73f;
+			break;
+		case TurnDirections.Counterclockwise :
+			Debug.Log("CounterClockwise");
+			body.rotation += 1.73f;
+			break;
+		}
 	}
 
 	public bool shoot() {

@@ -11,7 +11,6 @@ public class GameController : MonoBehaviour {
 	public float startWait;
 	public float waveWait;
 	public Text scoreText;
-	public int score;
 	private bool gameOver;
 	private bool startedSimulation;
 	public GameObject gameScreen;
@@ -30,20 +29,9 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-	/*void UpdateScore() {
-		scoreText.text = "Score = " + score;
-	}
-
-	public void AddScore(int newScoreValue) {
-		score += newScoreValue;
-		UpdateScore();
-	}*/
-	
 	// Use this for initialization
 	void Start() {
 		gameOver = startedSimulation = false;
-		score = 0;
-		//UpdateScore();
 	}
 	
 	public void GameOver() {

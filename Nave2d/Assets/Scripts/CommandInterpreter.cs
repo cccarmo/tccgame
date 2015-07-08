@@ -8,7 +8,14 @@ public enum Command {
 	GoBackwards,
 	GoLeftwards,
 	GoRightwards,
-	Shoot
+	Shoot,
+	TurnClockwise,
+	TurnCounterclockwise
+};
+
+public enum TurnDirections {
+	Clockwise,
+	Counterclockwise
 };
 
 public class CommandInterpreter : MonoBehaviour {
@@ -62,6 +69,14 @@ public class CommandInterpreter : MonoBehaviour {
 	public void addGoRightwardsCommand() {
 		commandList.AddLast(Command.GoRightwards);
 	}
+
+	public void addTurnClockwiseCommand() {
+		commandList.AddLast(Command.TurnClockwise);
+	}
+
+	public void addTurnCounterclockwisewardsCommand() {
+		commandList.AddLast(Command.TurnCounterclockwise);
+	}
 	
 	private void interpretCommand() {
 		if (countDown == 0) {
@@ -73,7 +88,13 @@ public class CommandInterpreter : MonoBehaviour {
 				if (spaceship.shoot())
 					countDown = 0;
 			}
-			else {
+			else if (currentCommand.Equals(Command.TurnClockwise)) {
+				countDown--;
+				spaceship.turnSpaceship(TurnDirections.Clockwise);
+			} else if (currentCommand.Equals(Command.TurnCounterclockwise)) {
+				countDown--;
+				spaceship.turnSpaceship(TurnDirections.Counterclockwise);
+			} else {
 				countDown--;
 				spaceship.moveSpaceship(direction[currentCommand], ((float) countDown)/executionTime);
 			}
@@ -90,8 +111,9 @@ public class CommandInterpreter : MonoBehaviour {
 	}
 	
 	public void execute(bool startedSimulation) {
-		if(startedSimulation)
+		if (startedSimulation)
 			interpretCommand();
-		else addCommand();
+		else 
+			addCommand();
 	}
 }
