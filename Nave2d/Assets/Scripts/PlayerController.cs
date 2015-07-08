@@ -42,20 +42,19 @@ public class PlayerController : MonoBehaviour {
 	
 	public void moveSpaceship (Vector2 direction, float intensity) {
 		body.velocity = direction * fixedSpeed * intensity;
+		// Balancinho - tirei pq tava estragando o movimento depois que mudei pra ser relativo a rotacao
 		//body.rotation = body.velocity.x * (-tilt);
-		//body.position = new Vector2 (Mathf.Clamp(body.position.x, boundary.xMin, boundary.xMax), 
-		                             //Mathf.Clamp(body.position.y, boundary.yMin, boundary.yMax));
+		body.position = new Vector2 (Mathf.Clamp(body.position.x, boundary.xMin, boundary.xMax), 
+		                             Mathf.Clamp(body.position.y, boundary.yMin, boundary.yMax));
 	}
 
 	public void turnSpaceship (TurnDirections direction) {
 		switch (direction) {
 		case TurnDirections.Clockwise :
-			Debug.Log("Clockwise");
-			body.rotation -= 1.73f;
+			body.rotation -= 1.8f;
 			break;
 		case TurnDirections.Counterclockwise :
-			Debug.Log("CounterClockwise");
-			body.rotation += 1.73f;
+			body.rotation += 1.8f;
 			break;
 		}
 	}
