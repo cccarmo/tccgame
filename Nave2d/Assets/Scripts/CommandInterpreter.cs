@@ -23,13 +23,22 @@ public class CommandInterpreter : MonoBehaviour {
 	private readonly uint executionTime = 25;
 	private Command currentCommand;
 	private LinkedList<Command> commandList;
-	public PlayerController spaceship;
 	private Dictionary<Command, Vector2> direction;
-	
+	public GameObject spaceShip;
+	private PlayerController spaceShipController;
+	private Rigidbody2D spaceShipBody;
+
+	void Start () {
+		spaceShipController = spaceShip.GetComponent<PlayerController> ();
+		spaceShipBody = spaceShip.GetComponent<Rigidbody2D> ();
+	}
+
 	public CommandInterpreter() {
 		commandList = new LinkedList<Command>();
 		countDown = 0;
-		
+
+		//float seno = Mathf.Sin (Mathf.Deg2Rad *(spaceShipBody.rotation - 90f));
+		//float coseno = Mathf.Cos (Mathf.Deg2Rad * (spaceShipBody.rotation - 90f));
 		direction = new Dictionary<Command, Vector2>();
 		direction.Add(Command.GoForwards, new Vector2(0.0f, 1.0f));
 		direction.Add(Command.GoBackwards, new Vector2(0.0f, -1.0f));
@@ -85,18 +94,18 @@ public class CommandInterpreter : MonoBehaviour {
 		}
 		if (!currentCommand.Equals(Command.Nope)) {
 			if(currentCommand.Equals(Command.Shoot)) {
-				if (spaceship.shoot())
+				if (spaceShipController.shoot())
 					countDown = 0;
 			}
 			else if (currentCommand.Equals(Command.TurnClockwise)) {
 				countDown--;
-				spaceship.turnSpaceship(TurnDirections.Clockwise);
+				spaceShipController.turnSpaceship(TurnDirections.Clockwise);
 			} else if (currentCommand.Equals(Command.TurnCounterclockwise)) {
 				countDown--;
-				spaceship.turnSpaceship(TurnDirections.Counterclockwise);
+				spaceShipController.turnSpaceship(TurnDirections.Counterclockwise);
 			} else {
 				countDown--;
-				spaceship.moveSpaceship(direction[currentCommand], ((float) countDown)/executionTime);
+				spaceShipController.moveSpaceship(direction[currentCommand], ((float) countDown)/executionTime);
 			}
 		}
 	}
