@@ -1,14 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\..\Documents\RocketMouse\Assets\Scripts\ParticleSortingLayerFix.cs">
     <Files>
-      <File FileName="Assets\Scripts\PlayerController.cs" Line="139" Column="30" />
-      <File FileName="Assets\Scripts\GameController.cs" Line="64" Column="8" />
-      <File FileName="Assets\Scripts\Mover.cs" Line="1" Column="1" />
-      <File FileName="..\..\..\..\Documents\RocketMouse\Assets\Scripts\LaserScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Asteroid.cs" Line="1" Column="1" />
-      <File FileName="..\..\..\..\Documents\RocketMouse\Assets\Scripts\MouseController.cs" Line="12" Column="34" />
+      <File FileName="Assets\Scripts\GameController.cs" Line="39" Column="22" />
+      <File FileName="..\..\..\..\Documents\RocketMouse\Assets\Scripts\LaserScript.cs" Line="24" Column="3" />
+      <File FileName="..\..\..\..\Documents\RocketMouse\Assets\Scripts\MouseController.cs" Line="39" Column="14" />
       <File FileName="..\..\..\..\Documents\RocketMouse\Assets\Scripts\GeneratorScript.cs" Line="49" Column="50" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="111" Column="3" />
+      <File FileName="..\..\..\..\Documents\RocketMouse\Assets\Scripts\ParticleSortingLayerFix.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
