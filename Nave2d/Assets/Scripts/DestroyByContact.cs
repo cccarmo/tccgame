@@ -28,7 +28,7 @@ public class DestroyByContact : MonoBehaviour {
 			newExplosion2.transform.parent = GameScreen.transform;
 			gameController.GameOver();
 		} else {
-			gameController.AddScore (10);
+			//gameController.AddScore (10);
 		}
 		Destroy (other.gameObject);
 		Destroy (gameObject);

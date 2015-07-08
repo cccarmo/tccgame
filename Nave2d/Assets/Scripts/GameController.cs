@@ -12,8 +12,6 @@ public class GameController : MonoBehaviour {
 	public float waveWait;
 	public Text scoreText;
 	public int score;
-	public Text restartText;
-	public Text gameOverText;
 	private bool gameOver;
 	private bool startedSimulation;
 	public GameObject gameScreen;
@@ -32,38 +30,37 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-	void UpdateScore() {
+	/*void UpdateScore() {
 		scoreText.text = "Score = " + score;
 	}
 
 	public void AddScore(int newScoreValue) {
 		score += newScoreValue;
 		UpdateScore();
-	}
+	}*/
 	
 	// Use this for initialization
 	void Start() {
 		gameOver = startedSimulation = false;
-		restartText.gameObject.SetActive (false);
-		gameOverText.gameObject.SetActive (false);
 		score = 0;
-		UpdateScore();
+		//UpdateScore();
 	}
 	
-	public void GameOver () {
-		gameOverText.gameObject.SetActive(true);
-		restartText.text = "Press R to restart";
-		restartText.gameObject.SetActive(true);
+	public void GameOver() {
 		gameOver = true;
 	}
 
-	void Update () {
+	void Update() {
 		if (startedSimulation && Input.GetKeyDown(KeyCode.R)) {
-			Application.LoadLevel(Application.loadedLevel);
+			restart();
 		}
 		else if (!startedSimulation && Input.GetKeyDown(KeyCode.R)) {
 			startedSimulation = true;
 			StartCoroutine(spawnWaves());
 		}
+	}
+
+	public void restart() {
+		Application.LoadLevel(Application.loadedLevel);
 	}
 }
