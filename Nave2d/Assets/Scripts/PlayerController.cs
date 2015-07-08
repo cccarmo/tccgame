@@ -12,37 +12,44 @@ public class Boundary {
 
 public enum Command {
 	Nope,
-	GoForward,
-	GoBack,
-	GoToLeft,
-	GoToRight,
+	GoForwards,
+	GoBackwards,
+	GoLeftwards,
+	GoRightwards,
 	Shoot
 };
 
 public class CommandInterpreter {
 	private uint countDown;
-	private static uint executionTime = 200;
+	private readonly uint executionTime = 25;
 	private Command currentCommand;
 	private LinkedList<Command> commandList;
 	private PlayerController parent;
+	private Dictionary<Command, Vector2> direction;
 
 	public CommandInterpreter(PlayerController playerController) {
 		commandList = new LinkedList<Command>();
 		countDown = 0;
 		parent = playerController;
+
+		direction = new Dictionary<Command, Vector2>();
+		direction.Add(Command.GoForwards, new Vector2(0.0f, 1.0f));
+		direction.Add(Command.GoBackwards, new Vector2(0.0f, -1.0f));
+		direction.Add(Command.GoLeftwards, new Vector2(-1.0f, 0.0f));
+		direction.Add(Command.GoRightwards, new Vector2(1.0f, 0.0f));
 	}
 
 	private void addCommand() {
 		if(Input.GetKeyDown(KeyCode.Space))
 		   commandList.AddLast(Command.Shoot);
-		if(Input.GetKeyDown(KeyCode.DownArrow))
-			commandList.AddLast(Command.GoBack);
 		if(Input.GetKeyDown(KeyCode.UpArrow))
-			commandList.AddLast(Command.GoForward);
+			commandList.AddLast(Command.GoForwards);
+		if(Input.GetKeyDown(KeyCode.DownArrow))
+			commandList.AddLast(Command.GoBackwards);
 		if(Input.GetKeyDown(KeyCode.LeftArrow))
-			commandList.AddLast(Command.GoToLeft);
+			commandList.AddLast(Command.GoLeftwards);
 		if(Input.GetKeyDown(KeyCode.RightArrow))
-			commandList.AddLast(Command.GoToRight);
+			commandList.AddLast(Command.GoRightwards);
 	}
 
 	private void interpretCommand() {
@@ -56,8 +63,8 @@ public class CommandInterpreter {
 					countDown = 0;
 			}
 			else {
-				parent.moveSpaceship(currentCommand);
 				countDown--;
+				parent.moveSpaceship(direction[currentCommand], ((float) countDown)/executionTime);
 			}
 		}
 	}
@@ -79,17 +86,19 @@ public class CommandInterpreter {
 }
 
 public class PlayerController : MonoBehaviour {
-	public float speed;
 	private Rigidbody2D body;
 	public Boundary boundary;
-	public float tilt;
+
+	public readonly float fixedSpeed = 5.0f;
+	public readonly float tilt = 3.0f;
+	public readonly float fireRate = 0.25f;
+	private float nextFire;
 	public GameObject Shot;
 	public Transform ShotSpawn;
-	public static float fireRate = 0.25f;
+
 	public GameObject GameScreen;
 	private CommandInterpreter interpreter;
-	private float nextFire;
-	private static AudioSource shootSound;
+	private AudioSource shootSound;
 	private bool startedSimulation;
 
 	void Start() {
@@ -98,42 +107,20 @@ public class PlayerController : MonoBehaviour {
 		shootSound = GetComponent<AudioSource>();
 		nextFire = 0.0f;
 		startedSimulation = false;
+		body.position = new Vector2(boundary.xMin, boundary.yMin);
 	}
-
-	void FixedUpdate() {
-
-	//	call moveSpaceship() instead
-
-
-		float moveHorizontal = Input.GetAxis("Horizontal");
-		float moveVertical = Input.GetAxis("Vertical");
-
-		Vector2 movement = new Vector2 (moveHorizontal, moveVertical);
-
-		body.velocity = movement * speed;
-		body.position = new Vector2 (Mathf.Clamp(body.position.x, boundary.xMin, boundary.xMax), Mathf.Clamp(body.position.y, boundary.yMin, boundary.yMax));
-		body.rotation = body.velocity.x * (-tilt);
-	}
-
-
+	
 	void Update() {
 		if (!startedSimulation && Input.GetKeyDown(KeyCode.S))
 			startedSimulation = true;
 		interpreter.execute(startedSimulation);
 	}
-		
-	public void moveSpaceship(Command direction) {
-	/*	
-	 	float fraction = ((float) count)/time;
-		Vector2 movement = new Vector2(1.0f, 0.0f);
-		
-		speed *= fraction;
-		count -= 10;
-		body.velocity = movement * speed;
+	
+	public void moveSpaceship(Vector2 direction, float intensity) {
+		body.velocity = direction * fixedSpeed * intensity;
 		body.rotation = body.velocity.x * (-tilt);
 		body.position = new Vector2 (Mathf.Clamp(body.position.x, boundary.xMin, boundary.xMax), 
 		                             Mathf.Clamp(body.position.y, boundary.yMin, boundary.yMax));
-		 */
 	}
 
 	public bool executeShoot() {

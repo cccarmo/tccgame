@@ -36,7 +36,7 @@ public class GameController : MonoBehaviour {
 		scoreText.text = "Score = " + score;
 	}
 
-	public void AddScore (int newScoreValue) {
+	public void AddScore(int newScoreValue) {
 		score += newScoreValue;
 		UpdateScore();
 	}
@@ -61,9 +61,9 @@ public class GameController : MonoBehaviour {
 		if (startedSimulation && Input.GetKeyDown(KeyCode.R)) {
 			Application.LoadLevel(Application.loadedLevel);
 		}
-		else if (!startedSimulation && Input.GetKeyDown(KeyCode.S)) {
+		else if (!startedSimulation && Input.GetKeyDown(KeyCode.R)) {
 			startedSimulation = true;
-			StartCoroutine(spawnWaves ());
+			StartCoroutine(spawnWaves());
 		}
 	}
 }
