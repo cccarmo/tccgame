@@ -22,13 +22,15 @@ public class CommandInterpreter : MonoBehaviour {
 	private uint countDown;
 	private readonly uint executionTime = 25;
 	private Command currentCommand;
-	private LinkedList<Command> commandList;
+	public LinkedList<Command> commandList;
 	private Dictionary<Command, Vector2> direction;
 	public GameObject spaceShip;
 	private PlayerController spaceShipController;
 	private Rigidbody2D spaceShipBody;
 	private float seno;
 	private float coseno;
+
+	private CommandDrawer commandDrawer;
 
 	void Start () {
 		spaceShipController = spaceShip.GetComponent<PlayerController> ();
@@ -74,7 +76,7 @@ public class CommandInterpreter : MonoBehaviour {
 		commandList.AddLast(Command.TurnClockwise);
 	}
 
-	public void addTurnCounterclockwisewardsCommand() {
+	public void addTurnCounterClockwiseCommand() {
 		commandList.AddLast(Command.TurnCounterclockwise);
 	}
 	
