@@ -25,10 +25,14 @@ public class PlayerController : MonoBehaviour {
 	public CommandInterpreter interpreter;
 	private AudioSource shootSound;
 
+	private uint ticks;
+	private readonly uint executionTime = 25;
+
 	void Start() {
 		body = GetComponent<Rigidbody2D>();
 		shootSound = GetComponent<AudioSource>();
 		nextFire = 0.0f;
+		ticks = 0;
 		body.position = new Vector2(boundary.xMin, boundary.yMin);
 	}
 	
@@ -36,47 +40,52 @@ public class PlayerController : MonoBehaviour {
 		interpreter.execute();
 	}
 	
-	private void moveSpaceship(Vector2 direction, float intensity) {
+	private bool moveSpaceship(Vector2 direction) {
+		float intensity = ((float) executionTime - ticks - 1)/executionTime;
 		body.velocity = direction * fixedSpeed * intensity;
 		// Balancinho - tirei pq tava estragando o movimento depois que mudei pra ser relativo a rotacao
 		//body.rotation = body.velocity.x * (-tilt);
 		body.position = new Vector2 (Mathf.Clamp(body.position.x, boundary.xMin, boundary.xMax), 
 		                             Mathf.Clamp(body.position.y, boundary.yMin, boundary.yMax));
+		ticks = (ticks + 1) % executionTime;
+		return (ticks == 0);
 	}
 
-	public void moveSpaceshipForward(float intensity) {
+	public bool moveSpaceshipForward() {
 		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
 		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
-		moveSpaceship(new Vector2(-cosin, -sin), intensity);
+		return moveSpaceship(new Vector2(-cosin, -sin));
 	}
 
-	public void moveSpaceshipBackward(float intensity) {
+	public bool moveSpaceshipBackward() {
 		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
 		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
-		moveSpaceship(new Vector2(cosin, sin), intensity);
+		return moveSpaceship(new Vector2(cosin, sin));
 	}
 
-	public void moveSpaceshipLeftwards(float intensity) {
+	public bool moveSpaceshipLeftwards() {
 		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
 		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
-		moveSpaceship(new Vector2(sin, -cosin), intensity);
+		return moveSpaceship(new Vector2(sin, -cosin));
 	}
 
-	public void moveSpaceshipRightwards(float intensity) {
+	public bool moveSpaceshipRightwards() {
 		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
 		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
-		moveSpaceship(new Vector2(-sin, cosin), intensity);
+		return moveSpaceship(new Vector2(-sin, cosin));
 	}
 
-	public void turnSpaceship(TurnDirection direction) {
+	public bool turnSpaceship(TurnDirection direction) {
 		switch (direction) {
-		case TurnDirection.Clockwise:
-			body.rotation -= 1.8f;
-			break;
-		case TurnDirection.Counterclockwise:
-			body.rotation += 1.8f;
-			break;
+			case TurnDirection.Clockwise:
+				body.rotation -= 1.8f;
+				break;
+			case TurnDirection.Counterclockwise:
+				body.rotation += 1.8f;
+				break;
 		}
+		ticks = (ticks + 1) % executionTime;
+		return (ticks == 0);
 	}
 
 	public bool shoot() {

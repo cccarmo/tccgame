@@ -19,14 +19,11 @@ public enum TurnDirection {
 };
 
 public class CommandInterpreter : MonoBehaviour {
-	private uint countDown;
-	private readonly uint executionTime = 25;
-
 	private Command currentCommand;
 	public ArrayList commandList;
 	private int nextCommandIndex;
 	private readonly int maxCommands = 21;
-	private bool startedSimulation;
+	private bool startedSimulation, finishedAnimation;
 
 	private Dictionary<Command, Vector2> direction;
 	public GameObject spaceShip;
@@ -42,8 +39,8 @@ public class CommandInterpreter : MonoBehaviour {
 
 	private void resetSimulation() {
 		nextCommandIndex = 0;
-		countDown = 0;
 		startedSimulation = false;
+		finishedAnimation = true;
 	}
 
 	private void addCommand(Command command) {
@@ -80,44 +77,36 @@ public class CommandInterpreter : MonoBehaviour {
 	}
 	
 	private void interpretCommand() {
-		if (countDown == 0) {
-			countDown = executionTime;
+		if(finishedAnimation) {
 			currentCommand = getNextCommand();
 		}
-		if (!currentCommand.Equals(Command.Nope)) {
+		if(!currentCommand.Equals(Command.Nope)) {
 			if(currentCommand.Equals(Command.Shoot)) {
-				if (spaceShipController.shoot())
-					countDown = 0;
+				finishedAnimation = spaceShipController.shoot();
 			}
-			else if (currentCommand.Equals(Command.TurnClockwise)) {
-				countDown--;
-				spaceShipController.turnSpaceship(TurnDirection.Clockwise);
+			else if(currentCommand.Equals(Command.TurnClockwise)) {
+				finishedAnimation = spaceShipController.turnSpaceship(TurnDirection.Clockwise);
 			} else if (currentCommand.Equals(Command.TurnCounterclockwise)) {
-				countDown--;
-				spaceShipController.turnSpaceship(TurnDirection.Counterclockwise);
+				finishedAnimation = spaceShipController.turnSpaceship(TurnDirection.Counterclockwise);
 			} 
-			else if (currentCommand.Equals(Command.GoForwards)) {
-				countDown--;
-				spaceShipController.moveSpaceshipForward(((float) countDown)/executionTime);
+			else if(currentCommand.Equals(Command.GoForwards)) {
+				finishedAnimation = spaceShipController.moveSpaceshipForward();
 			}
-			else if (currentCommand.Equals(Command.GoBackwards)) {
-				countDown--;
-				spaceShipController.moveSpaceshipBackward(((float) countDown)/executionTime);
+			else if(currentCommand.Equals(Command.GoBackwards)) {
+				finishedAnimation = spaceShipController.moveSpaceshipBackward();
 			}
-			else if (currentCommand.Equals(Command.GoLeftwards)) {
-				countDown--;
-				spaceShipController.moveSpaceshipLeftwards(((float) countDown)/executionTime);
+			else if(currentCommand.Equals(Command.GoLeftwards)) {
+				finishedAnimation = spaceShipController.moveSpaceshipLeftwards();
 			}
-			else if (currentCommand.Equals(Command.GoRightwards)) {
-				countDown--;
-				spaceShipController.moveSpaceshipRightwards(((float) countDown)/executionTime);
+			else if(currentCommand.Equals(Command.GoRightwards)) {
+				finishedAnimation = spaceShipController.moveSpaceshipRightwards();
 			}
 		}
 		else resetSimulation(); // restart stage as well
 	}
 	
 	private Command getNextCommand() {
-		if (nextCommandIndex < commandList.Count) {
+		if(nextCommandIndex < commandList.Count) {
 			Command nextCommand = (Command) commandList[nextCommandIndex];
 			nextCommandIndex++;
 			return nextCommand;
@@ -126,12 +115,12 @@ public class CommandInterpreter : MonoBehaviour {
 	}
 	
 	public void execute() {
-		if (startedSimulation)
+		if(startedSimulation)
 			interpretCommand();
 	}
 
 	public void startSimulation() {
-		if (!startedSimulation)
+		if(!startedSimulation)
 			startedSimulation = true;
 		else {
 			startedSimulation = false;
@@ -155,7 +144,7 @@ public class CommandInterpreter : MonoBehaviour {
 		int highlight = nextCommandIndex - 1, margin = 15, columns = 3;
 
 		defineGUIStyles();
-		for (int index = 0; index < commandList.Count; index++) {
+		for(int index = 0; index < commandList.Count; index++) {
 			command = (Command) commandList[index];
 			label = command.ToString();
 
