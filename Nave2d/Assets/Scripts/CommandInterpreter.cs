@@ -13,7 +13,7 @@ public enum Command {
 	TurnCounterclockwise
 };
 
-public enum TurnDirections {
+public enum TurnDirection {
 	Clockwise,
 	Counterclockwise
 };
@@ -21,8 +21,13 @@ public enum TurnDirections {
 public class CommandInterpreter : MonoBehaviour {
 	private uint countDown;
 	private readonly uint executionTime = 25;
+
 	private Command currentCommand;
-	public LinkedList<Command> commandList;
+	public ArrayList commandList;
+	private int nextCommandIndex;
+	private readonly int maxCommands = 21;
+	private bool startedSimulation;
+
 	private Dictionary<Command, Vector2> direction;
 	public GameObject spaceShip;
 	private PlayerController spaceShipController;
@@ -30,54 +35,53 @@ public class CommandInterpreter : MonoBehaviour {
 	private float seno;
 	private float coseno;
 
-	private CommandDrawer commandDrawer;
+	private readonly int columns = 3;
+	private readonly int margin = 15;
 
-	void Start () {
-		spaceShipController = spaceShip.GetComponent<PlayerController> ();
+	void Start() {
+		spaceShipController = spaceShip.GetComponent<PlayerController>();
 		spaceShipBody = spaceShip.GetComponent<Rigidbody2D> ();
-		commandList = new LinkedList<Command>();
-		countDown = 0;
+		commandList = new ArrayList();
+		resetSimulation();
 	}
 
-	public void addCommand() {
-		if(Input.GetKeyDown(KeyCode.Space))
-			addShootCommand();
-		if(Input.GetKeyDown(KeyCode.UpArrow))
-			addGoForwardsCommand();
-		if(Input.GetKeyDown(KeyCode.DownArrow))
-			addGoBackwardsCommand();
-		if(Input.GetKeyDown(KeyCode.LeftArrow))
-			addGoLeftwardsCommand();
-		if(Input.GetKeyDown(KeyCode.RightArrow))
-			addGoRightwardsCommand();
+	private void resetSimulation() {
+		nextCommandIndex = 0;
+		countDown = 0;
+		startedSimulation = false;
 	}
-	
+
+	private void addCommand(Command command) {
+		if(commandList.Count < maxCommands)
+			commandList.Add(command);
+	}
+
 	public void addShootCommand() {
-		commandList.AddLast(Command.Shoot);
+		addCommand(Command.Shoot);
 	}
 	
 	public void addGoForwardsCommand() {
-		commandList.AddLast(Command.GoForwards);
+		addCommand(Command.GoForwards);
 	}
 	
 	public void addGoBackwardsCommand() {
-		commandList.AddLast(Command.GoBackwards);
+		addCommand(Command.GoBackwards);
 	}
 	
 	public void addGoLeftwardsCommand() {
-		commandList.AddLast(Command.GoLeftwards);
+		addCommand(Command.GoLeftwards);
 	}
 	
 	public void addGoRightwardsCommand() {
-		commandList.AddLast(Command.GoRightwards);
+		addCommand(Command.GoRightwards);
 	}
 
 	public void addTurnClockwiseCommand() {
-		commandList.AddLast(Command.TurnClockwise);
+		addCommand(Command.TurnClockwise);
 	}
 
 	public void addTurnCounterClockwiseCommand() {
-		commandList.AddLast(Command.TurnCounterclockwise);
+		addCommand(Command.TurnCounterclockwise);
 	}
 	
 	private void interpretCommand() {
@@ -94,10 +98,10 @@ public class CommandInterpreter : MonoBehaviour {
 			}
 			else if (currentCommand.Equals(Command.TurnClockwise)) {
 				countDown--;
-				spaceShipController.turnSpaceship(TurnDirections.Clockwise);
+				spaceShipController.turnSpaceship(TurnDirection.Clockwise);
 			} else if (currentCommand.Equals(Command.TurnCounterclockwise)) {
 				countDown--;
-				spaceShipController.turnSpaceship(TurnDirections.Counterclockwise);
+				spaceShipController.turnSpaceship(TurnDirection.Counterclockwise);
 			} 
 			else if (currentCommand.Equals(Command.GoForwards)) {
 				countDown--;
@@ -116,21 +120,36 @@ public class CommandInterpreter : MonoBehaviour {
 				spaceShipController.moveSpaceship(new Vector2(-seno, coseno), ((float) countDown)/executionTime);
 			}
 		}
+		else resetSimulation();
 	}
 	
 	private Command getNextCommand() {
-		if (commandList.Count > 0) {
-			Command nextCommand = commandList.First.Value;
-			commandList.RemoveFirst();
+		if (nextCommandIndex < commandList.Count) {
+			Command nextCommand = (Command) commandList[nextCommandIndex];
+			nextCommandIndex++;
 			return nextCommand;
 		}
 		else return Command.Nope;
 	}
 	
-	public void execute(bool startedSimulation) {
+	public void execute() {
 		if (startedSimulation)
 			interpretCommand();
-		else 
-			addCommand();
+	}
+
+	public void startSimulation() {
+		if (!startedSimulation)
+			startedSimulation = true;
+	}
+
+	public void OnGUI() {
+		string label = "";
+		Command command;
+		for (int index = 0; index < commandList.Count; index++) {
+			command = (Command) commandList[index];
+			label = command.ToString();
+			
+			GUI.Box(new Rect(margin + (index % columns) * 105, margin + (index / columns) * 55, 100, 50), label);		
+		}
 	}
 }

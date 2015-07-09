@@ -24,20 +24,16 @@ public class PlayerController : MonoBehaviour {
 	public GameObject GameScreen;
 	public CommandInterpreter interpreter;
 	private AudioSource shootSound;
-	private bool startedSimulation;
 
 	void Start() {
 		body = GetComponent<Rigidbody2D>();
 		shootSound = GetComponent<AudioSource>();
 		nextFire = 0.0f;
-		startedSimulation = false;
 		body.position = new Vector2(boundary.xMin, boundary.yMin);
 	}
 	
 	void Update() {
-		if (Input.GetKeyDown(KeyCode.S))
-			startSimulation();
-		interpreter.execute(startedSimulation);
+		interpreter.execute();
 	}
 	
 	public void moveSpaceship (Vector2 direction, float intensity) {
@@ -48,12 +44,12 @@ public class PlayerController : MonoBehaviour {
 		                             Mathf.Clamp(body.position.y, boundary.yMin, boundary.yMax));
 	}
 
-	public void turnSpaceship (TurnDirections direction) {
+	public void turnSpaceship (TurnDirection direction) {
 		switch (direction) {
-		case TurnDirections.Clockwise :
+		case TurnDirection.Clockwise:
 			body.rotation -= 1.8f;
 			break;
-		case TurnDirections.Counterclockwise :
+		case TurnDirection.Counterclockwise:
 			body.rotation += 1.8f;
 			break;
 		}
@@ -68,10 +64,5 @@ public class PlayerController : MonoBehaviour {
 			return true;
 		}
 		else return false;
-	}
-
-	public void startSimulation() {
-		if (!startedSimulation)
-			startedSimulation = true;
 	}
 }
