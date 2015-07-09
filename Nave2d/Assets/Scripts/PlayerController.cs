@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour {
 		interpreter.execute();
 	}
 	
-	public void moveSpaceship (Vector2 direction, float intensity) {
+	private void moveSpaceship(Vector2 direction, float intensity) {
 		body.velocity = direction * fixedSpeed * intensity;
 		// Balancinho - tirei pq tava estragando o movimento depois que mudei pra ser relativo a rotacao
 		//body.rotation = body.velocity.x * (-tilt);
@@ -44,7 +44,31 @@ public class PlayerController : MonoBehaviour {
 		                             Mathf.Clamp(body.position.y, boundary.yMin, boundary.yMax));
 	}
 
-	public void turnSpaceship (TurnDirection direction) {
+	public void moveSpaceshipForward(float intensity) {
+		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
+		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
+		moveSpaceship(new Vector2(-cosin, -sin), intensity);
+	}
+
+	public void moveSpaceshipBackward(float intensity) {
+		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
+		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
+		moveSpaceship(new Vector2(cosin, sin), intensity);
+	}
+
+	public void moveSpaceshipLeftwards(float intensity) {
+		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
+		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
+		moveSpaceship(new Vector2(sin, -cosin), intensity);
+	}
+
+	public void moveSpaceshipRightwards(float intensity) {
+		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
+		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
+		moveSpaceship(new Vector2(-sin, cosin), intensity);
+	}
+
+	public void turnSpaceship(TurnDirection direction) {
 		switch (direction) {
 		case TurnDirection.Clockwise:
 			body.rotation -= 1.8f;

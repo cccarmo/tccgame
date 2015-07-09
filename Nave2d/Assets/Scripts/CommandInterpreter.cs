@@ -31,15 +31,11 @@ public class CommandInterpreter : MonoBehaviour {
 	private Dictionary<Command, Vector2> direction;
 	public GameObject spaceShip;
 	private PlayerController spaceShipController;
-	private Rigidbody2D spaceShipBody;
-	private float sin;
-	private float cosin;
 
 	private GUIStyle highlightStyle, ordinaryStyle;
 
 	void Start() {
 		spaceShipController = spaceShip.GetComponent<PlayerController>();
-		spaceShipBody = spaceShip.GetComponent<Rigidbody2D> ();
 		commandList = new ArrayList();
 		resetSimulation();
 	}
@@ -89,8 +85,6 @@ public class CommandInterpreter : MonoBehaviour {
 			currentCommand = getNextCommand();
 		}
 		if (!currentCommand.Equals(Command.Nope)) {
-			sin = Mathf.Sin (Mathf.Deg2Rad *(spaceShipBody.rotation - 90f));
-			cosin = Mathf.Cos (Mathf.Deg2Rad * (spaceShipBody.rotation - 90f));
 			if(currentCommand.Equals(Command.Shoot)) {
 				if (spaceShipController.shoot())
 					countDown = 0;
@@ -104,19 +98,19 @@ public class CommandInterpreter : MonoBehaviour {
 			} 
 			else if (currentCommand.Equals(Command.GoForwards)) {
 				countDown--;
-				spaceShipController.moveSpaceship(new Vector2(-cosin, -sin), ((float) countDown)/executionTime);
+				spaceShipController.moveSpaceshipForward(((float) countDown)/executionTime);
 			}
 			else if (currentCommand.Equals(Command.GoBackwards)) {
 				countDown--;
-				spaceShipController.moveSpaceship(new Vector2(cosin, sin), ((float) countDown)/executionTime);
+				spaceShipController.moveSpaceshipBackward(((float) countDown)/executionTime);
 			}
 			else if (currentCommand.Equals(Command.GoLeftwards)) {
 				countDown--;
-				spaceShipController.moveSpaceship(new Vector2(sin, -cosin), ((float) countDown)/executionTime);
+				spaceShipController.moveSpaceshipLeftwards(((float) countDown)/executionTime);
 			}
 			else if (currentCommand.Equals(Command.GoRightwards)) {
 				countDown--;
-				spaceShipController.moveSpaceship(new Vector2(-sin, cosin), ((float) countDown)/executionTime);
+				spaceShipController.moveSpaceshipRightwards(((float) countDown)/executionTime);
 			}
 		}
 		else resetSimulation(); // restart stage as well
