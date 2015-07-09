@@ -32,11 +32,10 @@ public class CommandInterpreter : MonoBehaviour {
 	public GameObject spaceShip;
 	private PlayerController spaceShipController;
 	private Rigidbody2D spaceShipBody;
-	private float seno;
-	private float coseno;
+	private float sin;
+	private float cosin;
 
-	private readonly int columns = 3;
-	private readonly int margin = 15;
+	private GUIStyle highlightStyle, ordinaryStyle;
 
 	void Start() {
 		spaceShipController = spaceShip.GetComponent<PlayerController>();
@@ -90,8 +89,8 @@ public class CommandInterpreter : MonoBehaviour {
 			currentCommand = getNextCommand();
 		}
 		if (!currentCommand.Equals(Command.Nope)) {
-			seno = Mathf.Sin (Mathf.Deg2Rad *(spaceShipBody.rotation - 90f));
-			coseno = Mathf.Cos (Mathf.Deg2Rad * (spaceShipBody.rotation - 90f));
+			sin = Mathf.Sin (Mathf.Deg2Rad *(spaceShipBody.rotation - 90f));
+			cosin = Mathf.Cos (Mathf.Deg2Rad * (spaceShipBody.rotation - 90f));
 			if(currentCommand.Equals(Command.Shoot)) {
 				if (spaceShipController.shoot())
 					countDown = 0;
@@ -105,22 +104,22 @@ public class CommandInterpreter : MonoBehaviour {
 			} 
 			else if (currentCommand.Equals(Command.GoForwards)) {
 				countDown--;
-				spaceShipController.moveSpaceship(new Vector2(-coseno, -seno), ((float) countDown)/executionTime);
+				spaceShipController.moveSpaceship(new Vector2(-cosin, -sin), ((float) countDown)/executionTime);
 			}
 			else if (currentCommand.Equals(Command.GoBackwards)) {
 				countDown--;
-				spaceShipController.moveSpaceship(new Vector2(coseno, seno), ((float) countDown)/executionTime);
+				spaceShipController.moveSpaceship(new Vector2(cosin, sin), ((float) countDown)/executionTime);
 			}
 			else if (currentCommand.Equals(Command.GoLeftwards)) {
 				countDown--;
-				spaceShipController.moveSpaceship(new Vector2(seno, -coseno), ((float) countDown)/executionTime);
+				spaceShipController.moveSpaceship(new Vector2(sin, -cosin), ((float) countDown)/executionTime);
 			}
 			else if (currentCommand.Equals(Command.GoRightwards)) {
 				countDown--;
-				spaceShipController.moveSpaceship(new Vector2(-seno, coseno), ((float) countDown)/executionTime);
+				spaceShipController.moveSpaceship(new Vector2(-sin, cosin), ((float) countDown)/executionTime);
 			}
 		}
-		else resetSimulation();
+		else resetSimulation(); // restart stage as well
 	}
 	
 	private Command getNextCommand() {
@@ -140,16 +139,38 @@ public class CommandInterpreter : MonoBehaviour {
 	public void startSimulation() {
 		if (!startedSimulation)
 			startedSimulation = true;
+		else {
+			startedSimulation = false;
+			resetSimulation(); // restart stage as well
+		}
+	}
+
+	private void defineGUIStyles() {
+		if(highlightStyle == null && ordinaryStyle == null) {
+			highlightStyle = new GUIStyle(GUI.skin.button);
+			highlightStyle.alignment = TextAnchor.MiddleCenter;
+			highlightStyle.hover = highlightStyle.normal;
+			ordinaryStyle = new GUIStyle(GUI.skin.box);
+			ordinaryStyle.alignment = TextAnchor.MiddleCenter;
+		}
 	}
 
 	public void OnGUI() {
-		string label = "";
 		Command command;
+		string label = "";
+		int highlight = nextCommandIndex - 1, margin = 15, columns = 3;
+
+		defineGUIStyles();
 		for (int index = 0; index < commandList.Count; index++) {
 			command = (Command) commandList[index];
 			label = command.ToString();
-			
-			GUI.Box(new Rect(margin + (index % columns) * 105, margin + (index / columns) * 55, 100, 50), label);		
+
+			if(index == highlight)
+				GUI.Box(new Rect(margin + (index % columns) * 105, margin + (index / columns) * 55, 100, 50), label, highlightStyle);
+			else
+				GUI.Box(new Rect(margin + (index % columns) * 105, margin + (index / columns) * 55, 100, 50), label, ordinaryStyle);
+
+			// Maybe we should use windows instead to implement removal: GUI.Window(id, Rect, function, label);
 		}
 	}
 }
