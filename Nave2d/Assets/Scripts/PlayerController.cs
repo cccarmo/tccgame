@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour {
 		interpreter.execute();
 	}
 	
-	private bool moveSpaceship(Vector2 direction) {
+	private bool move(Vector2 direction) {
 		float intensity = ((float) executionTime - ticks - 1)/executionTime;
 		body.velocity = direction * fixedSpeed * intensity;
 		// Balancinho - tirei pq tava estragando o movimento depois que mudei pra ser relativo a rotacao
@@ -51,39 +51,38 @@ public class PlayerController : MonoBehaviour {
 		return (ticks == 0);
 	}
 
-	public bool moveSpaceshipForward() {
+	public bool moveForward() {
 		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
 		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
-		return moveSpaceship(new Vector2(-cosin, -sin));
+		return move(new Vector2(-cosin, -sin));
 	}
 
-	public bool moveSpaceshipBackward() {
+	public bool moveBackward() {
 		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
 		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
-		return moveSpaceship(new Vector2(cosin, sin));
+		return move(new Vector2(cosin, sin));
 	}
 
-	public bool moveSpaceshipLeftwards() {
+	public bool moveLeftwards() {
 		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
 		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
-		return moveSpaceship(new Vector2(sin, -cosin));
+		return move(new Vector2(sin, -cosin));
 	}
 
-	public bool moveSpaceshipRightwards() {
+	public bool moveRightwards() {
 		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
 		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
-		return moveSpaceship(new Vector2(-sin, cosin));
+		return move(new Vector2(-sin, cosin));
 	}
 
-	public bool turnSpaceship(TurnDirection direction) {
-		switch (direction) {
-			case TurnDirection.Clockwise:
-				body.rotation -= 1.8f;
-				break;
-			case TurnDirection.Counterclockwise:
-				body.rotation += 1.8f;
-				break;
-		}
+	public bool turnClockwise() {
+		body.rotation -= 1.8f;
+		ticks = (ticks + 1) % executionTime;
+		return (ticks == 0);
+	}
+
+	public bool turnCounterClockwise() {
+		body.rotation += 1.8f;
 		ticks = (ticks + 1) % executionTime;
 		return (ticks == 0);
 	}
@@ -97,5 +96,10 @@ public class PlayerController : MonoBehaviour {
 			return true;
 		}
 		else return false;
+	}
+
+	public bool debug() {
+		Debug.Log("It works!");
+		return true;
 	}
 }

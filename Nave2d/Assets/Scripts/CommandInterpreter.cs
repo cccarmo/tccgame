@@ -1,22 +1,9 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public enum Command {
-	Nope,
-	GoForwards,
-	GoBackwards,
-	GoLeftwards,
-	GoRightwards,
-	Shoot,
-	TurnClockwise,
-	TurnCounterclockwise
-};
-
-public enum TurnDirection {
-	Clockwise,
-	Counterclockwise
-};
+delegate bool Command();
 
 public class CommandInterpreter : MonoBehaviour {
 	private Command currentCommand;
@@ -24,8 +11,7 @@ public class CommandInterpreter : MonoBehaviour {
 	private int nextCommandIndex;
 	private readonly int maxCommands = 21;
 	private bool startedSimulation, finishedAnimation;
-
-	private Dictionary<Command, Vector2> direction;
+	
 	public GameObject spaceShip;
 	private PlayerController spaceShipController;
 
@@ -44,65 +30,46 @@ public class CommandInterpreter : MonoBehaviour {
 	}
 
 	private void addCommand(Command command) {
-		if(commandList.Count < maxCommands)
+		if(commandList.Count < maxCommands && !startedSimulation)
 			commandList.Add(command);
 	}
 
 	public void addShootCommand() {
-		addCommand(Command.Shoot);
+		addCommand(new Command(spaceShipController.shoot));
 	}
 	
 	public void addGoForwardsCommand() {
-		addCommand(Command.GoForwards);
+		addCommand(new Command(spaceShipController.moveForward));
 	}
 	
 	public void addGoBackwardsCommand() {
-		addCommand(Command.GoBackwards);
+		addCommand(new Command(spaceShipController.moveBackward));
 	}
 	
 	public void addGoLeftwardsCommand() {
-		addCommand(Command.GoLeftwards);
+		addCommand(new Command(spaceShipController.moveLeftwards));
 	}
 	
 	public void addGoRightwardsCommand() {
-		addCommand(Command.GoRightwards);
+		addCommand(new Command(spaceShipController.moveRightwards));
 	}
 
 	public void addTurnClockwiseCommand() {
-		addCommand(Command.TurnClockwise);
+		addCommand(new Command(spaceShipController.turnClockwise));
 	}
 
 	public void addTurnCounterClockwiseCommand() {
-		addCommand(Command.TurnCounterclockwise);
+		addCommand(new Command(spaceShipController.turnCounterClockwise));
 	}
 	
 	private void interpretCommand() {
-		if(finishedAnimation) {
-			currentCommand = getNextCommand();
+		try {
+			if(finishedAnimation)
+				currentCommand = getNextCommand();
+			finishedAnimation = currentCommand();
+		} catch(IndexOutOfRangeException) {
+			resetSimulation(); // restart stage as well
 		}
-		if(!currentCommand.Equals(Command.Nope)) {
-			if(currentCommand.Equals(Command.Shoot)) {
-				finishedAnimation = spaceShipController.shoot();
-			}
-			else if(currentCommand.Equals(Command.TurnClockwise)) {
-				finishedAnimation = spaceShipController.turnSpaceship(TurnDirection.Clockwise);
-			} else if (currentCommand.Equals(Command.TurnCounterclockwise)) {
-				finishedAnimation = spaceShipController.turnSpaceship(TurnDirection.Counterclockwise);
-			} 
-			else if(currentCommand.Equals(Command.GoForwards)) {
-				finishedAnimation = spaceShipController.moveSpaceshipForward();
-			}
-			else if(currentCommand.Equals(Command.GoBackwards)) {
-				finishedAnimation = spaceShipController.moveSpaceshipBackward();
-			}
-			else if(currentCommand.Equals(Command.GoLeftwards)) {
-				finishedAnimation = spaceShipController.moveSpaceshipLeftwards();
-			}
-			else if(currentCommand.Equals(Command.GoRightwards)) {
-				finishedAnimation = spaceShipController.moveSpaceshipRightwards();
-			}
-		}
-		else resetSimulation(); // restart stage as well
 	}
 	
 	private Command getNextCommand() {
@@ -111,7 +78,7 @@ public class CommandInterpreter : MonoBehaviour {
 			nextCommandIndex++;
 			return nextCommand;
 		}
-		else return Command.Nope;
+		else throw new IndexOutOfRangeException();
 	}
 	
 	public void execute() {
@@ -146,14 +113,13 @@ public class CommandInterpreter : MonoBehaviour {
 		defineGUIStyles();
 		for(int index = 0; index < commandList.Count; index++) {
 			command = (Command) commandList[index];
-			label = command.ToString();
+			label = command.Method.ToString();
 
+			// Maybe we should use windows instead to implement removal: GUI.Window(id, Rect, function, label);
 			if(index == highlight)
 				GUI.Box(new Rect(margin + (index % columns) * 105, margin + (index / columns) * 55, 100, 50), label, highlightStyle);
 			else
 				GUI.Box(new Rect(margin + (index % columns) * 105, margin + (index / columns) * 55, 100, 50), label, ordinaryStyle);
-
-			// Maybe we should use windows instead to implement removal: GUI.Window(id, Rect, function, label);
 		}
 	}
 }
