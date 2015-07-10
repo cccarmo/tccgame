@@ -38,19 +38,19 @@ public class CommandInterpreter : MonoBehaviour {
 		addCommand(new Command(spaceShipController.shoot));
 	}
 	
-	public void addGoForwardsCommand() {
+	public void addMoveForwardsCommand() {
 		addCommand(new Command(spaceShipController.moveForward));
 	}
 	
-	public void addGoBackwardsCommand() {
+	public void addMoveBackwardsCommand() {
 		addCommand(new Command(spaceShipController.moveBackward));
 	}
 	
-	public void addGoLeftwardsCommand() {
+	public void addMoveLeftwardsCommand() {
 		addCommand(new Command(spaceShipController.moveLeftwards));
 	}
 	
-	public void addGoRightwardsCommand() {
+	public void addMoveRightwardsCommand() {
 		addCommand(new Command(spaceShipController.moveRightwards));
 	}
 
