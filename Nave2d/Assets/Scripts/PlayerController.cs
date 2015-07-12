@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour {
 	public readonly float fixedSpeed = 5.0f;
 	public readonly float tilt = 3.0f;
 	public readonly float fireRate = 0.25f;
+	private int laserMissiles = 3;
 	private float nextFire;
 	public GameObject Shot;
 	public Transform ShotSpawn;
@@ -24,13 +25,17 @@ public class PlayerController : MonoBehaviour {
 	public GameObject GameScreen;
 	public CommandInterpreter interpreter;
 	private AudioSource shootSound;
+	private AudioSource failSound;
 
 	private uint ticks;
 	private readonly uint executionTime = 25;
 
+	public Texture2D laserTexture;
+
 	void Start() {
 		body = GetComponent<Rigidbody2D>();
-		shootSound = GetComponent<AudioSource>();
+		shootSound = GetComponents<AudioSource>()[0];
+		failSound = GetComponents<AudioSource>()[1];
 		nextFire = 0.0f;
 		ticks = 0;
 		body.position = new Vector2(boundary.xMin, boundary.yMin);
@@ -88,18 +93,29 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public bool shoot() {
-		if (Time.time > nextFire) {
-			shootSound.Play();
-			nextFire = Time.time + fireRate;
-			GameObject newShot = GameObject.Instantiate(Shot, ShotSpawn.position, ShotSpawn.rotation) as GameObject;
-			newShot.transform.parent = GameScreen.transform;
+		if (Time.time > nextFire && !failSound.isPlaying) {
+			if (laserMissiles > 0) {
+				laserMissiles--;
+				shootSound.Play();
+				nextFire = Time.time + fireRate;
+				GameObject newShot = GameObject.Instantiate(Shot, ShotSpawn.position, ShotSpawn.rotation) as GameObject;
+				newShot.transform.parent = GameScreen.transform;
+			}
+			else failSound.Play();
+
 			return true;
 		}
 		else return false;
 	}
 
-	public bool debug() {
-		Debug.Log("It works!");
-		return true;
+	void OnGUI() {   
+		GUIStyle style = new GUIStyle();
+		style.fontSize = 20;
+		style.normal.textColor = Color.white;
+		
+		Rect missiles = new Rect(0.9f*Screen.width, 0.9f*Screen.height, 16, 16);
+		GUI.Label(missiles, laserMissiles.ToString(), style);
+		Rect laserIconSpace = new Rect(missiles.xMax, 0.5f*missiles.yMin + 0.5f*missiles.yMax, 20, 5);
+		GUI.DrawTexture(laserIconSpace, laserTexture);                      
 	}
 }
