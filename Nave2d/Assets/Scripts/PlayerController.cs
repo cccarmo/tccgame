@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour {
 	public readonly float fixedSpeed = 5.0f;
 	public readonly float tilt = 3.0f;
 	public readonly float fireRate = 0.25f;
-	private int laserMissiles = 3;
+	private int laserMissiles = 5;
 	private float nextFire;
 	public GameObject Shot;
 	public Transform ShotSpawn;
@@ -107,8 +107,8 @@ public class PlayerController : MonoBehaviour {
 		}
 		else return false;
 	}
-
-	void OnGUI() {   
+  
+  	void OnGUI() {   
 		GUIStyle style = new GUIStyle();
 		style.fontSize = 20;
 		style.normal.textColor = Color.white;
