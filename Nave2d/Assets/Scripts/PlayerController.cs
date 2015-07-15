@@ -26,16 +26,21 @@ public class PlayerController : MonoBehaviour {
 	public CommandInterpreter interpreter;
 	private AudioSource shootSound;
 	private AudioSource failSound;
+	private AudioSource landingSound;
 
 	private uint ticks;
 	private readonly uint executionTime = 25;
 
 	public Texture2D laserTexture;
 
+	private bool stopMoving;
+
 	void Start() {
+		stopMoving = false;
 		body = GetComponent<Rigidbody2D>();
 		shootSound = GetComponents<AudioSource>()[0];
 		failSound = GetComponents<AudioSource>()[1];
+		landingSound = GetComponents<AudioSource> () [2];
 		nextFire = 0.0f;
 		ticks = 0;
 		body.position = new Vector2(boundary.xMin, boundary.yMin);
@@ -46,12 +51,16 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	private bool move(Vector2 direction) {
-		float intensity = ((float) executionTime - ticks - 1)/executionTime;
-		body.velocity = direction * fixedSpeed * intensity;
-		// Balancinho - tirei pq tava estragando o movimento depois que mudei pra ser relativo a rotacao
-		//body.rotation = body.velocity.x * (-tilt);
-		body.position = new Vector2 (Mathf.Clamp(body.position.x, boundary.xMin, boundary.xMax), 
-		                             Mathf.Clamp(body.position.y, boundary.yMin, boundary.yMax));
+		if (!stopMoving) {
+			float intensity = ((float)executionTime - ticks - 1) / executionTime;
+			body.velocity = direction * fixedSpeed * intensity;
+			// Balancinho - tirei pq tava estragando o movimento depois que mudei pra ser relativo a rotacao
+			//body.rotation = body.velocity.x * (-tilt);
+			body.position = new Vector2 (Mathf.Clamp (body.position.x, boundary.xMin, boundary.xMax), 
+		                             Mathf.Clamp (body.position.y, boundary.yMin, boundary.yMax));
+		} else {
+			body.velocity = direction * 0f;
+		}
 		ticks = (ticks + 1) % executionTime;
 		return (ticks == 0);
 	}
@@ -92,6 +101,10 @@ public class PlayerController : MonoBehaviour {
 		return (ticks == 0);
 	}
 
+	public void stopMovingShip() {
+		stopMoving = true;
+	}
+
 	public bool shoot() {
 		if (Time.time > nextFire && !failSound.isPlaying) {
 			if (laserMissiles > 0) {
@@ -108,6 +121,18 @@ public class PlayerController : MonoBehaviour {
 		else return false;
 	}
   
+	public void ArriveAtPlanet() {
+		stopMovingShip ();
+		GameController.bgMusic.Stop ();
+		GameController.winMusic.Play ();
+		landingSound.Play ();
+		GetComponent<Animator> ().Play ("ArriveAtPlanet");
+	}
+
+	public void MoveToPosition (Vector3 position) {
+		body.position = Vector3.MoveTowards (body.position, position, 1f);
+	}
+
   	void OnGUI() {   
 		GUIStyle style = new GUIStyle();
 		style.fontSize = 20;

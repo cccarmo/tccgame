@@ -64,11 +64,11 @@ public class CommandInterpreter : MonoBehaviour {
 	
 	private void interpretCommand() {
 		try {
-			if(finishedAnimation)
-				currentCommand = getNextCommand();
-			finishedAnimation = currentCommand();
-		} catch(IndexOutOfRangeException) {
-			resetSimulation(); // restart stage as well
+			if (finishedAnimation)
+				currentCommand = getNextCommand ();
+			finishedAnimation = currentCommand ();
+		} catch (IndexOutOfRangeException) {
+			resetSimulation (); // restart stage as well
 		}
 	}
 	

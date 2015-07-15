@@ -14,6 +14,9 @@ public class GameController : MonoBehaviour {
 	private bool gameOver;
 	private bool startedSimulation;
 	public GameObject gameScreen;
+
+	public static AudioSource bgMusic;
+	public static AudioSource winMusic;
 	
 	IEnumerator spawnWaves() {
 		yield return new WaitForSeconds (startWait);
@@ -31,6 +34,9 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
+		bgMusic = GetComponents<AudioSource> () [0];
+		winMusic = GetComponents<AudioSource> () [1];
+
 		gameOver = startedSimulation = false;
 	}
 	

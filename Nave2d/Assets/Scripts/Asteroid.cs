@@ -6,7 +6,7 @@ public class Asteroid : MonoBehaviour {
 	private Rigidbody2D body;
 	
 	void Start() {
-		tumble = 500f;
+		tumble = 250f;
 		body = GetComponent<Rigidbody2D> ();
 		body.angularVelocity = Random.value * tumble;
 	}
