@@ -3,6 +3,7 @@ using System.Collections;
 
 public class DestroyByContact : MonoBehaviour {
 	public GameObject playerExplosion;
+	public GameObject shotExplosion;
 	private GameController gameController;
 	private GameObject gameScreen;
 	private 
@@ -18,6 +19,11 @@ public class DestroyByContact : MonoBehaviour {
 			collider.transform.parent = gameScreen.transform;
 			Destroy(collider.gameObject);
 			StartCoroutine(restartGameAfterSeconds());
+		}
+		else if (collider.tag == "Shot") {
+			GameObject newExplosion = GameObject.Instantiate(shotExplosion, collider.transform.position, collider.transform.rotation) as GameObject;
+			collider.transform.parent = gameScreen.transform;
+			Destroy(collider.gameObject);
 		}
 	}
 
