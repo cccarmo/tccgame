@@ -17,7 +17,12 @@ public class DestroyByContact : MonoBehaviour {
 			GameObject newExplosion = GameObject.Instantiate(playerExplosion, collider.transform.position, collider.transform.rotation) as GameObject;
 			collider.transform.parent = gameScreen.transform;
 			Destroy(collider.gameObject);
-			gameController.restart();
+			StartCoroutine(restartGameAfterSeconds());
 		}
+	}
+
+	private IEnumerator restartGameAfterSeconds () {
+		yield return new WaitForSeconds (2.5f);
+		gameController.restart();
 	}
 }
