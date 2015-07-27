@@ -31,11 +31,10 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-	// Use this for initialization
 	void Start() {
 		bgMusic = GetComponents<AudioSource> () [0];
 		winMusic = GetComponents<AudioSource> () [1];
-
+	
 		gameOver = startedSimulation = false;
 	}
 	

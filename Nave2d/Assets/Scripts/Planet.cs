@@ -17,6 +17,7 @@ public class Planet : MonoBehaviour {
 		}
 		else if (collider.tag == "Shot") {
 			GameObject newExplosion = GameObject.Instantiate(shotExplosion, collider.transform.position, collider.transform.rotation) as GameObject;
+			newExplosion.transform.parent = gameScreen.transform;
 			collider.transform.parent = gameScreen.transform;
 			Destroy(collider.gameObject);
 		}
@@ -24,8 +25,7 @@ public class Planet : MonoBehaviour {
 
 	private IEnumerator ArriveShip (Collider2D ship) {
 		PlayerController shipController = ship.GetComponent<PlayerController>();
-		shipController.ArriveAtPlanet();
-		shipController.MoveToPosition (GetComponent<Rigidbody2D>().transform.position);
+		shipController.ArriveAtPlanet(GetComponent<Rigidbody2D>().transform.position);
 		yield return new WaitForSeconds (2.5f);
 		gameController.GameOver ();
 	}

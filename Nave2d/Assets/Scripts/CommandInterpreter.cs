@@ -17,21 +17,11 @@ public class CommandInterpreter : MonoBehaviour {
 
 	private GUIStyle highlightStyle, ordinaryStyle;
 
+
 	void Start() {
 		spaceShipController = spaceShip.GetComponent<PlayerController>();
 		commandList = new ArrayList();
 		resetSimulation();
-	}
-
-	private void resetSimulation() {
-		nextCommandIndex = 0;
-		startedSimulation = false;
-		finishedAnimation = true;
-	}
-
-	private void addCommand(Command command) {
-		if(commandList.Count < maxCommands && !startedSimulation)
-			commandList.Add(command);
 	}
 
 	public void addShootCommand() {
@@ -53,15 +43,26 @@ public class CommandInterpreter : MonoBehaviour {
 	public void addMoveRightwardsCommand() {
 		addCommand(new Command(spaceShipController.moveRightwards));
 	}
-
+	
 	public void addTurnClockwiseCommand() {
 		addCommand(new Command(spaceShipController.turnClockwise));
 	}
-
+	
 	public void addTurnCounterClockwiseCommand() {
 		addCommand(new Command(spaceShipController.turnCounterClockwise));
 	}
 	
+	private void resetSimulation() {
+		nextCommandIndex = 0;
+		startedSimulation = false;
+		finishedAnimation = true;
+	}
+
+	private void addCommand(Command command) {
+		if(commandList.Count < maxCommands && !startedSimulation)
+			commandList.Add(command);
+	}
+
 	private void interpretCommand() {
 		try {
 			if (finishedAnimation)

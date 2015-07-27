@@ -33,10 +33,10 @@ public class PlayerController : MonoBehaviour {
 
 	public Texture2D laserTexture;
 
-	private bool stopMoving;
+	private bool interpretCommands;
 
 	void Start() {
-		stopMoving = false;
+		interpretCommands = true;
 		body = GetComponent<Rigidbody2D>();
 		shootSound = GetComponents<AudioSource>()[0];
 		failSound = GetComponents<AudioSource>()[1];
@@ -46,44 +46,41 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void Update() {
-		interpreter.execute();
+		if (interpretCommands)
+			interpreter.execute();
 	}
 	
 	private bool move(Vector2 direction) {
-		if (!stopMoving) {
-			float intensity = ((float)executionTime - ticks - 1) / executionTime;
-			body.velocity = direction * fixedSpeed * intensity;
-			// Balancinho - tirei pq tava estragando o movimento depois que mudei pra ser relativo a rotacao
-			//body.rotation = body.velocity.x * (-tilt);
-			body.position = new Vector2 (Mathf.Clamp (body.position.x, boundary.xMin, boundary.xMax), 
-		                             Mathf.Clamp (body.position.y, boundary.yMin, boundary.yMax));
-		} else {
-			body.velocity = direction * 0f;
-		}
+		float intensity = ((float)executionTime - ticks - 1) / executionTime;
+		body.velocity = direction * fixedSpeed * intensity;
+		// Balancinho - tirei pq tava estragando o movimento depois que mudei pra ser relativo a rotacao
+		//body.rotation = body.velocity.x * (-tilt);
+		body.position = new Vector2 (Mathf.Clamp (body.position.x, boundary.xMin, boundary.xMax), 
+	                             Mathf.Clamp (body.position.y, boundary.yMin, boundary.yMax));
 		ticks = (ticks + 1) % executionTime;
 		return (ticks == 0);
 	}
 
 	public bool moveForward() {
-		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
+		float sin = Mathf.Sin (Mathf.Deg2Rad * (body.rotation - 90f));
 		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
 		return move(new Vector2(-cosin, -sin));
 	}
 
 	public bool moveBackward() {
-		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
+		float sin = Mathf.Sin (Mathf.Deg2Rad * (body.rotation - 90f));
 		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
 		return move(new Vector2(cosin, sin));
 	}
 
 	public bool moveLeftwards() {
-		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
+		float sin = Mathf.Sin (Mathf.Deg2Rad * (body.rotation - 90f));
 		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
 		return move(new Vector2(sin, -cosin));
 	}
 
 	public bool moveRightwards() {
-		float sin = Mathf.Sin (Mathf.Deg2Rad *(body.rotation - 90f));
+		float sin = Mathf.Sin (Mathf.Deg2Rad * (body.rotation - 90f));
 		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
 		return move(new Vector2(-sin, cosin));
 	}
@@ -98,10 +95,6 @@ public class PlayerController : MonoBehaviour {
 		body.rotation += 1.8f;
 		ticks = (ticks + 1) % executionTime;
 		return (ticks == 0);
-	}
-
-	public void stopMovingShip() {
-		stopMoving = true;
 	}
 
 	public bool shoot() {
@@ -120,13 +113,25 @@ public class PlayerController : MonoBehaviour {
 		else return false;
 	}
   
-	public void ArriveAtPlanet() {
-		stopMovingShip ();
+	public void ArriveAtPlanet(Vector3 planetPosition) {
+		MoveToPosition (planetPosition);
+		interpretCommands = false;
+		body.velocity = new Vector2(0,0);
 		GameController.bgMusic.Stop ();
 		GameController.winMusic.Play ();
 		landingSound.Play ();
 		GetComponent<Animator> ().Play ("ArriveAtPlanet");
 	}
+
+	/*private void moveToPositionB() {
+		try {
+			if (finishedAnimation)
+				currentCommand = getNextCommand ();
+			finishedAnimation = currentCommand ();
+		} catch (IndexOutOfRangeException) {
+			resetSimulation (); // restart stage as well
+		}
+	}*/
 
 	public void MoveToPosition (Vector3 position) {
 		body.position = Vector3.MoveTowards (body.position, position, 1f);
