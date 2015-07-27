@@ -11,6 +11,11 @@ public class Boundary {
 }
 
 public class PlayerController : MonoBehaviour {
+
+	enum AnimationType {
+		moveToPlanet
+	};
+
 	private Rigidbody2D body;
 	public Boundary boundary;
 
@@ -34,8 +39,12 @@ public class PlayerController : MonoBehaviour {
 	public Texture2D laserTexture;
 
 	private bool interpretCommands;
+	private bool animate;
+	private Vector3 positionToMoveTo;
+	private AnimationType currentAnimation;
 
 	void Start() {
+		animate = false;
 		interpretCommands = true;
 		body = GetComponent<Rigidbody2D>();
 		shootSound = GetComponents<AudioSource>()[0];
@@ -48,6 +57,13 @@ public class PlayerController : MonoBehaviour {
 	void Update() {
 		if (interpretCommands)
 			interpreter.execute();
+		if (animate) {
+			switch (currentAnimation) {
+				case AnimationType.moveToPlanet:
+					animate = MoveToPosition(positionToMoveTo);
+					break;
+			}
+		}
 	}
 	
 	private bool move(Vector2 direction) {
@@ -114,27 +130,26 @@ public class PlayerController : MonoBehaviour {
 	}
   
 	public void ArriveAtPlanet(Vector3 planetPosition) {
-		MoveToPosition (planetPosition);
 		interpretCommands = false;
 		body.velocity = new Vector2(0,0);
 		GameController.bgMusic.Stop ();
 		GameController.winMusic.Play ();
 		landingSound.Play ();
 		GetComponent<Animator> ().Play ("ArriveAtPlanet");
+		// Set "moving to planet" animation
+		positionToMoveTo = planetPosition;
+		animate = true;
+		currentAnimation = AnimationType.moveToPlanet;
+		ticks = 1000;
 	}
-
-	/*private void moveToPositionB() {
-		try {
-			if (finishedAnimation)
-				currentCommand = getNextCommand ();
-			finishedAnimation = currentCommand ();
-		} catch (IndexOutOfRangeException) {
-			resetSimulation (); // restart stage as well
-		}
-	}*/
-
-	public void MoveToPosition (Vector3 position) {
-		body.position = Vector3.MoveTowards (body.position, position, 1f);
+	
+	public bool MoveToPosition (Vector3 position) {
+		if (ticks == 1)
+			body.position = Vector3.MoveTowards (body.position, position, 1f);
+		else 
+			body.position = Vector3.MoveTowards (body.position, position, .01f);
+		ticks--;
+		return ticks > 0;
 	}
 
   	void OnGUI() {   
