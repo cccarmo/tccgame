@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour {
 		landingSound = GetComponents<AudioSource> () [2];
 		nextFire = 0.0f;
 		ticks = 0;
-		body.position = new Vector2(boundary.xMin, boundary.yMin);
 	}
 	
 	void Update() {

@@ -28,7 +28,6 @@ public class Planet : MonoBehaviour {
 		shipController.MoveToPosition (GetComponent<Rigidbody2D>().transform.position);
 		yield return new WaitForSeconds (2.5f);
 		gameController.GameOver ();
-		//Destroy(ship.gameObject);
 	}
 
 }
