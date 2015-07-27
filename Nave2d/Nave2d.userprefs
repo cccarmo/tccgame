@@ -2,13 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PlayerController.cs">
     <Files>
-      <File FileName="../../../../MGA/Unity projects/MGAnityIphone/Assets/Scripts/Scene Scripts/Processes.cs" Line="1" Column="1" />
-      <File FileName="../../../../MGA/Unity projects/MGAnityIphone/Assets/Scripts/Globals.cs" Line="1" Column="1" />
-      <File FileName="../../../../MGA/Unity projects/MGAnityIphone/Assets/Scripts/Scene Scripts/Login.cs" Line="1" Column="1" />
-      <File FileName="../../../../MGA/Unity projects/MGAnityIphone/Assets/Scripts/Scene Scripts/Details.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/PlayerController.cs" Line="114" Column="7" />
-      <File FileName="Assets/Scripts/GameController.cs" Line="13" Column="1" />
-      <File FileName="Assets/Scripts/Planet.cs" Line="21" Column="4" />
+      <File FileName="Assets/Scripts/PlayerController.cs" Line="140" Column="37" />
+      <File FileName="Assets/Scripts/GameController.cs" Line="27" Column="40" />
+      <File FileName="Assets/Scripts/CommandInterpreter.cs" Line="85" Column="21" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
