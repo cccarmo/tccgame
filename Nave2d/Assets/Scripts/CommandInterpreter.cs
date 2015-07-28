@@ -32,6 +32,7 @@ public class CommandInterpreter : MonoBehaviour {
 	}
 	
 	public void AddShootCommand() {
+		Debug.Log("AQUI");
 		addCommand(new Command(spaceShipController.shoot));
 	}
 	

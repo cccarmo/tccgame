@@ -7,8 +7,8 @@ public class CommandBox : MonoBehaviour {
 	private Text commandText;
 	
 	public void Init (string commandLabel) {
-		commandText = gameObject.GetComponent<Text>();
-		print (commandText);
+		commandText = gameObject.GetComponentInChildren<Text>();
+		print (commandText.text);
 		commandText.text = commandLabel;
 	}
 	
