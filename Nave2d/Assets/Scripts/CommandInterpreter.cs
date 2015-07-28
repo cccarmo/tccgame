@@ -3,6 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+using UnityEngine.UI;
+
+
 delegate bool Command();
 
 public class CommandInterpreter : MonoBehaviour {
@@ -14,17 +17,21 @@ public class CommandInterpreter : MonoBehaviour {
 	
 	public GameObject spaceShip;
 	private PlayerController spaceShipController;
-
+	
+	public GameObject commandBoxPreFab;
+	public ArrayList commandsDrawn;
+	
 	private GUIStyle highlightStyle, ordinaryStyle;
-
-
+	
+	
 	void Start() {
 		spaceShipController = spaceShip.GetComponent<PlayerController>();
 		commandList = new ArrayList();
+		commandsDrawn = new ArrayList();
 		resetSimulation();
 	}
-
-	public void addShootCommand() {
+	
+	public void AddShootCommand() {
 		addCommand(new Command(spaceShipController.shoot));
 	}
 	
@@ -56,13 +63,17 @@ public class CommandInterpreter : MonoBehaviour {
 		nextCommandIndex = 0;
 		startedSimulation = false;
 		finishedAnimation = true;
+		CleanListDraw();
 	}
-
+	
 	private void addCommand(Command command) {
-		if(commandList.Count < maxCommands && !startedSimulation)
+		if(commandList.Count < maxCommands && !startedSimulation) {
 			commandList.Add(command);
+			CleanListDraw();
+			DrawList();
+		}
 	}
-
+	
 	private void interpretCommand() {
 		try {
 			if (finishedAnimation)
@@ -86,7 +97,7 @@ public class CommandInterpreter : MonoBehaviour {
 		if(startedSimulation)
 			interpretCommand();
 	}
-
+	
 	public void startSimulation() {
 		if(!startedSimulation)
 			startedSimulation = true;
@@ -95,32 +106,47 @@ public class CommandInterpreter : MonoBehaviour {
 			resetSimulation(); // restart stage as well
 		}
 	}
-
-	private void defineGUIStyles() {
-		if(highlightStyle == null && ordinaryStyle == null) {
-			highlightStyle = new GUIStyle(GUI.skin.button);
-			highlightStyle.alignment = TextAnchor.MiddleCenter;
-			highlightStyle.hover = highlightStyle.normal;
-			ordinaryStyle = new GUIStyle(GUI.skin.box);
-			ordinaryStyle.alignment = TextAnchor.MiddleCenter;
+	
+	
+	/// List Drawing Methods
+	public void CleanListDraw() {
+		foreach(var commandBox in commandsDrawn) {
+			GameObject box = (GameObject) commandBox;
+			GameObject.Destroy(box);
 		}
 	}
-
-	public void OnGUI() {
+	
+	public void DrawList() {
 		Command command;
 		string label = "";
 		int highlight = nextCommandIndex - 1, margin = 15, columns = 3;
-
-		defineGUIStyles();
+		int baseX = -220, baseY = 265;
+		
 		for(int index = 0; index < commandList.Count; index++) {
 			command = (Command) commandList[index];
 			label = command.Method.ToString();
+			GameObject box;
 
-			// Maybe we should use windows instead to implement removal: GUI.Window(id, Rect, function, label);
-			if(index == highlight)
-				GUI.Box(new Rect(margin + (index % columns) * 105, margin + (index / columns) * 55, 100, 50), label, highlightStyle);
-			else
-				GUI.Box(new Rect(margin + (index % columns) * 105, margin + (index / columns) * 55, 100, 50), label, ordinaryStyle);
+			/// Decide later how to proceed with highlight.  Maybe use different pre-fabs, or change base collor.
+			if(index == highlight) {
+				box = Instantiate(commandBoxPreFab) as GameObject;
+				box.transform.SetParent(gameObject.transform);
+			}
+			else {
+				box = Instantiate(commandBoxPreFab) as GameObject;
+				box.transform.SetParent(gameObject.transform);
+			}
+
+			/// Place and fix local scale
+			box.transform.localPosition = new Vector3(baseX + margin + (index % columns) * 205, baseY + margin + (index / columns) * -55, 0);
+			box.transform.localScale = new Vector2(1, 1);
+
+			box.name = "Command " + index + " " + label;
+
+			CommandBox commandBox = box.GetComponent<CommandBox>() as CommandBox;
+			commandBox.Init(label);
+
+			commandsDrawn.Add(box);
 		}
 	}
 }
