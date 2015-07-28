@@ -32,7 +32,6 @@ public class CommandInterpreter : MonoBehaviour {
 	}
 	
 	public void AddShootCommand() {
-		Debug.Log("AQUI");
 		addCommand(new Command(spaceShipController.shoot));
 	}
 	
@@ -145,7 +144,7 @@ public class CommandInterpreter : MonoBehaviour {
 			box.name = "Command " + index + " " + label;
 
 			CommandBox commandBox = box.GetComponent<CommandBox>() as CommandBox;
-			commandBox.Init(label);
+			//commandBox.Init(label);
 
 			commandsDrawn.Add(box);
 		}
