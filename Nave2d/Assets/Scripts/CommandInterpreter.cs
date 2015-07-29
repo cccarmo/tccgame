@@ -63,13 +63,12 @@ public class CommandInterpreter : MonoBehaviour {
 		nextCommandIndex = 0;
 		startedSimulation = false;
 		finishedAnimation = true;
-		CleanListDraw();
+		DrawList();
 	}
 	
 	private void addCommand(Command command) {
 		if(commandList.Count < maxCommands && !startedSimulation) {
 			commandList.Add(command);
-			CleanListDraw();
 			DrawList();
 		}
 	}
@@ -106,45 +105,36 @@ public class CommandInterpreter : MonoBehaviour {
 			resetSimulation(); // restart stage as well
 		}
 	}
+
+	public GameObject instantiateCommandBox(int index) {
+		int margin = 15, columns = 10, baseX = -220, baseY = 265;
+		Command command = (Command) commandList[index];
+
+		GameObject box = Instantiate(commandBoxPreFab) as GameObject;
+		box.transform.SetParent(gameObject.transform);
+
+		/// Place and fix local scale
+		box.transform.localPosition = new Vector3(baseX + margin + (index / columns) * 205,
+		                                          baseY + margin + (index % columns) * -55, 0);
+		box.transform.localScale = new Vector2(1, 1);
+		box.GetComponent<CommandBox>().setLabelBox(index + " " + command.Method.ToString());
+
+		return box;
+	}
 	
-	
-	/// List Drawing Methods
-	public void CleanListDraw() {
+	public void DrawList() {
+		int highlight = nextCommandIndex - 1;
+
 		foreach(var commandBox in commandsDrawn) {
 			GameObject box = (GameObject) commandBox;
 			GameObject.Destroy(box);
 		}
-	}
-	
-	public void DrawList() {
-		Command command;
-		string label = "";
-		int highlight = nextCommandIndex - 1, margin = 15, columns = 3;
-		int baseX = -220, baseY = 265;
-		
+
 		for(int index = 0; index < commandList.Count; index++) {
-			command = (Command) commandList[index];
-			label = command.Method.ToString();
-			GameObject box;
-
-			/// Decide later how to proceed with highlight.  Maybe use different pre-fabs, or change base collor.
+			GameObject box = instantiateCommandBox(index);
 			if(index == highlight) {
-				box = Instantiate(commandBoxPreFab) as GameObject;
-				box.transform.SetParent(gameObject.transform);
+				// Decide later how to proceed with highlight.  Maybe use different pre-fabs, or change base collor.
 			}
-			else {
-				box = Instantiate(commandBoxPreFab) as GameObject;
-				box.transform.SetParent(gameObject.transform);
-			}
-
-			/// Place and fix local scale
-			box.transform.localPosition = new Vector3(baseX + margin + (index % columns) * 205, baseY + margin + (index / columns) * -55, 0);
-			box.transform.localScale = new Vector2(1, 1);
-
-			box.name = "Command " + index + " " + label;
-
-			CommandBox commandBox = box.GetComponent<CommandBox>() as CommandBox;
-			//commandBox.Init(label);
 
 			commandsDrawn.Add(box);
 		}
