@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class CommandBox : MonoBehaviour {
+	public string label;
+	public CommandCreator commandCreator;
 	private Text commandText;
 	private Vector3 originalPosition;
 	private Vector3 mousePosition;
@@ -29,9 +31,7 @@ public class CommandBox : MonoBehaviour {
 
 	void OnMouseUpAsButton() {
 		dragging = false;
+		commandCreator.handleEvent(label);
 		transform.position = originalPosition;
 	}
-
-
-	
 }

@@ -5,9 +5,6 @@ using System.Collections.Generic;
 
 using UnityEngine.UI;
 
-
-delegate bool Command();
-
 public class CommandInterpreter : MonoBehaviour {
 	private Command currentCommand;
 	public ArrayList commandList;
@@ -15,50 +12,18 @@ public class CommandInterpreter : MonoBehaviour {
 	private readonly int maxCommands = 21;
 	private bool startedSimulation, finishedAnimation;
 	
-	public GameObject spaceShip;
-	private PlayerController spaceShipController;
-	
 	public GameObject commandBoxPreFab;
 	public ArrayList commandsDrawn;
 	
 	private GUIStyle highlightStyle, ordinaryStyle;
-	
-	
+
 	void Start() {
-		spaceShipController = spaceShip.GetComponent<PlayerController>();
 		commandList = new ArrayList();
 		commandsDrawn = new ArrayList();
 		resetSimulation();
 	}
-	
-	public void AddShootCommand() {
-		addCommand(new Command(spaceShipController.shoot));
-	}
-	
-	public void addMoveForwardsCommand() {
-		addCommand(new Command(spaceShipController.moveForward));
-	}
-	
-	public void addMoveBackwardsCommand() {
-		addCommand(new Command(spaceShipController.moveBackward));
-	}
-	
-	public void addMoveLeftwardsCommand() {
-		addCommand(new Command(spaceShipController.moveLeftwards));
-	}
-	
-	public void addMoveRightwardsCommand() {
-		addCommand(new Command(spaceShipController.moveRightwards));
-	}
-	
-	public void addTurnClockwiseCommand() {
-		addCommand(new Command(spaceShipController.turnClockwise));
-	}
-	
-	public void addTurnCounterClockwiseCommand() {
-		addCommand(new Command(spaceShipController.turnCounterClockwise));
-	}
-	
+
+
 	private void resetSimulation() {
 		nextCommandIndex = 0;
 		startedSimulation = false;
@@ -66,7 +31,7 @@ public class CommandInterpreter : MonoBehaviour {
 		DrawList();
 	}
 	
-	private void addCommand(Command command) {
+	public void addCommand(Command command) {
 		if(commandList.Count < maxCommands && !startedSimulation) {
 			commandList.Add(command);
 			DrawList();
@@ -76,8 +41,8 @@ public class CommandInterpreter : MonoBehaviour {
 	private void interpretCommand() {
 		try {
 			if (finishedAnimation)
-				currentCommand = getNextCommand ();
-			finishedAnimation = currentCommand ();
+				currentCommand = getNextCommand();
+			finishedAnimation = currentCommand();
 		} catch (IndexOutOfRangeException) {
 			resetSimulation (); // restart stage as well
 		}
@@ -107,7 +72,7 @@ public class CommandInterpreter : MonoBehaviour {
 	}
 
 	public GameObject instantiateCommandBox(int index) {
-		int margin = 15, columns = 10, baseX = -220, baseY = 265;
+		int margin = 15, columns = 11, baseX = -220, baseY = 265;
 		Command command = (Command) commandList[index];
 
 		GameObject box = Instantiate(commandBoxPreFab) as GameObject;
@@ -117,7 +82,7 @@ public class CommandInterpreter : MonoBehaviour {
 		box.transform.localPosition = new Vector3(baseX + margin + (index / columns) * 205,
 		                                          baseY + margin + (index % columns) * -55, 0);
 		box.transform.localScale = new Vector2(1, 1);
-		box.GetComponent<CommandBox>().setLabelBox(index + " " + command.Method.ToString());
+		box.GetComponent<CommandBox>().setLabelBox(index + " " + command.ToString());
 
 		return box;
 	}
