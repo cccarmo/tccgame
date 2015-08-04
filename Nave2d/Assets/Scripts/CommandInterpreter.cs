@@ -16,14 +16,14 @@ public class CommandInterpreter : MonoBehaviour {
 	public ArrayList commandsDrawn;
 	
 	private GUIStyle highlightStyle, ordinaryStyle;
-
+	
 	void Start() {
 		commandList = new ArrayList();
 		commandsDrawn = new ArrayList();
 		resetSimulation();
 	}
-
-
+	
+	
 	private void resetSimulation() {
 		nextCommandIndex = 0;
 		startedSimulation = false;
@@ -42,12 +42,12 @@ public class CommandInterpreter : MonoBehaviour {
 		try {
 			if (finishedAnimation) {
 				currentCommand = getNextCommand();
-
+				
 				DrawList();
 				GameObject box = (GameObject) commandsDrawn[nextCommandIndex-1];
 				box.GetComponent<CommandBox>().Highlight();
 			}
-
+			
 			finishedAnimation = currentCommand.execute();
 		} catch (IndexOutOfRangeException) {
 			resetSimulation (); // restart stage as well
@@ -76,20 +76,20 @@ public class CommandInterpreter : MonoBehaviour {
 			resetSimulation(); // restart stage as well
 		}
 	}
-
+	
 	public GameObject instantiateCommandBox(int index) {
 		int margin = 15, columns = 11, baseX = -220, baseY = 265;
 		Command command = (Command) commandList[index];
-
+		
 		GameObject box = Instantiate(commandBoxPreFab) as GameObject;
 		box.transform.SetParent(gameObject.transform);
-
+		
 		/// Place and fix local scale
 		box.transform.localPosition = new Vector3(baseX + margin + (index / columns) * 205,
 		                                          baseY + margin + (index % columns) * -55, 0);
 		box.transform.localScale = new Vector2(1, 1);
-		box.GetComponent<CommandBox>().setLabelBox(index + " " + command.ToString());
-
+		box.GetComponent<CommandBox>().Init(index + " " + command.ToString(), index, command);
+		
 		return box;
 	}
 	
@@ -99,10 +99,15 @@ public class CommandInterpreter : MonoBehaviour {
 			GameObject.Destroy(box);
 		}
 		commandsDrawn.Clear();
-
+		
 		for(int index = 0; index < commandList.Count; index++) {
 			GameObject box = instantiateCommandBox(index);
 			commandsDrawn.Add(box);
 		}
+	}
+	
+	
+	public void FixOrderOfBlock(CommandBox commandBox) {
+
 	}
 }

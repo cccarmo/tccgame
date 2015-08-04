@@ -12,18 +12,31 @@ public class CommandBox : MonoBehaviour {
 	private bool dragging = false;
 	private Vector2 touchOffset;
 	private Color highlightColor;
+	public int index;
+	public Command command;
+	private CommandInterpreter commandInterpreter;
 
-	public void setLabelBox(string commandLabel) {
+
+	public void Init(string commandLabel, int index, Command command) {
 		commandText = gameObject.GetComponentInChildren<Text>();
 		commandText.text = commandLabel;
+
+		this.index = index;
+		this.command = command;
 
 		highlightColor = new Color (0.1f, 0.5f, 0.5f, 1);
 	}
 
+
 	public void Highlight() {
 		GetComponent<Image> ().color = highlightColor;
 	}
-	
+
+
+	void Start() {
+		commandInterpreter = this.GetComponentInParent<CommandInterpreter> ();
+	}
+
 	void Update() {
 		if(dragging) {
 			mousePosition = Input.mousePosition;
@@ -49,6 +62,8 @@ public class CommandBox : MonoBehaviour {
 			transform.position = originalPosition;
 		}
 
-
+		if (commandInterpreter != null) {
+			commandInterpreter.FixOrderOfBlock (this);
+		}
 	}
 }
