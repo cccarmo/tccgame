@@ -15,6 +15,10 @@ public class CommandBox : MonoBehaviour {
 		commandText = gameObject.GetComponentInChildren<Text>();
 		commandText.text = commandLabel;
 	}
+
+	public void Highlight() {
+		GetComponent<Image>().color = new Color (0.1f, 0.5f, 0.5f, 1);
+	}
 	
 	void Update() {
 		if(dragging) {

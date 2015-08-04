@@ -40,8 +40,14 @@ public class CommandInterpreter : MonoBehaviour {
 	
 	private void interpretCommand() {
 		try {
-			if (finishedAnimation)
+			if (finishedAnimation) {
 				currentCommand = getNextCommand();
+
+				DrawList();
+				GameObject box = (GameObject) commandsDrawn[nextCommandIndex-1];
+				box.GetComponent<CommandBox>().Highlight();
+			}
+
 			finishedAnimation = currentCommand();
 		} catch (IndexOutOfRangeException) {
 			resetSimulation (); // restart stage as well
@@ -88,19 +94,14 @@ public class CommandInterpreter : MonoBehaviour {
 	}
 	
 	public void DrawList() {
-		int highlight = nextCommandIndex - 1;
-
 		foreach(var commandBox in commandsDrawn) {
 			GameObject box = (GameObject) commandBox;
 			GameObject.Destroy(box);
 		}
+		commandsDrawn.Clear();
 
 		for(int index = 0; index < commandList.Count; index++) {
 			GameObject box = instantiateCommandBox(index);
-			if(index == highlight) {
-				// Decide later how to proceed with highlight.  Maybe use different pre-fabs, or change base collor.
-			}
-
 			commandsDrawn.Add(box);
 		}
 	}
