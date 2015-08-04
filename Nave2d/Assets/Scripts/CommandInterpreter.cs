@@ -48,7 +48,7 @@ public class CommandInterpreter : MonoBehaviour {
 				box.GetComponent<CommandBox>().Highlight();
 			}
 
-			finishedAnimation = currentCommand();
+			finishedAnimation = currentCommand.execute();
 		} catch (IndexOutOfRangeException) {
 			resetSimulation (); // restart stage as well
 		}
@@ -88,6 +88,7 @@ public class CommandInterpreter : MonoBehaviour {
 		box.transform.localPosition = new Vector3(baseX + margin + (index / columns) * 205,
 		                                          baseY + margin + (index % columns) * -55, 0);
 		box.transform.localScale = new Vector2(1, 1);
+		print (command.ToString ());
 		box.GetComponent<CommandBox>().setLabelBox(index + " " + command.ToString());
 
 		return box;
