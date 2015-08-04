@@ -10,32 +10,45 @@ public class CommandBox : MonoBehaviour {
 	private Vector3 mousePosition;
 	public float moveSpeed = 1f;
 	private bool dragging = false;
+	private Vector2 touchOffset;
+	private Color highlightColor;
 
 	public void setLabelBox(string commandLabel) {
 		commandText = gameObject.GetComponentInChildren<Text>();
 		commandText.text = commandLabel;
+
+		highlightColor = new Color (0.1f, 0.5f, 0.5f, 1);
 	}
 
 	public void Highlight() {
-		GetComponent<Image>().color = new Color (0.1f, 0.5f, 0.5f, 1);
+		GetComponent<Image> ().color = highlightColor;
 	}
 	
 	void Update() {
 		if(dragging) {
 			mousePosition = Input.mousePosition;
 			mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-			transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed);
+			transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed) + touchOffset;
 		}
 	}
 
 	void OnMouseDown() {
 		originalPosition = transform.position;
+		mousePosition = Input.mousePosition;
+		mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+		touchOffset = originalPosition - mousePosition;
+
 		dragging = true;
 	}
 
 	void OnMouseUpAsButton() {
 		dragging = false;
-		commandCreator.handleEvent(label);
-		transform.position = originalPosition;
+
+		if (commandCreator != null) {
+			commandCreator.handleEvent (label);
+			transform.position = originalPosition;
+		}
+
+
 	}
 }
