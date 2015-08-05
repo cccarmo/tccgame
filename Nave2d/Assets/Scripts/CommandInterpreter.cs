@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using UnityEngine.UI;
 
+
 public class CommandInterpreter : MonoBehaviour {
 	private Command currentCommand;
 	public ArrayList commandList;
@@ -76,19 +77,26 @@ public class CommandInterpreter : MonoBehaviour {
 			resetSimulation(); // restart stage as well
 		}
 	}
-	
-	public GameObject instantiateCommandBox(int index) {
+
+	public Vector3 IndexToPosition(int index) {
 		int margin = 15, columns = 11, baseX = -220, baseY = 265;
+		return new Vector3(baseX + margin + (index / columns) * 205,
+		                   baseY + margin + (index % columns) * -55, 0);
+	}
+
+
+	public GameObject instantiateCommandBox(int index) {
+
 		Command command = (Command) commandList[index];
 		
 		GameObject box = Instantiate(commandBoxPreFab) as GameObject;
 		box.transform.SetParent(gameObject.transform);
 		
 		/// Place and fix local scale
-		box.transform.localPosition = new Vector3(baseX + margin + (index / columns) * 205,
-		                                          baseY + margin + (index % columns) * -55, 0);
+		box.transform.localPosition = IndexToPosition(index);
+
 		box.transform.localScale = new Vector2(1, 1);
-		box.GetComponent<CommandBox>().Init(index + " " + command.ToString(), index, command);
+		box.GetComponent<CommandBox>().Init(index, command);
 		
 		return box;
 	}
@@ -105,9 +113,44 @@ public class CommandInterpreter : MonoBehaviour {
 			commandsDrawn.Add(box);
 		}
 	}
-	
-	
-	public void FixOrderOfBlock(CommandBox commandBox) {
 
+	
+	public void FixOrderOfBlock() {
+		IComparer comparator = new YPosComparator ();
+		commandsDrawn.Sort (comparator);
+
+		commandList.Clear ();
+
+		int i = 0;
+		foreach(var b in commandsDrawn) {
+			GameObject box = (GameObject) b;
+			CommandBox commandBox = box.GetComponent<CommandBox>();
+			commandList.Add(commandBox.command);
+			commandBox.SetLabelByIndex(i);
+			commandBox.GoToPos(IndexToPosition(i));
+			i++;
+		}
+	}
+
+	public void Update() {
+		FixOrderOfBlock ();
 	}
 }
+
+
+public class YPosComparator : IComparer {
+	int IComparer.Compare(System.Object x, System.Object y)  {
+		GameObject a = (GameObject)x;
+		GameObject b = (GameObject)y;
+
+		if (b == null) return 1;
+		if (a == null) return -1;
+		if (a.transform.position.y > b.transform.position.y)
+			return -1;
+		else if (a.transform.position.y == b.transform.position.y)
+			return 0;
+		else 
+			return 1;
+	}
+}
+

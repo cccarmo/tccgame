@@ -12,18 +12,22 @@ public class CommandBox : MonoBehaviour {
 	private bool dragging = false;
 	private Vector2 touchOffset;
 	private Color highlightColor;
-	public int index;
 	public Command command;
 	private CommandInterpreter commandInterpreter;
+	private Vector3 offset;
+	int ticks;
 
 
-	public void Init(string commandLabel, int index, Command command) {
+	public void SetLabelByIndex(int index) {
+		commandText.text = index + " " + command.ToString();
+	}
+
+
+	public void Init(int index, Command command) {
 		commandText = gameObject.GetComponentInChildren<Text>();
-		commandText.text = commandLabel;
-
-		this.index = index;
 		this.command = command;
 
+		SetLabelByIndex (index);
 		highlightColor = new Color (0.1f, 0.5f, 0.5f, 1);
 	}
 
@@ -34,6 +38,8 @@ public class CommandBox : MonoBehaviour {
 
 
 	void Start() {
+		offset = Vector3.zero;
+		ticks  = 0;
 		commandInterpreter = this.GetComponentInParent<CommandInterpreter> ();
 	}
 
@@ -43,6 +49,24 @@ public class CommandBox : MonoBehaviour {
 			mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 			transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed) + touchOffset;
 		}
+	
+		if (ticks > 0) {
+			ticks = ticks-1;
+			transform.position = transform.position + offset;
+		}
+	}
+
+
+	public void GoToPos(Vector3 position) {
+		ticks = 8;
+
+		/// Find Final Position
+		Vector3 oldPos = transform.position;
+		transform.localPosition = position;
+		Vector3 newPos = transform.position;
+		transform.position = oldPos;
+
+		offset = (newPos - transform.position)/ticks;
 	}
 
 	void OnMouseDown() {
@@ -63,7 +87,7 @@ public class CommandBox : MonoBehaviour {
 		}
 
 		if (commandInterpreter != null) {
-			commandInterpreter.FixOrderOfBlock (this);
+			commandInterpreter.FixOrderOfBlock();
 		}
 	}
 }
