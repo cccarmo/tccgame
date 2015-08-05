@@ -119,7 +119,7 @@ public class CommandInterpreter : MonoBehaviour {
 		IComparer comparator = new YPosComparator ();
 		commandsDrawn.Sort(comparator);
 
-		commandList.Clear ();
+		commandList.Clear();
 
 		int i = 0;
 		foreach(var b in commandsDrawn) {

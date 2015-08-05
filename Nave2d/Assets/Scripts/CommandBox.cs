@@ -27,7 +27,7 @@ public class CommandBox : MonoBehaviour {
 		commandText = gameObject.GetComponentInChildren<Text>();
 		this.command = command;
 
-		SetLabelByIndex (index);
+		SetLabelByIndex(index);
 		highlightColor = new Color (0.1f, 0.5f, 0.5f, 1);
 	}
 
@@ -86,19 +86,17 @@ public class CommandBox : MonoBehaviour {
 
 	void OnMouseUpAsButton() {
 		dragging = false;
-
 		if (commandCreator != null) {
 			commandCreator.handleEvent(label);
 			transform.position = originalPosition;
 		}
-
 		if (commandInterpreter != null) {
 			commandInterpreter.FixOrderOfBlock();
 		}
 	}
 
 	void OnTriggerEnter2D(Collider2D collider) {
-		if (collider.tag == "TrashCan") {
+		if (commandCreator == null && collider.tag == "TrashCan") {
 			Destroy(transform.gameObject);
 		}
 	}

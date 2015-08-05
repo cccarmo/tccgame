@@ -13,8 +13,7 @@ public class Command {
 		this.label = label;
 	}
 	
-	public override string ToString()
-	{
+	public override string ToString() {
 		return label;
 	}
 
