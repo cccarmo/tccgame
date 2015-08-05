@@ -46,7 +46,7 @@ public class CommandCreator : MonoBehaviour {
 	}
 	
 	public void handleEvent(string eventType) {
-		// FIXME: only if mouse position is inside panel area
+		// FIXME: if(panel.GetComponent<Rect>().Contains(Input.mousePosition))
 		interpreter.addCommand(actions[eventType]);
 	}
 }

@@ -117,7 +117,7 @@ public class CommandInterpreter : MonoBehaviour {
 	
 	public void FixOrderOfBlock() {
 		IComparer comparator = new YPosComparator ();
-		commandsDrawn.Sort (comparator);
+		commandsDrawn.Sort(comparator);
 
 		commandList.Clear ();
 

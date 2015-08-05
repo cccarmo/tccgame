@@ -15,13 +15,13 @@ public class CommandBox : MonoBehaviour {
 	public Command command;
 	private CommandInterpreter commandInterpreter;
 	private Vector3 offset;
+	private Rect screenRect = new Rect(0, 0, Screen.width, Screen.height);
 	int ticks;
 
 
 	public void SetLabelByIndex(int index) {
 		commandText.text = index + " " + command.ToString();
 	}
-
 
 	public void Init(int index, Command command) {
 		commandText = gameObject.GetComponentInChildren<Text>();
@@ -40,18 +40,24 @@ public class CommandBox : MonoBehaviour {
 	void Start() {
 		offset = Vector3.zero;
 		ticks  = 0;
-		commandInterpreter = this.GetComponentInParent<CommandInterpreter> ();
+		commandInterpreter = this.GetComponentInParent<CommandInterpreter>();
 	}
 
 	void Update() {
 		if(dragging) {
 			mousePosition = Input.mousePosition;
-			mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-			transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed) + touchOffset;
+			if(!screenRect.Contains(mousePosition)) {
+				dragging = false;
+				transform.position = originalPosition;
+			}
+			else {
+				mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+				transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed) + touchOffset;
+			}
 		}
 	
-		if (ticks > 0) {
-			ticks = ticks-1;
+		if(ticks > 0) {
+			ticks = ticks - 1;
 			transform.position = transform.position + offset;
 		}
 	}
@@ -82,7 +88,7 @@ public class CommandBox : MonoBehaviour {
 		dragging = false;
 
 		if (commandCreator != null) {
-			commandCreator.handleEvent (label);
+			commandCreator.handleEvent(label);
 			transform.position = originalPosition;
 		}
 
@@ -93,8 +99,7 @@ public class CommandBox : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D collider) {
 		if (collider.tag == "TrashCan") {
-			Destroy (transform.gameObject);
+			Destroy(transform.gameObject);
 		}
-
 	}
 }

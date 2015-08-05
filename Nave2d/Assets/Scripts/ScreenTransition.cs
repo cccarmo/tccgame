@@ -6,18 +6,16 @@ public class ScreenTransition : MonoBehaviour {
 	private GameObject panelFade;
 
 	void Start () {
-		panelFade = GameObject.Find ("PanelFade");
+		panelFade = GameObject.Find("PanelFade");
 	}
 
 	//Transition
-	public void LoadNextLevel(string name)
-	{
-		StartCoroutine (LevelLoad (name));
-		panelFade.GetComponent<Animator>().Play ("FadeOut");
+	public void LoadNextLevel(string name) {
+		StartCoroutine(LevelLoad(name));
+		panelFade.GetComponent<Animator>().Play("FadeOut");
 	}
 	
-	IEnumerator LevelLoad(string name)
-	{
+	IEnumerator LevelLoad(string name) {
 		yield return new WaitForSeconds(0.333f);
 		Application.LoadLevel(name);
 	}
