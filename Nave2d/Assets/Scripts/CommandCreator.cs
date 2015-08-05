@@ -45,7 +45,9 @@ public class CommandCreator : MonoBehaviour {
 	}
 	
 	public void handleEvent(string eventType) {
-		// FIXME: if(panel.GetComponent<Rect>().Contains(Input.mousePosition))
-		interpreter.addCommand(actions[eventType]);
+		Rect panelRect = panel.transform.GetComponent<RectTransform>().rect;
+		Vector2 mousePos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+		if(panelRect.Contains(mousePos))
+			interpreter.addCommand(actions[eventType]);
 	}
 }

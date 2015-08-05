@@ -28,12 +28,12 @@ public class CommandBox : MonoBehaviour {
 		this.command = command;
 
 		SetLabelByIndex(index);
-		highlightColor = new Color (0.1f, 0.5f, 0.5f, 1);
+		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
 	}
 
 
 	public void Highlight() {
-		GetComponent<Image> ().color = highlightColor;
+		GetComponent<Image>().color = highlightColor;
 	}
 
 
