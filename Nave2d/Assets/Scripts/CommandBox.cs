@@ -94,10 +94,4 @@ public class CommandBox : MonoBehaviour {
 			commandInterpreter.FixOrderOfBlock();
 		}
 	}
-
-	void OnTriggerEnter2D(Collider2D collider) {
-		if (commandCreator == null && collider.tag == "TrashCan") {
-			commandInterpreter.removeFromList(transform.gameObject);
-		}
-	}
 }
