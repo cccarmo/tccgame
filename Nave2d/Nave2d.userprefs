@@ -2,9 +2,17 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CommandBox.cs">
     <Files>
+<<<<<<< Updated upstream
       <File FileName="Assets\Scripts\CommandCreator.cs" Line="3" Column="34" />
       <File FileName="Assets\Scripts\CommandInterpreter.cs" Line="145" Column="25" />
       <File FileName="Assets\Scripts\CommandBox.cs" Line="101" Column="4" />
+=======
+      <File FileName="Assets/Scripts/ScreenTransition.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/CommandCreator.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/CommandBox.cs" Line="96" Column="1" />
+      <File FileName="Assets/Scripts/DestroyByContact.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/DestroyByBoundary.cs" Line="1" Column="1" />
+>>>>>>> Stashed changes
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
