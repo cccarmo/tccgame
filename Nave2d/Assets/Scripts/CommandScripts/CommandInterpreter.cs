@@ -79,7 +79,7 @@ public class CommandInterpreter : MonoBehaviour {
 	}
 
 	public Vector3 IndexToPosition(int index) {
-		int margin = 15, columns = 11, baseX = -220, baseY = 265;
+		int margin = 15, columns = 11, baseX = -230, baseY = 235;
 		return new Vector3(baseX + margin + (index / columns) * 205,
 		                   baseY + margin + (index % columns) * -55, 0);
 	}
