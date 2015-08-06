@@ -97,7 +97,7 @@ public class CommandBox : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D collider) {
 		if (commandCreator == null && collider.tag == "TrashCan") {
-			Destroy(transform.gameObject);
+			commandInterpreter.removeFromList(transform.gameObject);
 		}
 	}
 }

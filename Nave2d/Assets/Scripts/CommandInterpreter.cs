@@ -114,13 +114,9 @@ public class CommandInterpreter : MonoBehaviour {
 		}
 	}
 
-	
-	public void FixOrderOfBlock() {
-		IComparer comparator = new YPosComparator ();
-		commandsDrawn.Sort(comparator);
-
+	public void makeCommandListFromCommandsDrawn() {
 		commandList.Clear();
-
+		
 		int i = 0;
 		foreach(var b in commandsDrawn) {
 			GameObject box = (GameObject) b;
@@ -132,8 +128,22 @@ public class CommandInterpreter : MonoBehaviour {
 		}
 	}
 
+	
+	public void FixOrderOfBlock() {
+		IComparer comparator = new YPosComparator ();
+		commandsDrawn.Sort(comparator);
+		makeCommandListFromCommandsDrawn();
+	}
+
 	public void Update() {
-		FixOrderOfBlock ();
+		FixOrderOfBlock();
+	}
+
+
+	public void removeFromList(GameObject box){
+		commandsDrawn.Remove(box);
+		GameObject.Destroy(box);
+		makeCommandListFromCommandsDrawn();
 	}
 }
 
