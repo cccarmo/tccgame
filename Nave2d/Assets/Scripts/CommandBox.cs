@@ -23,6 +23,7 @@ public class CommandBox : MonoBehaviour {
 		commandText.text = index + " " + command.ToString();
 	}
 
+
 	public void Init(int index, Command command) {
 		commandText = gameObject.GetComponentInChildren<Text>();
 		this.command = command;
@@ -42,6 +43,7 @@ public class CommandBox : MonoBehaviour {
 		ticks  = 0;
 		commandInterpreter = this.GetComponentInParent<CommandInterpreter>();
 	}
+
 
 	void Update() {
 		if(dragging) {
@@ -75,6 +77,7 @@ public class CommandBox : MonoBehaviour {
 		offset = (newPos - transform.position)/ticks;
 	}
 
+
 	void OnMouseDown() {
 		originalPosition = transform.position;
 		mousePosition = Input.mousePosition;
@@ -84,14 +87,14 @@ public class CommandBox : MonoBehaviour {
 		dragging = true;
 	}
 
-	void OnMouseUpAsButton() {
+	void OnMouseUp() {
 		dragging = false;
+	}
+
+	void OnMouseUpAsButton() {
 		if (commandCreator != null) {
 			commandCreator.handleEvent(label);
 			transform.position = originalPosition;
-		}
-		if (commandInterpreter != null) {
-			commandInterpreter.FixOrderOfBlock();
 		}
 	}
 }
