@@ -6,7 +6,6 @@ public class DestroyOnTrash : MonoBehaviour {
 	
 	void OnTriggerEnter2D(Collider2D collider) {
 		if (collider.tag == "TrashCan") {
-			Debug.Log("ENTROU");
 			delete = true;
 		}
 	}
@@ -14,7 +13,6 @@ public class DestroyOnTrash : MonoBehaviour {
 
 	void OnTriggerExit2D(Collider2D collider) {
 		if (collider.tag == "TrashCan") {
-			Debug.Log("SAIU");
 			delete = false;
 		}
 	}
