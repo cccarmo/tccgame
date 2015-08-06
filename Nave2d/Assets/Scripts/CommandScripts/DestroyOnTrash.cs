@@ -2,22 +2,21 @@
 using System.Collections;
 
 public class DestroyOnTrash : MonoBehaviour {
-	bool delete;
-
-	public void Start() {
-		delete = false;
-	}
-
-
+	bool delete = false;
+	
 	void OnTriggerEnter2D(Collider2D collider) {
-		if (collider.tag == "TrashCan")
+		if (collider.tag == "TrashCan") {
+			Debug.Log("ENTROU");
 			delete = true;
+		}
 	}
 
 
 	void OnTriggerExit2D(Collider2D collider) {
-		if (collider.tag == "TrashCan")
+		if (collider.tag == "TrashCan") {
+			Debug.Log("SAIU");
 			delete = false;
+		}
 	}
 
 
