@@ -2,8 +2,27 @@
 using System.Collections;
 
 public class DestroyOnTrash : MonoBehaviour {
+	bool delete;
+
+	public void Start() {
+		delete = false;
+	}
+
+
 	void OnTriggerEnter2D(Collider2D collider) {
-		if (collider.tag == "TrashCan") {
+		if (collider.tag == "TrashCan")
+			delete = true;
+	}
+
+
+	void OnTriggerExit2D(Collider2D collider) {
+		if (collider.tag == "TrashCan")
+			delete = false;
+	}
+
+
+	void OnMouseUpAsButton(){
+		if (delete) {
 			CommandInterpreter commandInterpreter = this.GetComponentInParent<CommandInterpreter>();
 			commandInterpreter.removeFromList(transform.gameObject);
 		}
