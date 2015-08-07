@@ -157,7 +157,7 @@ public class PlayerController : MonoBehaviour {
 		style.fontSize = 20;
 		style.normal.textColor = Color.white;
 		
-		Rect missiles = new Rect(0.9f*Screen.width, 0.9f*Screen.height, 16, 16);
+		Rect missiles = new Rect(0.95f*Screen.width, 0.73f*Screen.height, 16, 16);
 		GUI.Label(missiles, laserMissiles.ToString(), style);
 		Rect laserIconSpace = new Rect(missiles.xMax, 0.5f*missiles.yMin + 0.5f*missiles.yMax, 20, 5);
 		GUI.DrawTexture(laserIconSpace, laserTexture);                      
