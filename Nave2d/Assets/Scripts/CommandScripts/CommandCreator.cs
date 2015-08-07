@@ -5,12 +5,14 @@ using System.Collections.Generic;
 public delegate bool CommandCallback();
 
 public class Command {
-	CommandCallback callback;
-	string label;
+	private CommandCallback callback;
+	private string label;
+	private GameObject commandBoxPreFab;
 	
-	public Command(CommandCallback callback, string label) {
+	public Command(CommandCallback callback, string label, GameObject boxPreFab) {
 		this.callback = callback;
 		this.label = label;
+		this.commandBoxPreFab = boxPreFab;
 	}
 	
 	public override string ToString() {
@@ -18,7 +20,11 @@ public class Command {
 	}
 
 	public bool execute() {
-		return callback ();
+		return callback();
+	}
+
+	public GameObject getCommandBoxPreFab() {
+		return commandBoxPreFab;
 	}
 }
 
@@ -29,19 +35,27 @@ public class CommandCreator : MonoBehaviour {
 	private CommandInterpreter interpreter;
 	public GameObject panel;
 	private Dictionary<string, Command> actions;
+	public GameObject[] availableBoxes;
 	
 	void Start() {
 		PlayerController spaceShipController = spaceShip.GetComponent<PlayerController>();
 		interpreter = panel.GetComponent<CommandInterpreter>();
 		
 		actions = new Dictionary<string, Command>();
-		actions.Add("Shoot", new Command(spaceShipController.shoot, "Shoot"));
-		actions.Add("Move Forward", new Command(spaceShipController.moveForward, "Move Forward"));
-		actions.Add("Move Backward", new Command(spaceShipController.moveBackward, "Move Backward"));
-		actions.Add("Move Leftwards", new Command(spaceShipController.moveLeftwards, "Move Leftwards"));
-		actions.Add("Move Rightwards", new Command(spaceShipController.moveRightwards, "Move Rightwards"));
-		actions.Add("Turn Clockwise", new Command(spaceShipController.turnClockwise, "Turn Clockwise"));
-		actions.Add("Turn Counterclockwise", new Command(spaceShipController.turnCounterClockwise, "Turn Counterclockwise"));
+		actions.Add("Shoot", 
+		            new Command(spaceShipController.shoot, "Shoot", availableBoxes[0]));
+		actions.Add("Move Forward",
+		            new Command(spaceShipController.moveForward, "Move Forward", availableBoxes[1]));
+		actions.Add("Move Backward",
+		            new Command(spaceShipController.moveBackward, "Move Backward", availableBoxes[2]));
+		actions.Add("Move Leftwards",
+		            new Command(spaceShipController.moveLeftwards, "Move Leftwards", availableBoxes[3]));
+		actions.Add("Move Rightwards",
+		            new Command(spaceShipController.moveRightwards, "Move Rightwards", availableBoxes[4]));
+		actions.Add("Turn Clockwise",
+		            new Command(spaceShipController.turnClockwise, "Turn Clockwise", availableBoxes[5]));
+		actions.Add("Turn Counterclockwise",
+		            new Command(spaceShipController.turnCounterClockwise, "Turn Counterclockwise", availableBoxes[6]));
 	}
 	
 	public void handleEvent(string eventType) {

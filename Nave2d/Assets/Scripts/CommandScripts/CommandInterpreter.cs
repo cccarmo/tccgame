@@ -12,8 +12,7 @@ public class CommandInterpreter : MonoBehaviour {
 	private int nextCommandIndex;
 	private readonly int maxCommands = 21;
 	private bool startedSimulation, finishedAnimation;
-	
-	public GameObject commandBoxPreFab;
+
 	public ArrayList commandsDrawn;
 	
 	private GUIStyle highlightStyle, ordinaryStyle;
@@ -79,9 +78,9 @@ public class CommandInterpreter : MonoBehaviour {
 	}
 
 	public Vector3 IndexToPosition(int index) {
-		int margin = 15, columns = 11, baseX = -230, baseY = 235;
+		int margin = 15, columns = 11, baseX = -230, baseY = 230;
 		return new Vector3(baseX + margin + (index / columns) * 205,
-		                   baseY + margin + (index % columns) * -55, 0);
+		                   baseY + margin + (index % columns) * -75, 0);
 	}
 
 
@@ -89,7 +88,7 @@ public class CommandInterpreter : MonoBehaviour {
 
 		Command command = (Command) commandList[index];
 		
-		GameObject box = Instantiate(commandBoxPreFab) as GameObject;
+		GameObject box = Instantiate(command.getCommandBoxPreFab()) as GameObject;
 		box.transform.SetParent(gameObject.transform);
 		
 		/// Place and fix local scale
@@ -122,7 +121,7 @@ public class CommandInterpreter : MonoBehaviour {
 			GameObject box = (GameObject) b;
 			CommandBox commandBox = box.GetComponent<CommandBox>();
 			commandList.Add(commandBox.command);
-			commandBox.SetLabelByIndex(i);
+			commandBox.SetIndex(i);
 			commandBox.GoToPos(IndexToPosition(i));
 			i++;
 		}

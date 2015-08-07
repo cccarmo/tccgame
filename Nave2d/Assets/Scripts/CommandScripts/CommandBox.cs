@@ -3,9 +3,9 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class CommandBox : MonoBehaviour {
-	public string label;
 	public CommandCreator commandCreator;
-	private Text commandText;
+	private int index;
+	public string label;
 	private Vector3 originalPosition;
 	private Vector3 mousePosition;
 	public float moveSpeed = 1f;
@@ -13,22 +13,17 @@ public class CommandBox : MonoBehaviour {
 	private Vector2 touchOffset;
 	private Color highlightColor;
 	public Command command;
-	private CommandInterpreter commandInterpreter;
 	private Vector3 offset;
 	private Rect screenRect = new Rect(0, 0, Screen.width, Screen.height);
 	int ticks;
 
-
-	public void SetLabelByIndex(int index) {
-		commandText.text = index + " " + command.ToString();
+	public void SetIndex(int index) {
+		this.index = index;
 	}
 
-
 	public void Init(int index, Command command) {
-		commandText = gameObject.GetComponentInChildren<Text>();
 		this.command = command;
-
-		SetLabelByIndex(index);
+		SetIndex(index);
 		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
 	}
 
@@ -41,7 +36,6 @@ public class CommandBox : MonoBehaviour {
 	void Start() {
 		offset = Vector3.zero;
 		ticks  = 0;
-		commandInterpreter = this.GetComponentInParent<CommandInterpreter>();
 	}
 
 
