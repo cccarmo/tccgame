@@ -13,9 +13,6 @@ public class GameController : MonoBehaviour {
 	private bool gameOver;
 	private bool startedSimulation;
 	public GameObject gameScreen;
-
-	public static AudioSource bgMusic;
-	public static AudioSource winMusic;
 	
 	IEnumerator spawnWaves() {
 		yield return new WaitForSeconds (startWait);
@@ -32,9 +29,6 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Start() {
-		bgMusic = GetComponents<AudioSource> () [0];
-		winMusic = GetComponents<AudioSource> () [1];
-	
 		gameOver = startedSimulation = false;
 	}
 	
@@ -43,16 +37,12 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Update() {
-		if (startedSimulation && Input.GetKeyDown(KeyCode.R)) {
-			restart();
-		}
-		else if (!startedSimulation && Input.GetKeyDown(KeyCode.R)) {
-			startedSimulation = true;
+		if (startedSimulation && Input.GetKeyDown(KeyCode.R))
 			StartCoroutine(spawnWaves());
-		}
 	}
 
-	public void restart() {
-		Application.LoadLevel(Application.loadedLevel);
+	public IEnumerator sleepFor(float seconds) {
+		yield return new WaitForSeconds(seconds);
 	}
 }
+

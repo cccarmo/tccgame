@@ -11,7 +11,7 @@ public class CommandInterpreter : MonoBehaviour {
 	public ArrayList commandList;
 	private int nextCommandIndex;
 	private readonly int maxCommands = 21;
-	private bool startedSimulation, finishedAnimation;
+	private bool startedSimulation, finishedAnimation, restart;
 
 	public ArrayList commandsDrawn;
 	
@@ -20,13 +20,13 @@ public class CommandInterpreter : MonoBehaviour {
 	void Start() {
 		commandList = new ArrayList();
 		commandsDrawn = new ArrayList();
-		resetSimulation();
+		restartSimulation();
 	}
 	
 	
-	private void resetSimulation() {
+	public void restartSimulation() {
 		nextCommandIndex = 0;
-		startedSimulation = false;
+		startedSimulation = restart = false;
 		finishedAnimation = true;
 		DrawList();
 	}
@@ -50,10 +50,14 @@ public class CommandInterpreter : MonoBehaviour {
 			
 			finishedAnimation = currentCommand.execute();
 		} catch (IndexOutOfRangeException) {
-			resetSimulation (); // restart stage as well
+			restart = true;
 		}
 	}
-	
+
+	public bool shouldRestartSimulation() {
+		return restart;
+	}
+
 	private Command getNextCommand() {
 		if(nextCommandIndex < commandList.Count) {
 			Command nextCommand = (Command) commandList[nextCommandIndex];
@@ -70,12 +74,7 @@ public class CommandInterpreter : MonoBehaviour {
 	}
 	
 	public void startSimulation() {
-		if(!startedSimulation)
-			startedSimulation = true;
-		else {
-			startedSimulation = false;
-			resetSimulation(); // restart stage as well
-		}
+		startedSimulation = true;
 	}
 
 	public Vector3 IndexToPosition(int index) {

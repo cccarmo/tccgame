@@ -5,11 +5,13 @@ public class DestroyAsteroidByContact : MonoBehaviour {
 	public GameObject playerExplosion;
 	public GameObject shotExplosion;
 	private GameController gameController;
+	private SimulationManager simulationManager;
 	private GameObject gameScreen;
 	
 	void Start() {
 		gameScreen = GameObject.FindWithTag("GameScreen");
 		gameController = gameScreen.GetComponent<GameController>();
+		simulationManager = gameScreen.GetComponent<SimulationManager>();
 	}
 	
 	void OnTriggerEnter2D(Collider2D collider) {
@@ -18,7 +20,7 @@ public class DestroyAsteroidByContact : MonoBehaviour {
 			newExplosion.transform.parent = gameScreen.transform;
 			collider.transform.parent = gameScreen.transform;
 			Destroy(collider.gameObject);
-			StartCoroutine(restartGameAfterSeconds());
+			restartGameAfterSeconds();
 		}
 		else if (collider.tag == "Shot") {
 			GameObject newExplosion = GameObject.Instantiate(shotExplosion, collider.transform.position, collider.transform.rotation) as GameObject;
@@ -29,8 +31,8 @@ public class DestroyAsteroidByContact : MonoBehaviour {
 		}
 	}
 	
-	private IEnumerator restartGameAfterSeconds () {
-		yield return new WaitForSeconds (2.5f);
-		gameController.restart();
+	private void restartGameAfterSeconds() {
+		StartCoroutine(gameController.sleepFor(2.5f));
+		simulationManager.restart();
 	}
 }

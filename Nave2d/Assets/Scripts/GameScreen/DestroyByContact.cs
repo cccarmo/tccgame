@@ -5,11 +5,13 @@ public class DestroyByContact : MonoBehaviour {
 	public GameObject playerExplosion;
 	public GameObject shotExplosion;
 	private GameController gameController;
+	private SimulationManager simulationManager;
 	private GameObject gameScreen;
 
 	void Start() {
 		gameScreen = GameObject.FindWithTag("GameScreen");
 		gameController = gameScreen.GetComponent<GameController>();
+		simulationManager = gameScreen.GetComponent<SimulationManager>();
 	}
 
 	void OnTriggerEnter2D(Collider2D collider) {
@@ -18,7 +20,7 @@ public class DestroyByContact : MonoBehaviour {
 			newExplosion.transform.parent = gameScreen.transform;
 			collider.transform.parent = gameScreen.transform;
 			Destroy(collider.gameObject);
-			StartCoroutine(restartGameAfterSeconds());
+			restartGameAfterSeconds();
 		}
 		else if (collider.tag == "Shot") {
 			GameObject newExplosion = GameObject.Instantiate(shotExplosion, collider.transform.position, collider.transform.rotation) as GameObject;
@@ -28,8 +30,8 @@ public class DestroyByContact : MonoBehaviour {
 		}
 	}
 
-	private IEnumerator restartGameAfterSeconds () {
-		yield return new WaitForSeconds (2.5f);
-		gameController.restart();
+	public void restartGameAfterSeconds() {
+		StartCoroutine(gameController.sleepFor(2.5f));
+		simulationManager.restart();
 	}
 }

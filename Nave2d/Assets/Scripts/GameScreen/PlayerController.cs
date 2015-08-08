@@ -88,6 +88,10 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 	}
+
+	public bool animating() {
+		return animate;
+	}
 	
 	/*private bool move(Vector2 direction) {
 		float intensity = ((float)executionTime - ticks - 1) / executionTime;
@@ -301,9 +305,9 @@ public class PlayerController : MonoBehaviour {
 	public void ArriveAtPlanet(Vector3 planetPosition) {
 		interpretCommands = false;
 		body.velocity = new Vector2(0,0);
-		GameController.bgMusic.Stop ();
-		GameController.winMusic.Play ();
-		landingSound.Play ();
+		AudioPlayer.bgMusic.Stop();
+		AudioPlayer.winMusic.Play();
+		landingSound.Play();
 		GetComponent<Animator> ().Play ("ArriveAtPlanet");
 		// Set "moving to planet" animation
 		positionToMoveTo = planetPosition;
