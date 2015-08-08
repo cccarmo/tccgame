@@ -48,7 +48,7 @@ public class CommandInterpreter : MonoBehaviour {
 				box.GetComponent<CommandBox>().Highlight();
 			}
 			
-			finishedAnimation = currentCommand.execute();
+			finishedAnimation = currentCommand.execute(ref nextCommandIndex);
 		} catch (IndexOutOfRangeException) {
 			resetSimulation (); // restart stage as well
 		}
