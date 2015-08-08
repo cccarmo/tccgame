@@ -32,7 +32,6 @@ public class Command {
 		
 		else
 			return callback ();
-		
 	}
 	
 	public GameObject getCommandBoxPreFab() {
