@@ -64,8 +64,9 @@ public class CommandInterpreter : MonoBehaviour {
 	}
 	
 	public void execute() {
-		if(startedSimulation)
+		if(startedSimulation) {
 			interpretCommand();
+		}
 	}
 	
 	public void startSimulation() {
