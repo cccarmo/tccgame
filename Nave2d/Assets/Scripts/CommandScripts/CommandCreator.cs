@@ -2,33 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public delegate bool CommandCallback();
-
-public class Command {
-	private CommandCallback callback;
-	private string label;
-	private GameObject commandBoxPreFab;
-	
-	public Command(CommandCallback callback, string label, GameObject boxPreFab) {
-		this.callback = callback;
-		this.label = label;
-		this.commandBoxPreFab = boxPreFab;
-	}
-	
-	public override string ToString() {
-		return label;
-	}
-
-	public bool execute() {
-		return callback();
-	}
-
-	public GameObject getCommandBoxPreFab() {
-		return commandBoxPreFab;
-	}
-}
-
-
 
 public class CommandCreator : MonoBehaviour {
 	public GameObject spaceShip;
@@ -37,30 +10,46 @@ public class CommandCreator : MonoBehaviour {
 	private Dictionary<string, Command> actions;
 	public GameObject[] availableBoxes;
 	
+	
+	private bool KFunctionTrue() {
+		return true;
+	}
+	
+	private bool KFlowFunctionTrue(ref int programCounter) {
+		return true;
+	}
+	
 	void Start() {
 		PlayerController spaceShipController = spaceShip.GetComponent<PlayerController>();
 		interpreter = panel.GetComponent<CommandInterpreter>();
 		
 		actions = new Dictionary<string, Command>();
+
+		//// Ship Commands
 		actions.Add("Shoot", 
-		            new Command(spaceShipController.shoot, "Shoot", availableBoxes[0]));
+		            new Command(spaceShipController.shoot, KFlowFunctionTrue, "Shoot", availableBoxes[0], false));
 		actions.Add("Move Forward",
-		            new Command(spaceShipController.moveForward, "Move Forward", availableBoxes[1]));
+		            new Command(spaceShipController.moveForward, KFlowFunctionTrue, "Move Forward", availableBoxes[1], false));
 		actions.Add("Move Backward",
-		            new Command(spaceShipController.moveBackward, "Move Backward", availableBoxes[2]));
+		            new Command(spaceShipController.moveBackward, KFlowFunctionTrue, "Move Backward", availableBoxes[2], false));
 		actions.Add("Move Leftwards",
-		            new Command(spaceShipController.moveLeftwards, "Move Leftwards", availableBoxes[3]));
+		            new Command(spaceShipController.moveLeftwards, KFlowFunctionTrue, "Move Leftwards", availableBoxes[3], false));
 		actions.Add("Move Rightwards",
-		            new Command(spaceShipController.moveRightwards, "Move Rightwards", availableBoxes[4]));
+		            new Command(spaceShipController.moveRightwards, KFlowFunctionTrue, "Move Rightwards", availableBoxes[4], false));
 		actions.Add("Turn Clockwise",
-		            new Command(spaceShipController.turnClockwise, "Turn Clockwise", availableBoxes[5]));
+		            new Command(spaceShipController.turnClockwise, KFlowFunctionTrue, "Turn Clockwise", availableBoxes[5], false));
 		actions.Add("Turn Counterclockwise",
-		            new Command(spaceShipController.turnCounterClockwise, "Turn Counterclockwise", availableBoxes[6]));
+		            new Command(spaceShipController.turnCounterClockwise, KFlowFunctionTrue, "Turn Counterclockwise", availableBoxes[6], false));
+
+		//// Flow Commands
+		actions.Add("Scoped Repetition",
+		            new Command(KFunctionTrue, KFlowFunctionTrue, "Scoped Repetition", availableBoxes[7], true));
 	}
 	
 	public void handleEvent(string eventType) {
 		Rect panelRect = panel.transform.GetComponent<RectTransform>().rect;
 		Vector2 mousePos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+
 		if(panelRect.Contains(mousePos))
 			interpreter.addCommand(actions[eventType]);
 	}
