@@ -78,6 +78,7 @@ public class CommandBox : MonoBehaviour {
 		mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 		touchOffset = originalPosition - mousePosition;
 
+		transform.SetAsLastSibling();
 		dragging = true;
 	}
 
