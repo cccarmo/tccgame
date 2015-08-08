@@ -40,9 +40,5 @@ public class GameController : MonoBehaviour {
 		if (startedSimulation && Input.GetKeyDown(KeyCode.R))
 			StartCoroutine(spawnWaves());
 	}
-
-	public IEnumerator sleepFor(float seconds) {
-		yield return new WaitForSeconds(seconds);
-	}
 }
 

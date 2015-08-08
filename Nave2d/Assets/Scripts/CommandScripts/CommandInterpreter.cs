@@ -30,7 +30,11 @@ public class CommandInterpreter : MonoBehaviour {
 		finishedAnimation = true;
 		DrawList();
 	}
-	
+
+	public void saveCommandList() {
+		restartSimulation();
+	}
+
 	public void addCommand(Command command) {
 		if(commandList.Count < maxCommands && !startedSimulation) {
 			commandList.Add(command);

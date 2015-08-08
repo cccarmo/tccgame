@@ -1,22 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SimulationManager : MonoBehaviour {
+public class SimulationManager : Scheduler {
 	public PlayerController spaceship;
 	public CommandInterpreter interpreter;
-	private GameController gameController;
 
 	private bool running;
 	public Enduring[] lastingObjects;
 	
 	void Start() {
 		running = false;
-		gameController = gameObject.GetComponentInParent<GameController>();
 	}
 	
 	void Update() {
 		if(running && interpreter.shouldRestartSimulation()) {
-			simulate();
+			interpreter.saveCommandList();
+			executeAfter(1.5f, new Action(reloadLevel));
 		}
 	}
 	
@@ -26,10 +25,13 @@ public class SimulationManager : MonoBehaviour {
 			running = true;
 		}
 		else if(!spaceship.animating()) {
-			// interpreter.saveCommandList();
-			StartCoroutine(gameController.sleepFor(2.5f));
-      		Application.LoadLevel(Application.loadedLevel);
+			interpreter.saveCommandList();
+			reloadLevel();
 		}
+	}
+
+	public void reloadLevel() {
+		Application.LoadLevel(Application.loadedLevel);
 	}
 	
 	public void restart() {

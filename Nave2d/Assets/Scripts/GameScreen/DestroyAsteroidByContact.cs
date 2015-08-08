@@ -1,16 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DestroyAsteroidByContact : MonoBehaviour {
+public class DestroyAsteroidByContact : Scheduler {
 	public GameObject playerExplosion;
 	public GameObject shotExplosion;
-	private GameController gameController;
 	private SimulationManager simulationManager;
 	private GameObject gameScreen;
 	
 	void Start() {
 		gameScreen = GameObject.FindWithTag("GameScreen");
-		gameController = gameScreen.GetComponent<GameController>();
 		simulationManager = gameScreen.GetComponent<SimulationManager>();
 	}
 	
@@ -32,7 +30,6 @@ public class DestroyAsteroidByContact : MonoBehaviour {
 	}
 	
 	private void restartGameAfterSeconds() {
-		StartCoroutine(gameController.sleepFor(2.5f));
-		simulationManager.restart();
+		executeAfter(2.5f, new Action(simulationManager.reloadLevel));
 	}
 }
