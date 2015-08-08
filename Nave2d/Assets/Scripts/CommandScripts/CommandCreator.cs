@@ -41,7 +41,7 @@ public class CommandCreator : MonoBehaviour {
 		actions.Add("Turn Counterclockwise",
 		            new Command(spaceShipController.turnCounterClockwise, KFlowFunctionTrue, "Turn Counterclockwise", availableBoxes[6], false));
 
-		//// Flow Commands
+		// Flow Commands
 		actions.Add("Scoped Repetition",
 		            new Command(KFunctionTrue, KFlowFunctionTrue, "Scoped Repetition", availableBoxes[7], true));
 	}

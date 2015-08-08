@@ -40,6 +40,9 @@ public class CommandBox : MonoBehaviour {
 
 
 	void Update() {
+		if(Screen.width != screenRect.width || Screen.height != screenRect.height)
+			screenRect = new Rect(0, 0, Screen.width, Screen.height);
+
 		if(dragging) {
 			mousePosition = Input.mousePosition;
 			if(!screenRect.Contains(mousePosition)) {

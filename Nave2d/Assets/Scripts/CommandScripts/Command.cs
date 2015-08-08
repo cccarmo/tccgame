@@ -26,14 +26,18 @@ public class Command {
 		return label;
 	}
 	
-	public bool execute(ref int programCounter) {
+	/*public bool execute(ref int programCounter) {
 		if (this.isFlowCommand)
 			return flowCallback(ref programCounter);
 		
 		else
-			return callback ();
+			return callback();
+	}*/
+
+	public bool execute() {
+		return callback();
 	}
-	
+
 	public GameObject getCommandBoxPreFab() {
 		return commandBoxPreFab;
 	}
