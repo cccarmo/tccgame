@@ -10,16 +10,13 @@ public class CommandBox : MonoBehaviour {
 	private Vector3 mousePosition;
 	public float moveSpeed = 1f;
 	private bool dragging = false;
+	private bool newEvent = false;
 	private Vector2 touchOffset;
 	private Color highlightColor;
 	public Command command;
 	private Vector3 offset;
 	private Rect screenRect = new Rect(0, 0, Screen.width, Screen.height);
-	int ticks;
-
-	public void SetIndex(int index) {
-		this.index = index;
-	}
+	private int ticks;
 
 	public void Init(int index, Command command) {
 		this.command = command;
@@ -27,6 +24,9 @@ public class CommandBox : MonoBehaviour {
 		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
 	}
 
+	public void SetIndex(int index) {
+		this.index = index;
+	}
 
 	public void Highlight() {
 		GetComponent<Image>().color = highlightColor;
@@ -64,8 +64,7 @@ public class CommandBox : MonoBehaviour {
 
 	public void GoToPos(Vector3 position) {
 		ticks = 8;
-
-		/// Find Final Position
+		
 		Vector3 oldPos = transform.position;
 		transform.localPosition = position;
 		Vector3 newPos = transform.position;

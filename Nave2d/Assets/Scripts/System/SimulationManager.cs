@@ -6,7 +6,6 @@ public class SimulationManager : Scheduler {
 	public CommandInterpreter interpreter;
 
 	private bool running;
-	public Enduring[] lastingObjects;
 	
 	void Start() {
 		running = false;
@@ -35,6 +34,7 @@ public class SimulationManager : Scheduler {
 	}
 	
 	public void restart() {
+		Enduring[] lastingObjects = Enduring.getLastingObjects();
 		foreach(Enduring item in lastingObjects) {
 			item.restartInReload();
 		}

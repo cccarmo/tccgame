@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 
-public class CommandInterpreter : MonoBehaviour {
+public class CommandInterpreter : DataRetriever {
 	private Command currentCommand;
 	public ArrayList commandList;
 	private int nextCommandIndex;
@@ -33,6 +33,7 @@ public class CommandInterpreter : MonoBehaviour {
 
 	public void saveCommandList() {
 		restartSimulation();
+		saveData(commandList);
 	}
 
 	public void addCommand(Command command) {
