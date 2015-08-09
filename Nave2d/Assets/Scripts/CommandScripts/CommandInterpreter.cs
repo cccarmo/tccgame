@@ -92,10 +92,11 @@ public class CommandInterpreter : DataRetriever {
 		startedSimulation = true;
 	}
 
-	public Vector3 IndexToPosition(int index, int nestLevel) {
-		int margin = 15, columns = 11, baseX = -230, baseY = 230;
-		return new Vector3(baseX + margin + nestLevel * 40,
-		                   baseY + margin + (index % columns) * -75, 0);
+	private Vector3 calculateBoxPosition(GameObject box, int index, int nestLevel) {
+		int baseX = -310, baseY = 275, margin = 30;
+		float width = box.GetComponent<RectTransform>().rect.width;
+		return new Vector3(width/2 + baseX + margin + nestLevel * 50,
+		                   baseY - margin + index * -55, 0);
 	}
 
 
@@ -107,8 +108,7 @@ public class CommandInterpreter : DataRetriever {
 		box.transform.SetParent(gameObject.transform);
 		
 		/// Place and fix local scale
-		box.transform.localPosition = IndexToPosition(index, nestLevel);
-
+		box.transform.localPosition = calculateBoxPosition(box, index, nestLevel);
 		box.transform.localScale = new Vector2(1, 1);
 		box.GetComponent<CommandBox>().Init(command);
 		
@@ -141,24 +141,22 @@ public class CommandInterpreter : DataRetriever {
 	public void makeCommandListFromCommandsDrawn() {
 		commandList.Clear();
 		
-		int i = 0;
-		int nestLevel = 0;
+		int index = 0, nestLevel = 0;
 		foreach(var b in commandsDrawn) {
 			GameObject box = (GameObject) b;
 			CommandBox commandBox = box.GetComponent<CommandBox>();
-			Command c = commandBox.command;
+			Command command = commandBox.command;
 
-			commandList.Add(c);
+			commandList.Add(command);
+			if (command.indentLevel < 0)
+				nestLevel = nestLevel + command.indentLevel;
 
-			if (c.indentLevel < 0)
-				nestLevel = nestLevel + c.indentLevel;
+			commandBox.GoToPos(calculateBoxPosition(box, index, nestLevel));
 			
-			commandBox.GoToPos(IndexToPosition(i, nestLevel));
-			
-			if (c.indentLevel > 0)
-				nestLevel = nestLevel + c.indentLevel;
+			if (command.indentLevel > 0)
+				nestLevel = nestLevel + command.indentLevel;
 
-			i++;
+			index++;
 		}
 	}
 
