@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class CommandBox : MonoBehaviour {
 	public CommandCreator commandCreator;
-	private int index;
 	public string label;
 	private Vector3 originalPosition;
 	private Vector3 mousePosition;
@@ -18,14 +17,10 @@ public class CommandBox : MonoBehaviour {
 	private Rect screenRect = new Rect(0, 0, Screen.width, Screen.height);
 	private int ticks;
 
-	public void Init(int index, Command command) {
-		this.command = command;
-		SetIndex(index);
-		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
-	}
 
-	public void SetIndex(int index) {
-		this.index = index;
+	public void Init(Command command) {
+		this.command = command;
+		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
 	}
 
 	public void Highlight() {

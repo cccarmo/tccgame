@@ -18,7 +18,7 @@ public class DestroyOnTrash : MonoBehaviour {
 	}
 
 
-	void OnMouseUpAsButton(){
+	void OnMouseUp(){
 		if (delete) {
 			CommandInterpreter commandInterpreter = this.GetComponentInParent<CommandInterpreter>();
 			commandInterpreter.removeFromList(transform.gameObject);
