@@ -9,18 +9,22 @@ using UnityEngine.UI;
 public class CommandInterpreter : MonoBehaviour {
 	private Command currentCommand;
 	public ArrayList commandList;
+	public ArrayList commandsDrawn;
+
 	private int nextCommandIndex;
 	private readonly int maxCommands = 21;
-	private bool startedSimulation, finishedAnimation;
 
-	public ArrayList commandsDrawn;
-	
-	private GUIStyle highlightStyle, ordinaryStyle;
+	private bool startedSimulation, finishedAnimation;
+	public SemanticInterpreter semanticInterpreter;
+
 	
 	void Start() {
 		commandList = new ArrayList();
 		commandsDrawn = new ArrayList();
 		resetSimulation();
+
+		semanticInterpreter = new SemanticInterpreter ();
+		semanticInterpreter.setCommandInterpreter (this);
 	}
 	
 	
@@ -77,14 +81,14 @@ public class CommandInterpreter : MonoBehaviour {
 		}
 	}
 
-	public Vector3 IndexToPosition(int index) {
+	public Vector3 IndexToPosition(int index, int nestLevel) {
 		int margin = 15, columns = 11, baseX = -230, baseY = 230;
-		return new Vector3(baseX + margin + (index / columns) * 205,
+		return new Vector3(baseX + margin + nestLevel * 40,
 		                   baseY + margin + (index % columns) * -75, 0);
 	}
 
 
-	public GameObject instantiateCommandBox(int index) {
+	public GameObject instantiateCommandBox(int index, int nestLevel) {
 
 		Command command = (Command) commandList[index];
 		
@@ -92,10 +96,10 @@ public class CommandInterpreter : MonoBehaviour {
 		box.transform.SetParent(gameObject.transform);
 		
 		/// Place and fix local scale
-		box.transform.localPosition = IndexToPosition(index);
+		box.transform.localPosition = IndexToPosition(index, nestLevel);
 
 		box.transform.localScale = new Vector2(1, 1);
-		box.GetComponent<CommandBox>().Init(index, command);
+		box.GetComponent<CommandBox>().Init(command);
 		
 		return box;
 	}
@@ -106,9 +110,19 @@ public class CommandInterpreter : MonoBehaviour {
 			GameObject.Destroy(box);
 		}
 		commandsDrawn.Clear();
-		
+
+		int nestLevel = 0;
 		for(int index = 0; index < commandList.Count; index++) {
-			GameObject box = instantiateCommandBox(index);
+			Command c = (Command) commandList[index];
+
+			if (c.indentLevel < 0)
+				nestLevel = nestLevel + c.indentLevel;
+
+			GameObject box = instantiateCommandBox(index, nestLevel);
+
+			if (c.indentLevel > 0)
+				nestLevel = nestLevel + c.indentLevel;
+
 			commandsDrawn.Add(box);
 		}
 	}
@@ -117,12 +131,22 @@ public class CommandInterpreter : MonoBehaviour {
 		commandList.Clear();
 		
 		int i = 0;
+		int nestLevel = 0;
 		foreach(var b in commandsDrawn) {
 			GameObject box = (GameObject) b;
 			CommandBox commandBox = box.GetComponent<CommandBox>();
-			commandList.Add(commandBox.command);
-			commandBox.SetIndex(i);
-			commandBox.GoToPos(IndexToPosition(i));
+			Command c = commandBox.command;
+
+			commandList.Add(c);
+
+			if (c.indentLevel < 0)
+				nestLevel = nestLevel + c.indentLevel;
+			
+			commandBox.GoToPos(IndexToPosition(i, nestLevel));
+			
+			if (c.indentLevel > 0)
+				nestLevel = nestLevel + c.indentLevel;
+
 			i++;
 		}
 	}
