@@ -27,9 +27,8 @@ public class CommandInterpreter : DataRetriever {
 		ArrayList persistedList = (ArrayList) retrieveData();
 		if(persistedList != null) {
 			CommandCreator creator = picker.GetComponent<CommandCreator>();
-			//creator.buildCommandListByName(persistedList);
+			creator.buildCommandListByName(persistedList);
 		}
-		restartSimulation();
 	}
 
 	public void restartSimulation() {

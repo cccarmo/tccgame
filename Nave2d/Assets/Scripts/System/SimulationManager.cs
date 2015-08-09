@@ -14,7 +14,7 @@ public class SimulationManager : Scheduler {
 	void Update() {
 		if(running && interpreter.shouldRestartSimulation()) {
 			interpreter.saveCommandList();
-			executeAfter(1.5f, new Action(reloadLevel));
+			executeAfter(1.25f, new Action(reloadLevel));
 		}
 	}
 	
@@ -24,12 +24,12 @@ public class SimulationManager : Scheduler {
 			running = true;
 		}
 		else if(!spaceship.animating()) {
-			interpreter.saveCommandList();
 			reloadLevel();
 		}
 	}
 
 	public void reloadLevel() {
+		interpreter.saveCommandList();
 		Application.LoadLevel(Application.loadedLevel);
 	}
 	

@@ -9,7 +9,6 @@ public class CommandBox : MonoBehaviour {
 	private Vector3 mousePosition;
 	public float moveSpeed = 1f;
 	private bool dragging = false;
-	private bool newEvent = false;
 	private Vector2 touchOffset;
 	private Color highlightColor;
 	public Command command;
