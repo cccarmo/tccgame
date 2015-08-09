@@ -9,21 +9,24 @@ using UnityEngine.UI;
 public class CommandInterpreter : DataRetriever {
 	private Command currentCommand;
 	public ArrayList commandList;
+	private ArrayList commandsDrawn;
 	private int nextCommandIndex;
 	private readonly int maxCommands = 21;
 	private bool startedSimulation, finishedAnimation, restart;
-
-	public ArrayList commandsDrawn;
-	
-	private GUIStyle highlightStyle, ordinaryStyle;
+	public GameObject picker;
 	
 	void Start() {
 		commandList = new ArrayList();
 		commandsDrawn = new ArrayList();
 		restartSimulation();
+
+		ArrayList persistedList = (ArrayList) retrieveData();
+		if(persistedList != null) {
+			CommandCreator creator = picker.GetComponent<CommandCreator>();
+			//creator.buildCommandListByName(persistedList);
+		}
 	}
-	
-	
+
 	public void restartSimulation() {
 		nextCommandIndex = 0;
 		startedSimulation = restart = false;
@@ -33,7 +36,10 @@ public class CommandInterpreter : DataRetriever {
 
 	public void saveCommandList() {
 		restartSimulation();
-		saveData(commandList);
+		ArrayList commandNames = new ArrayList();
+		foreach(Command command in commandList)
+			commandNames.Add(command.ToString());
+		saveData(commandNames);
 	}
 
 	public void addCommand(Command command) {

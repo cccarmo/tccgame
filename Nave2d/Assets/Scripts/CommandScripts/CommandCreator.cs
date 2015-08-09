@@ -53,4 +53,9 @@ public class CommandCreator : MonoBehaviour {
 		if(panelRect.Contains(mousePos))
 			interpreter.addCommand(actions[eventType]);
 	}
+
+	public void buildCommandListByName(ArrayList commandNames) {
+		foreach(string eventType in commandNames)
+			interpreter.addCommand(actions[eventType]);
+	}
 }
