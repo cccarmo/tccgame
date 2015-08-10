@@ -3,12 +3,10 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class CommandBox : MonoBehaviour {
-	public CommandCreator commandCreator;
+	public PanelListener eventListener;
 	public string label;
 	private Vector3 originalPosition;
-	private Vector3 mousePosition;
 	public float moveSpeed = 1f;
-	private bool dragging = false;
 	private Vector2 touchOffset;
 	private Color highlightColor;
 	public Command command;
@@ -30,25 +28,13 @@ public class CommandBox : MonoBehaviour {
 	void Start() {
 		offset = Vector3.zero;
 		ticks  = 0;
+		originalPosition = transform.position;
 	}
-
 
 	void Update() {
 		if(Screen.width != screenRect.width || Screen.height != screenRect.height)
 			screenRect = new Rect(0, 0, Screen.width, Screen.height);
-
-		if(dragging) {
-			mousePosition = Input.mousePosition;
-			if(!screenRect.Contains(mousePosition)) {
-				dragging = false;
-				transform.position = originalPosition;
-			}
-			else {
-				mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-				transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed) + touchOffset;
-			}
-		}
-	
+		
 		if(ticks > 0) {
 			ticks = ticks - 1;
 			transform.position = transform.position + offset;
@@ -69,23 +55,27 @@ public class CommandBox : MonoBehaviour {
 
 
 	void OnMouseDown() {
-		originalPosition = transform.position;
-		mousePosition = Input.mousePosition;
+		Vector3 mousePosition = Input.mousePosition;
 		mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 		touchOffset = originalPosition - mousePosition;
 
 		transform.SetAsLastSibling();
-		dragging = true;
+	}
+
+	void OnMouseDrag() {
+		Vector3 mousePosition = Input.mousePosition;
+		if(!screenRect.Contains(mousePosition))
+			transform.position = originalPosition;
+		else {
+			mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+			transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed) + touchOffset;
+		}
 	}
 
 	void OnMouseUp() {
-		dragging = false;
-	}
-
-	void OnMouseUpAsButton() {
-		if (commandCreator != null) {
-			commandCreator.handleEvent(label);
+		if (eventListener != null) {
 			transform.position = originalPosition;
+			eventListener.handleEvent(label);
 		}
 	}
 }
