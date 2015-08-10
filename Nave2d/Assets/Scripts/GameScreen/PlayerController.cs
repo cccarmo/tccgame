@@ -43,11 +43,21 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 positionToMoveTo;
 	private AnimationType currentAnimation;
 
-	private Vector2[,] positionMatrix;
-	// Set this parameters always for the initial setup of the level
-	public int positionX = 0;
-	public int positionY = 0;
+	// Set this parameter always for the initial setup of the level
 	public int direction = 0;
+
+	// Boundarys
+	private float xMin = 2.111591f;
+	private float xMax = 11.90359f;
+	private float yMin = -3.296508f;
+	private float yMax = 8.704493f;
+
+	// Step sizes
+	private float dX = (11.9f - 2.1f) / 9f;
+	private float dY = (3.3f + 8.7f) / 11f;
+
+	private Vector2 nextPosition;
+
 
 	void Start() {
 		animate = false;
@@ -58,23 +68,6 @@ public class PlayerController : MonoBehaviour {
 		landingSound = GetComponents<AudioSource> () [2];
 		nextFire = 0.0f;
 		ticks = 0;
-
-		// initialize position Matrix
-		positionMatrix = new Vector2[10,12];
-		positionMatrix [0,0].x = 2.111591f;
-		positionMatrix [0,0].y = -3.296508f;
-		float dX = (11.9f - 2.1f) / 9f;
-		float dY = (3.3f + 8.7f) / 11f;
-		for (int i = 0; i < 10; i++) {
-			if (i != 0) {
-				positionMatrix [i,0].x = positionMatrix[i-1,0].x + dX;
-				positionMatrix [i,0].y = positionMatrix[i-1,0].y ;
-			}
-			for (int j = 1; j < 12; j++) {
-				positionMatrix [i,j].x = positionMatrix [i,j-1].x ;
-				positionMatrix [i,j].y = positionMatrix [i,j-1].y + dY;
-			}
-		}
 	}
 	
 	void Update() {
@@ -128,9 +121,11 @@ public class PlayerController : MonoBehaviour {
 		return move(new Vector2(-sin, cosin));
 	}*/
 
-	private bool move(int nextX, int nextY) {
-		Vector3 nextPlace = new Vector3 (positionMatrix[nextX,nextY].x, positionMatrix[nextX,nextY].y,0);
+	private bool moveToNextPosition() {
+		Vector3 nextPlace = new Vector3 (nextPosition.x, nextPosition.y,0);
 		body.position = Vector3.MoveTowards (body.position, nextPlace, 0.1f);
+		//body.position = new Vector2 (Mathf.Clamp (body.position.x, xMin, xMax), 
+		//                             Mathf.Clamp (body.position.y, yMin, yMax));
 		ticks = (ticks + 1) % executionTime;
 		if (ticks == 0) {
 			body.position = Vector3.MoveTowards (body.position, nextPlace, 1f);
@@ -138,132 +133,121 @@ public class PlayerController : MonoBehaviour {
 		return (ticks == 0);
 	}
 
-	private void fixOutOfBoundPosition () {
-		if (positionX < 0)
-			positionX = 0;
-		if (positionX > 9)
-			positionX = 9;
-		if (positionY < 0)
-			positionY = 0;
-		if (positionY > 11)
-			positionY = 11;
-	}
-
 	public bool moveForward() {
 		if (ticks % executionTime == 0) {
+			nextPosition = body.position;
 			switch (direction) {
-			case 0: positionY += 1;
+			case 0: nextPosition.y += dY;
 				break;
-			case 1: positionY += 1;
-				positionX += 1;
+			case 1: nextPosition.y += dY;
+				nextPosition.x += dX;
 				break;
-			case 2: positionX += 1;
+			case 2: nextPosition.x += dX;
 				break;
-			case 3: positionY -= 1;
-				positionX += 1;
+			case 3: nextPosition.y -= dY;
+				nextPosition.x += dX;
 				break;
-			case 4: positionY -= 1;
+			case 4: nextPosition.y -= dY;
 				break;
-			case 5: positionY -= 1;
-				positionX -= 1;
+			case 5: nextPosition.y -= dY;
+				nextPosition.x -= dX;
 				break;
-			case 6: positionX -= 1;
+			case 6: nextPosition.x -= dX;
 				break;
-			case 7: positionY += 1;
-				positionX -= 1;
+			case 7: nextPosition.y += dY;
+				nextPosition.x -= dX;
 				break;
 			}
 		}
-		fixOutOfBoundPosition ();
-		return move(positionX, positionY);
+		return moveToNextPosition();
 	}
 
 	
 	public bool moveBackward() {
 		if (ticks % executionTime == 0) {
+			nextPosition = body.position;
 			switch (direction) {
-			case 0: positionY -= 1;
+			case 0: nextPosition.y -= dY;
 				break;
-			case 1: positionY -= 1;
-				positionX -= 1;
+			case 1: nextPosition.y -= dY;
+				nextPosition.x -= dX;
 				break;
-			case 2: positionX -= 1;
+			case 2: nextPosition.x -= dX;
 				break;
-			case 3: positionY += 1;
-				positionX -= 1;
+			case 3: nextPosition.y += dY;
+				nextPosition.x -= dX;
 				break;
-			case 4: positionY += 1;
+			case 4: nextPosition.y += dY;
 				break;
-			case 5: positionY += 1;
-				positionX += 1;
+			case 5: nextPosition.y += dY;
+				nextPosition.x += dX;
 				break;
-			case 6: positionX += 1;
+			case 6: nextPosition.x += dX;
 				break;
-			case 7: positionY -= 1;
-				positionX += 1;
+			case 7: nextPosition.y -= dY;
+				nextPosition.x += dX;
 				break;
 			}
 		}
-		fixOutOfBoundPosition ();
-		return move(positionX, positionY);
+		return moveToNextPosition();
 	}
 	
 	public bool moveLeftwards() {
 		if (ticks % executionTime == 0) {
+			nextPosition = body.position;
 			switch (direction) {
-			case 0: positionX -= 1;
+			case 0: nextPosition.x -= dX;
 				break;
-			case 1: positionY += 1;
-				positionX -= 1;
+			case 1: nextPosition.y += dY;
+				nextPosition.x -= dX;
 				break;
-			case 2: positionY += 1;
+			case 2: nextPosition.y += dY;
 				break;
-			case 3: positionY += 1;
-				positionX += 1;
+			case 3: nextPosition.y += dY;
+				nextPosition.x += dX;
 				break;
-			case 4: positionX += 1;
+			case 4: nextPosition.x += dX;
 				break;
-			case 5: positionY -= 1;
-				positionX += 1;
+			case 5: nextPosition.y -= dY;
+				nextPosition.x += dX;
 				break;
-			case 6: positionY -= 1;
+			case 6: nextPosition.y -= dY;
 				break;
-			case 7: positionY -= 1;
-				positionX -= 1;
+			case 7: nextPosition.y -= dY;
+				nextPosition.x -= dX;
 				break;
 			}
 		}
-		fixOutOfBoundPosition ();
-		return move(positionX, positionY);
+		return moveToNextPosition();
 	}
 	
 	public bool moveRightwards() {
 		if (ticks % executionTime == 0) {
+			nextPosition = body.position;
 			switch (direction) {
-			case 0: positionX += 1;
+			case 0: nextPosition.x += dX;
 				break;
-			case 1: positionY -= 1;
-				positionX += 1;
+			case 1: nextPosition.y -= dY;
+				nextPosition.x += dX;
 				break;
-			case 2: positionY -= 1;
+			case 2: nextPosition.y -= dY;
 				break;
-			case 3: positionY -= 1;
-				positionX -= 1;
+			case 3: nextPosition.y -= dY;
+				nextPosition.x -= dX;
 				break;
-			case 4: positionX -= 1;
+			case 4: nextPosition.x -= dX;
 				break;
-			case 5: positionY += 1;
-				positionX -= 1;
+			case 5: nextPosition.y += dY;
+				nextPosition.x -= dX;
 				break;
-			case 6: positionY += 1;
+			case 6: nextPosition.y += dY;
 				break;
-			case 7: positionY += 1;
-				positionX += 1;
+			case 7: nextPosition.y += dY;
+				nextPosition.x += dX;
 				break;
 			}
 		}
-		fixOutOfBoundPosition ();
-		return move(positionX, positionY);
+		return moveToNextPosition();
 	}
 
 	public bool turnClockwise() {
