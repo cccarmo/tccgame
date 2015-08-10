@@ -56,15 +56,9 @@ public class CommandCreator : MonoBehaviour {
 	}
 	
 	public void handleEvent(string eventType) {
-		Rect panelRect = panel.transform.GetComponent<RectTransform>().rect;
-		Vector2 mousePos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
-		
-		if (panelRect.Contains (mousePos)) {
-			interpreter.addCommand((Command) (actions [eventType])());
-			if (eventType == "Scoped Repetition") {
-				interpreter.addCommand ((Command) (actions ["Scoped Repetition End"])());
-			}
-		}
+		interpreter.addCommand((Command) (actions [eventType])());
+		if (eventType == "Scoped Repetition")
+			interpreter.addCommand ((Command) (actions ["Scoped Repetition End"])());
 	}
 
 	public void buildCommandListByName(ArrayList commandNames) {
