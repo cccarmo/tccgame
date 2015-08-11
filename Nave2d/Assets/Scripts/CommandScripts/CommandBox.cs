@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
+using System.Text;
+using System.Collections.Generic;
+using System.IO;
 
 public class CommandBox : MonoBehaviour {
 	public PanelListener eventListener;
@@ -13,7 +17,7 @@ public class CommandBox : MonoBehaviour {
 	private Vector3 offset;
 	private Rect screenRect = new Rect(0, 0, Screen.width, Screen.height);
 	private int ticks;
-
+	public InputField numberOfRepetitions;
 
 	public void Init(Command command) {
 		this.command = command;
@@ -41,6 +45,12 @@ public class CommandBox : MonoBehaviour {
 		}
 	}
 
+	public void updateNumberOfRepetitions () {
+		if (numberOfRepetitions.text.IsNullOrWhiteSpace()) {
+			command.repetitionMax = 0;
+		}
+		command.repetitionMax = Math.Abs (Convert.ToInt32 (numberOfRepetitions.text));
+	}
 
 	public void GoToPos(Vector3 position) {
 		ticks = 8;

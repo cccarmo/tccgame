@@ -29,7 +29,7 @@ public class Command {
 		this.flowCallback = flowCallback;
 		this.indentLevel = indentLevel;
 
-		repetitionMax = 3;
+		repetitionMax = 0;
 		repetitionCounter = 0;
 		condition = KFunctionRepeate;
 	}
@@ -49,10 +49,9 @@ public class Command {
 	}
 	
 	public bool execute(ref int programCounter) {
-		if (this.isFlowCommand)
-			return flowCallback(condition, ref programCounter);
-		
-		else
+		if (this.isFlowCommand) {
+			return flowCallback (condition, ref programCounter);
+		} else
 			return callback();
 	}
 

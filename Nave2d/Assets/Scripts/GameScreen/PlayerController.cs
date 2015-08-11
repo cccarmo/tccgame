@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 positionToMoveTo;
 	private AnimationType currentAnimation;
 
-	// Set this parameter always for the initial setup of the level
 	public int direction = 0;
 
 	// Boundarys
