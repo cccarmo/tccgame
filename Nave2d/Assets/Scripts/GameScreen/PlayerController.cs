@@ -307,7 +307,7 @@ public class PlayerController : MonoBehaviour {
 	public void ArriveAtPlanet(Vector3 planetPosition) {
 		interpretCommands = false;
 		body.velocity = new Vector2(0,0);
-		AudioPlayer.bgMusic.Stop();
+		AudioPlayer.bgMusic.Stop ();
 		AudioPlayer.winMusic.Play();
 		landingSound.Play();
 		GetComponent<Animator> ().Play ("ArriveAtPlanet");
