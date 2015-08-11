@@ -69,25 +69,42 @@ public class PlayerController : MonoBehaviour {
 		landingSound = GetComponents<AudioSource> () [2];
 		nextFire = 0.0f;
 		ticks = 0;
+		initRotationDirection ();
+	}
+
+	private void initRotationDirection () {
+
+		float lB, hB;
+
+		hB = 382.5f;
+		lB = 337.5f;
+		for (int i = 0; i < 16; i++) {
+			if (body.rotation <= hB && body.rotation > lB ) {
+				body.rotation = lB + ((hB - lB)/2);
+				direction = (i % 8);
+			}
+			hB -= 45;
+			lB -= 45;
+		}
+
 	}
 	
 	void Update() {
-		Debug.Log (body.position.x + " " + body.position.y);
 		if (interpretCommands)
 			interpreter.execute();
 		if (animate) {
 			switch (currentAnimation) {
-				case AnimationType.moveToPlanet:
-					animate = MoveToPosition(positionToMoveTo);
-					break;
+			case AnimationType.moveToPlanet:
+				animate = MoveToPosition(positionToMoveTo);
+				break;
 			}
 		}
 	}
-
+	
 	public bool animating() {
 		return animate;
 	}
-	
+
 	/*private bool move(Vector2 direction) {
 		float intensity = ((float)executionTime - ticks - 1) / executionTime;
 		body.velocity = direction * fixedSpeed * intensity;

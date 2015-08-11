@@ -63,6 +63,7 @@ public class SemanticInterpreter {
 	}
 
 	public bool EndForCommand(BoolCondition condition, ref int programCounter){
+		// Subtract 2 to jump the endFor
 		programCounter = getBeginForFromIndex(programCounter-2);
 		return true;
 	}
