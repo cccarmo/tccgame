@@ -47,19 +47,20 @@ public class PlayerController : MonoBehaviour {
 	public int direction = 0;
 
 	// Boundarys
-	private float xMin = 2.111591f;
-	private float xMax = 11.90359f;
-	private float yMin = -3.296508f;
-	private float yMax = 8.704493f;
+	private float xMin = 2.105591f;
+	private float xMax = 11.90759f;
+	private float yMin = -3.259508f;
+	private float yMax = 8.675492f;
 
 	// Step sizes
-	private float dX = (11.9f - 2.1f) / 9f;
-	private float dY = (3.3f + 8.7f) / 11f;
+	private float dX, dY;
 
 	private Vector2 nextPosition;
 
 
 	void Start() {
+		dX = (xMax - xMin) / 9f;
+		dY = (yMax - yMin) / 11f;
 		animate = false;
 		interpretCommands = true;
 		body = GetComponent<Rigidbody2D>();
@@ -71,6 +72,7 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void Update() {
+		Debug.Log (body.position.x + " " + body.position.y);
 		if (interpretCommands)
 			interpreter.execute();
 		if (animate) {
@@ -124,12 +126,12 @@ public class PlayerController : MonoBehaviour {
 	private bool moveToNextPosition() {
 		Vector3 nextPlace = new Vector3 (nextPosition.x, nextPosition.y,0);
 		body.position = Vector3.MoveTowards (body.position, nextPlace, 0.1f);
-		//body.position = new Vector2 (Mathf.Clamp (body.position.x, xMin, xMax), 
-		//                             Mathf.Clamp (body.position.y, yMin, yMax));
 		ticks = (ticks + 1) % executionTime;
 		if (ticks == 0) {
 			body.position = Vector3.MoveTowards (body.position, nextPlace, 1f);
 		}
+		body.position = new Vector2 (Mathf.Clamp (body.position.x, xMin, xMax), 
+		                             Mathf.Clamp (body.position.y, yMin, yMax));
 		return (ticks == 0);
 	}
 
