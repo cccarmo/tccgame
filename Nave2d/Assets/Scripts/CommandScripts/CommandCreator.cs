@@ -40,7 +40,6 @@ public class CommandCreator : MonoBehaviour {
 		newCommandClosure newForCommand = () => new Command(null, interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[7], true, 1);
 		newCommandClosure newEndForCommand = () => new Command(null, interpreter.semanticInterpreter.EndForCommand, "Scoped Repetition End", availableBoxes[8], true, -1);
 		
-		
 		// Adding Ship Commands to dictionary
 		actions.Add("Shoot", newShootCommand);
 		actions.Add("Move Forward", newFowardCommand);
