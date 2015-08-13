@@ -57,7 +57,6 @@ public class SemanticInterpreter {
 
 	
 	public bool ForCommand(BoolCondition condition, ref int programCounter){
-		Debug.log ("asd no for");
 		if (condition () == false)
 			programCounter = getEndForFromIndex(programCounter) + 1;
 		return true;
