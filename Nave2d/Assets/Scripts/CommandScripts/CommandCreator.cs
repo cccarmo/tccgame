@@ -26,7 +26,6 @@ public class CommandCreator : MonoBehaviour {
 	void OnEnable() {
 		PlayerController spaceShipController = spaceShip.GetComponent<PlayerController>();
 		interpreter = panel.GetComponent<CommandInterpreter>();
-		SemanticInterpreter semanticInterpreter = interpreter.semanticInterpreter;
 		
 		actions = new Dictionary<string, newCommandClosure>();
 		
@@ -38,8 +37,9 @@ public class CommandCreator : MonoBehaviour {
 		newCommandClosure newRightwardCommand = () => new ShipCommand(spaceShipController.moveRightwards, "Move Rightwards", availableBoxes[4]);
 		newCommandClosure newClockwiseCommand = () => new ShipCommand(spaceShipController.turnClockwise, "Turn Clockwise", availableBoxes[5]);
 		newCommandClosure newCounterClockwiseCommand = () => new ShipCommand(spaceShipController.turnCounterClockwise, "Turn Counterclockwise", availableBoxes[6]);
-		newCommandClosure newForCommand = () => new FlowCommand(semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[7], 1);
-		newCommandClosure newEndForCommand = () => new FlowCommand(semanticInterpreter.EndForCommand, "Scoped Repetition End", availableBoxes[8], -1);
+
+		newCommandClosure newForCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[7], 1);
+		newCommandClosure newEndForCommand = () => new FlowCommand(interpreter.semanticInterpreter.EndForCommand, "Scoped Repetition End", availableBoxes[8], -1);
 		
 		// Adding Ship Commands to dictionary
 		actions.Add("Shoot", newShootCommand);
@@ -58,7 +58,7 @@ public class CommandCreator : MonoBehaviour {
 	public void handleEvent(string eventType) {
 		interpreter.addCommand((Command) (actions [eventType])());
 		if (eventType == "Scoped Repetition")
-			interpreter.addCommand ((Command) (actions ["Scoped Repetition End"])());
+			interpreter.addCommand ((Command)(actions ["Scoped Repetition End"]) ());
 	}
 
 	public void buildCommandListByName(ArrayList commandNames) {
