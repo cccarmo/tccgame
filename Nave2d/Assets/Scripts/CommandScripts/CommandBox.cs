@@ -13,19 +13,24 @@ public class CommandBox : MonoBehaviour {
 	public float moveSpeed = 1f;
 	private Vector2 touchOffset;
 	private Color highlightColor;
+	private Color normalColor;
 	public Command command;
 	private Vector3 offset;
 	private Rect screenRect = new Rect(0, 0, Screen.width, Screen.height);
 	private int ticks;
-	public InputField numberOfRepetitions;
 
 	public void Init(Command command) {
-		this.command = command;
+		this.command   = command;
 		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
+		normalColor    = new Color(1f, 1f, 1f, 1);
 	}
 
 	public void Highlight() {
 		GetComponent<Image>().color = highlightColor;
+	}
+
+	public void NormalHighlight() {
+		GetComponent<Image>().color = normalColor;
 	}
 
 
@@ -45,13 +50,6 @@ public class CommandBox : MonoBehaviour {
 		}
 	}
 
-//	public void updateNumberOfRepetitions () {
-//		if (numberOfRepetitions.text.IsNullOrWhiteSpace()) {
-//			command.repetitionMax = 0;
-//		}
-//		command.repetitionMax = Math.Abs (Convert.ToInt32 (numberOfRepetitions.text));
-//	}
-//
 	public void GoToPos(Vector3 position) {
 		ticks = 8;
 		

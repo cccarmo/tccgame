@@ -16,6 +16,8 @@ public class CommandInterpreter : DataRetriever {
 	public GameObject picker;
 	public SemanticInterpreter semanticInterpreter;
 
+	public GameObject lastBox;
+
 	
 	void Start() {
 		commandList = new ArrayList();
@@ -49,7 +51,7 @@ public class CommandInterpreter : DataRetriever {
 	public void addCommand(Command command) {
 		if(commandList.Count < maxCommands && !startedSimulation) {
 			commandList.Add(command);
-			DrawList();
+			DrawList();   /// TODO Remove this line after dani's command 
 		}
 	}
 	
@@ -58,8 +60,11 @@ public class CommandInterpreter : DataRetriever {
 			if (finishedAnimation) {
 				currentCommand = getNextCommand();
 				
-				DrawList();
+				if (lastBox)
+					lastBox.GetComponent<CommandBox>().NormalHighlight();
+
 				GameObject box = (GameObject) commandsDrawn[nextCommandIndex-1];
+				lastBox = box;
 				box.GetComponent<CommandBox>().Highlight();
 			}
 			
@@ -101,7 +106,6 @@ public class CommandInterpreter : DataRetriever {
 
 
 	public GameObject instantiateCommandBox(int index, int nestLevel) {
-
 		Command command = (Command) commandList[index];
 		
 		GameObject box = Instantiate(command.getCommandBoxPreFab()) as GameObject;
