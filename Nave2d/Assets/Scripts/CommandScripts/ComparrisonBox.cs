@@ -12,7 +12,7 @@ public class ComparrisonBox : MonoBehaviour {
 	public float moveSpeed = 1f;
 	private Vector2 touchOffset;
 	private Color highlightColor;
-	public Command command;
+	public FlowCommand command;
 	private Vector3 offset;
 	private Rect screenRect = new Rect(0, 0, Screen.width, Screen.height);
 	private int ticks;
@@ -21,7 +21,7 @@ public class ComparrisonBox : MonoBehaviour {
 
 	public VariableForComparisson variableForComparisson;
 
-	public void Init(Command command) {
+	public void Init(FlowCommand command) {
 		this.command = command;
 		command.comparrison = TypeOfComparisson.equals;
 		command.intToCompare = 0;

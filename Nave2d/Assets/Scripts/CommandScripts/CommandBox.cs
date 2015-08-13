@@ -45,13 +45,13 @@ public class CommandBox : MonoBehaviour {
 		}
 	}
 
-	public void updateNumberOfRepetitions () {
-		if (numberOfRepetitions.text.IsNullOrWhiteSpace()) {
-			command.repetitionMax = 0;
-		}
-		command.repetitionMax = Math.Abs (Convert.ToInt32 (numberOfRepetitions.text));
-	}
-
+//	public void updateNumberOfRepetitions () {
+//		if (numberOfRepetitions.text.IsNullOrWhiteSpace()) {
+//			command.repetitionMax = 0;
+//		}
+//		command.repetitionMax = Math.Abs (Convert.ToInt32 (numberOfRepetitions.text));
+//	}
+//
 	public void GoToPos(Vector3 position) {
 		ticks = 8;
 		

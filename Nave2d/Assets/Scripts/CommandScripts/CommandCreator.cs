@@ -26,19 +26,20 @@ public class CommandCreator : MonoBehaviour {
 	void OnEnable() {
 		PlayerController spaceShipController = spaceShip.GetComponent<PlayerController>();
 		interpreter = panel.GetComponent<CommandInterpreter>();
+		SemanticInterpreter semanticInterpreter = interpreter.semanticInterpreter;
 		
 		actions = new Dictionary<string, newCommandClosure>();
 		
 		// Creating Command Generators
-		newCommandClosure newShootCommand = () => new Command (spaceShipController.shoot, null, "Shoot", availableBoxes [0], false, 0);
-		newCommandClosure newFowardCommand = () => new Command (spaceShipController.moveForward, null, "Move Forward", availableBoxes [1], false ,0);
-		newCommandClosure newBackwardCommand = () => new Command (spaceShipController.moveBackward, null, "Move Backward", availableBoxes [2], false, 0);
-		newCommandClosure neweLeftwardCommand = () => new Command (spaceShipController.moveLeftwards, null, "Move Leftwards", availableBoxes [3], false, 0);
-		newCommandClosure newRightwardCommand = () => new Command(spaceShipController.moveRightwards, null, "Move Rightwards", availableBoxes[4], false, 0);
-		newCommandClosure newClockwiseCommand = () => new Command(spaceShipController.turnClockwise, null, "Turn Clockwise", availableBoxes[5], false, 0);
-		newCommandClosure newCounterClockwiseCommand = () => new Command(spaceShipController.turnCounterClockwise, null, "Turn Counterclockwise", availableBoxes[6], false, 0);
-		newCommandClosure newForCommand = () => new Command(null, interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[7], true, 1);
-		newCommandClosure newEndForCommand = () => new Command(null, interpreter.semanticInterpreter.EndForCommand, "Scoped Repetition End", availableBoxes[8], true, -1);
+		newCommandClosure newShootCommand = () => new ShipCommand (spaceShipController.shoot, "Shoot", availableBoxes [0]);
+		newCommandClosure newFowardCommand = () => new ShipCommand (spaceShipController.moveForward, "Move Forward", availableBoxes [1]);
+		newCommandClosure newBackwardCommand = () => new ShipCommand (spaceShipController.moveBackward, "Move Backward", availableBoxes [2]);
+		newCommandClosure neweLeftwardCommand = () => new ShipCommand (spaceShipController.moveLeftwards, "Move Leftwards", availableBoxes [3]);
+		newCommandClosure newRightwardCommand = () => new ShipCommand(spaceShipController.moveRightwards, "Move Rightwards", availableBoxes[4]);
+		newCommandClosure newClockwiseCommand = () => new ShipCommand(spaceShipController.turnClockwise, "Turn Clockwise", availableBoxes[5]);
+		newCommandClosure newCounterClockwiseCommand = () => new ShipCommand(spaceShipController.turnCounterClockwise, "Turn Counterclockwise", availableBoxes[6]);
+		newCommandClosure newForCommand = () => new FlowCommand(semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[7], 1);
+		newCommandClosure newEndForCommand = () => new FlowCommand(semanticInterpreter.EndForCommand, "Scoped Repetition End", availableBoxes[8], -1);
 		
 		// Adding Ship Commands to dictionary
 		actions.Add("Shoot", newShootCommand);
