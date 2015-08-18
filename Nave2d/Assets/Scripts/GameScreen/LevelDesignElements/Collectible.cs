@@ -16,7 +16,7 @@ public class Collectible : MonoBehaviour {
 		if (collider.tag == "Player") {
 			GameObject brightParticle = GameObject.Instantiate(collectionParticle, collider.transform.position, collider.transform.rotation) as GameObject;
 			brightParticle.transform.parent = gameScreen.transform;
-			collider.transform.parent = gameScreen.transform;
+			//collider.transform.parent = gameScreen.transform;
 			Destroy(this.gameObject);
 		}
 	}
