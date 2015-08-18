@@ -98,6 +98,8 @@ public class PlayerController : MonoBehaviour {
 				break;
 			}
 		}
+
+		Debug.Log ("banana execut");
 	}
 	
 	public bool animating() {
