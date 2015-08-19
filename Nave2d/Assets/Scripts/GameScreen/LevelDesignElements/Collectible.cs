@@ -7,17 +7,15 @@ public class Collectible : MonoBehaviour {
 	
 	void Start() {
 		gameScreen = GameObject.FindWithTag("GameScreen");
-		float tumble = 30f;
 		Rigidbody2D body = GetComponentInChildren<Rigidbody2D> ();
-		body.angularVelocity = Random.value * tumble;
+		body.angularVelocity = 50f;
 	}
 	
 	void OnTriggerEnter2D(Collider2D collider) {
 		if (collider.tag == "Player") {
-			GameObject brightParticle = GameObject.Instantiate(collectionParticle, collider.transform.position, collider.transform.rotation) as GameObject;
+			GameObject brightParticle = GameObject.Instantiate(collectionParticle, transform.position, transform.rotation) as GameObject;
 			brightParticle.transform.parent = gameScreen.transform;
-			//collider.transform.parent = gameScreen.transform;
-			Destroy(this.gameObject);
+			Destroy(this.gameObject, 0.1f);
 		}
 	}
 }

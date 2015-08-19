@@ -13,7 +13,11 @@ public class Planet : MonoBehaviour {
 	
 	void OnTriggerEnter2D(Collider2D collider) {
 		if (collider.tag == "Player") {
-			StartCoroutine(ArriveShip(collider));
+			GameObject[] collectibles;
+			collectibles = GameObject.FindGameObjectsWithTag("Collectible");
+			if (collectibles.Length == 0)
+				StartCoroutine(ArriveShip(collider));
+
 		}
 		else if (collider.tag == "Shot") {
 			GameObject newExplosion = GameObject.Instantiate(shotExplosion, collider.transform.position, collider.transform.rotation) as GameObject;
