@@ -7,10 +7,8 @@ using System.Collections.Generic;
 using System.IO;
 
 public class CommandBox : MonoBehaviour {
-	public PanelListener eventListener;
-	public string label;
 	private Vector3 originalPosition;
-	public float moveSpeed = 1f;
+	private float moveSpeed = 1f;
 	private Vector2 touchOffset;
 	private Color highlightColor;
 	private Color normalColor;
@@ -77,13 +75,6 @@ public class CommandBox : MonoBehaviour {
 		else {
 			mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 			transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed) + touchOffset;
-		}
-	}
-
-	void OnMouseUp() {
-		if (eventListener != null) {
-			transform.position = originalPosition;
-			eventListener.handleEvent(label);
 		}
 	}
 }

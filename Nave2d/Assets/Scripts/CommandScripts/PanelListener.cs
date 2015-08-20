@@ -6,7 +6,7 @@ public class PanelListener : MonoBehaviour {
 	private bool listening = false;
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if(other.tag == "DropCommand")
+		if(other.tag == "Command")
 			listening = true;
 	}
 
@@ -14,8 +14,7 @@ public class PanelListener : MonoBehaviour {
 		listening = false;
 	}
 
-	public void handleEvent(string eventType) {
-		if(listening)
-			commandCreator.handleEvent(eventType);
+	public bool isOverPanel() {
+		return listening;
 	}
 }
