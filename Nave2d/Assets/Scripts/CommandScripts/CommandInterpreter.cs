@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class CommandInterpreter : DataRetriever {
 	private Command currentCommand;
-	public ArrayList commandList;
 	private ArrayList commandsDrawn;
 	private int nextCommandIndex;
 	private readonly int maxCommands = 21;
@@ -20,10 +19,8 @@ public class CommandInterpreter : DataRetriever {
 
 	
 	void Start() {
-		commandList = new ArrayList();
 		commandsDrawn = new ArrayList();
-		semanticInterpreter = new SemanticInterpreter();
-		semanticInterpreter.setCommandInterpreter(this);
+		semanticInterpreter = new SemanticInterpreter(this);
 		restartSimulation();
 
 		ArrayList persistedList = (ArrayList) retrieveData();
@@ -37,28 +34,39 @@ public class CommandInterpreter : DataRetriever {
 		nextCommandIndex = 0;
 		startedSimulation = restart = false;
 		finishedAnimation = true;
-		DrawList();
 	}
 
 	public void saveCommandList() {
 		restartSimulation();
 		ArrayList commandNames = new ArrayList();
-		foreach(Command command in commandList)
+		foreach(Command command in makeCommandListFromCommandsDrawn())
 			commandNames.Add(command.ToString());
 		saveData(commandNames);
 	}
 
-	public void addCommand(Command command) {
-		if(commandList.Count < maxCommands && !startedSimulation) {
-			commandList.Add(command);
-			DrawList();   /// TODO Remove this line after dani's command 
+	public void addCommand(Command newCommand) {
+		if(commandsDrawn.Count < maxCommands && !startedSimulation) {
+			int nestLevel = 0;
+			ArrayList commandList = makeCommandListFromCommandsDrawn();
+			for(int index = 0; index < commandsDrawn.Count; index++) {
+				Command command = (Command) commandList[index];
+				
+				if (command.indentLevel < 0)
+					nestLevel = nestLevel + command.indentLevel;
+				else if (command.indentLevel > 0)
+					nestLevel = nestLevel + command.indentLevel;
+			}
+
+			GameObject box = instantiateCommandBox(newCommand, commandsDrawn.Count, nestLevel);
+			commandsDrawn.Add(box);
 		}
 	}
+
 	
-	private void interpretCommand() {
+	private void interpretCommand(ArrayList commandList) {
 		try {
 			if (finishedAnimation) {
-				currentCommand = getNextCommand();
+				currentCommand = getNextCommand(commandList);
 				
 				if (lastBox)
 					lastBox.GetComponent<CommandBox>().NormalHighlight();
@@ -78,7 +86,7 @@ public class CommandInterpreter : DataRetriever {
 		return restart;
 	}
 
-	private Command getNextCommand() {
+	private Command getNextCommand(ArrayList commandList) {
 		if(nextCommandIndex < commandList.Count) {
 			Command nextCommand = (Command) commandList[nextCommandIndex];
 			nextCommandIndex++;
@@ -89,7 +97,7 @@ public class CommandInterpreter : DataRetriever {
 	
 	public void execute() {
 		if(startedSimulation) {
-			interpretCommand();
+			interpretCommand(makeCommandListFromCommandsDrawn());
 		}
 	}
 	
@@ -105,9 +113,7 @@ public class CommandInterpreter : DataRetriever {
 	}
 
 
-	public GameObject instantiateCommandBox(int index, int nestLevel) {
-		Command command = (Command) commandList[index];
-		
+	private GameObject instantiateCommandBox(Command command, int index, int nestLevel) {
 		GameObject box = Instantiate(command.getCommandBoxPreFab()) as GameObject;
 		box.transform.SetParent(gameObject.transform);
 		
@@ -118,34 +124,11 @@ public class CommandInterpreter : DataRetriever {
 		
 		return box;
 	}
-	
-	public void DrawList() {
-		foreach(var commandBox in commandsDrawn) {
-			GameObject box = (GameObject) commandBox;
-			GameObject.Destroy(box);
-		}
-		commandsDrawn.Clear();
 
-		int nestLevel = 0;
-		for(int index = 0; index < commandList.Count; index++) {
-			Command c = (Command) commandList[index];
-
-			if (c.indentLevel < 0)
-				nestLevel = nestLevel + c.indentLevel;
-
-			GameObject box = instantiateCommandBox(index, nestLevel);
-
-			if (c.indentLevel > 0)
-				nestLevel = nestLevel + c.indentLevel;
-
-			commandsDrawn.Add(box);
-		}
-	}
-
-	public void makeCommandListFromCommandsDrawn() {
-		commandList.Clear();
-		
+	public ArrayList makeCommandListFromCommandsDrawn() {
 		int index = 0, nestLevel = 0;
+		ArrayList commandList = new ArrayList();
+
 		foreach(var b in commandsDrawn) {
 			GameObject box = (GameObject) b;
 			CommandBox commandBox = box.GetComponent<CommandBox>();
@@ -162,6 +145,7 @@ public class CommandInterpreter : DataRetriever {
 
 			index++;
 		}
+		return commandList;
 	}
 
 	

@@ -14,6 +14,10 @@ public class PanelListener : MonoBehaviour {
 		listening = false;
 	}
 
+	void OnMouseExit() {
+		listening = false;
+	}
+
 	public bool isOverPanel() {
 		return listening;
 	}
