@@ -59,11 +59,11 @@ public class CommandCreator : MonoBehaviour {
 	public void handleEvent(string eventType) {
 		interpreter.addCommand((Command) (actions [eventType])());
 		if (eventType == "Scoped Repetition")
-			interpreter.addCommand ((Command)(actions ["Scoped Repetition End"]) ());
+			interpreter.addCommand ((Command)(actions ["Scoped Repetition End"])());
 	}
 
-	public void buildCommandListByName(ArrayList commandNames) {
-		foreach(string eventType in commandNames)
-			interpreter.addCommand((Command) (actions [eventType])());
+	public void rebuildCommands(ArrayList commandsList) {
+		foreach(Command eventType in commandsList)
+			interpreter.addCommand((Command) (actions [eventType.ToString()])());
 	}
 }

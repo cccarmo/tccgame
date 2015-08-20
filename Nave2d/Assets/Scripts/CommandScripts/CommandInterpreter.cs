@@ -26,7 +26,7 @@ public class CommandInterpreter : DataRetriever {
 		ArrayList persistedList = (ArrayList) retrieveData();
 		if(persistedList != null) {
 			CommandCreator creator = picker.GetComponent<CommandCreator>();
-			creator.buildCommandListByName(persistedList);
+			creator.rebuildCommands(persistedList);
 		}
 	}
 
@@ -38,10 +38,8 @@ public class CommandInterpreter : DataRetriever {
 
 	public void saveCommandList() {
 		restartSimulation();
-		ArrayList commandNames = new ArrayList();
-		foreach(Command command in makeCommandListFromCommandsDrawn())
-			commandNames.Add(command.ToString());
-		saveData(commandNames);
+		ArrayList commandList = makeCommandListFromCommandsDrawn();
+		saveData(commandList);
 	}
 
 	public void addCommand(Command newCommand) {
@@ -62,7 +60,6 @@ public class CommandInterpreter : DataRetriever {
 		}
 	}
 
-	
 	private void interpretCommand(ArrayList commandList) {
 		try {
 			if (finishedAnimation) {

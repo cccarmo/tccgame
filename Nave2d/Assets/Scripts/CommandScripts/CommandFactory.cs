@@ -7,7 +7,7 @@ public class CommandFactory : MonoBehaviour {
 	private CommandCreator commandCreator;
 	public PanelListener listener;
 	public string eventType;
-	
+
 	void Start() {
 		dragging = clicked = false;
 		commandCreator = GetComponentInParent<CommandCreator>();
