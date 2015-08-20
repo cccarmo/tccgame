@@ -8,7 +8,7 @@ delegate Command newCommandClosure();
 
 
 public class CommandCreator : MonoBehaviour {
-	public GameObject spaceShip;
+	private GameObject spaceShip;
 	private CommandInterpreter interpreter;
 	public GameObject panel;
 	private Dictionary<string, newCommandClosure> actions;
@@ -24,6 +24,7 @@ public class CommandCreator : MonoBehaviour {
 	}
 	
 	void OnEnable() {
+		spaceShip = GameObject.FindWithTag ("Player");
 		PlayerController spaceShipController = spaceShip.GetComponent<PlayerController>();
 		interpreter = panel.GetComponent<CommandInterpreter>();
 		

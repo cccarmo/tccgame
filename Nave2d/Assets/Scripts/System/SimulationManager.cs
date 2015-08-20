@@ -2,13 +2,14 @@
 using System.Collections;
 
 public class SimulationManager : Scheduler {
-	public PlayerController spaceship;
+	private PlayerController spaceship;
 	public CommandInterpreter interpreter;
 
 	private bool running;
 	
 	void Start() {
 		running = false;
+		spaceship = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
 	}
 	
 	void Update() {

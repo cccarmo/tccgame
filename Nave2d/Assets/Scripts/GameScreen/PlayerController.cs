@@ -305,6 +305,7 @@ public class PlayerController : MonoBehaviour {
 	}
   
 	public void ArriveAtPlanet(Vector3 planetPosition) {
+		tag = "Win";
 		interpretCommands = false;
 		body.velocity = new Vector2(0,0);
 		AudioPlayer.bgMusic.Stop ();
@@ -316,6 +317,12 @@ public class PlayerController : MonoBehaviour {
 		animate = true;
 		currentAnimation = AnimationType.moveToPlanet;
 		ticks = 1000;
+		StartCoroutine (DestroyPlayerObjectAfter (7.3f));
+	}
+
+	IEnumerator DestroyPlayerObjectAfter (float seconds) {
+		yield return new WaitForSeconds (seconds);
+		Destroy (this.gameObject);
 	}
 	
 	public bool MoveToPosition (Vector3 position) {
