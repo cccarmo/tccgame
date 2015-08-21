@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class CommandFactory : MonoBehaviour {
 	private bool dragging;
@@ -7,6 +9,7 @@ public class CommandFactory : MonoBehaviour {
 	private CommandCreator commandCreator;
 	public PanelListener listener;
 	public string eventType;
+	GameObject box;
 
 	void Start() {
 		dragging = clicked = false;
@@ -21,7 +24,8 @@ public class CommandFactory : MonoBehaviour {
 		if (clicked) {
 			commandCreator.handleEvent(eventType);
 		} else if (dragging) {
-			//if(listener.isOverPanel())
+			CommandBox commandBox = box.GetComponent<CommandBox>();
+			commandBox.OnMouseUp();
 		}
 		clicked = dragging = false;
 	}
@@ -30,6 +34,14 @@ public class CommandFactory : MonoBehaviour {
 		if(clicked) {
 			clicked = false;
 			dragging = true;
+
+			box = commandCreator.handleEvent(eventType);
+			
+			var pointer = new PointerEventData(EventSystem.current);
+			CommandBox commandBox = box.GetComponent<CommandBox>();
+
+			box.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			commandBox.OnMouseDown();
 		}
 	}
 }

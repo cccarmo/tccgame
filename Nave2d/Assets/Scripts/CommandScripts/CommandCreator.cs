@@ -56,10 +56,11 @@ public class CommandCreator : MonoBehaviour {
 		actions.Add("Scoped Repetition End", newEndForCommand);
 	}
 	
-	public void handleEvent(string eventType) {
-		interpreter.addCommand((Command) (actions [eventType])());
+	public GameObject handleEvent(string eventType) {
+		GameObject box = interpreter.addCommand((Command) (actions [eventType])());
 		if (eventType == "Scoped Repetition")
 			interpreter.addCommand ((Command)(actions ["Scoped Repetition End"])());
+		return box;
 	}
 
 	public void rebuildCommands(ArrayList commandsList) {

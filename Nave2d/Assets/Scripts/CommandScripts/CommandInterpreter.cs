@@ -42,7 +42,7 @@ public class CommandInterpreter : DataRetriever {
 		saveData(commandList);
 	}
 
-	public void addCommand(Command newCommand) {
+	public GameObject addCommand(Command newCommand) {
 		if(commandsDrawn.Count < maxCommands && !startedSimulation) {
 			int nestLevel = 0;
 			ArrayList commandList = makeCommandListFromCommandsDrawn();
@@ -57,7 +57,11 @@ public class CommandInterpreter : DataRetriever {
 
 			GameObject box = instantiateCommandBox(newCommand, commandsDrawn.Count, nestLevel);
 			commandsDrawn.Add(box);
+
+			return box;
 		}
+
+		return null;
 	}
 
 	private void interpretCommand(ArrayList commandList) {
