@@ -12,7 +12,6 @@ public class CommandBox : MonoBehaviour {
 	private Color normalColor;
 	public Command command;
 	private Vector3 offset;
-	private Rect screenRect = new Rect(0, 0, Screen.width, Screen.height);
 	private int ticks;
 	private bool pressed;
 
@@ -20,6 +19,7 @@ public class CommandBox : MonoBehaviour {
 		this.command   = command;
 		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
 		normalColor    = new Color(1f, 1f, 1f, 1);
+		normalColor    = new Color(0f, 0f, 0f, 1);
 	}
 
 	public void Highlight() {
@@ -37,9 +37,6 @@ public class CommandBox : MonoBehaviour {
 	}
 
 	void Update() {
-		if(Screen.width != screenRect.width || Screen.height != screenRect.height)
-			screenRect = new Rect(0, 0, Screen.width, Screen.height);
-		
 		if(ticks > 0) {
 			ticks = ticks - 1;
 			transform.position = transform.position + offset;
@@ -60,14 +57,12 @@ public class CommandBox : MonoBehaviour {
 		Vector3 newPos = transform.position;
 		transform.position = oldPos;
 
-		offset = (newPos - transform.position)/ticks;
+		offset = (newPos - transform.position)/ticks;	
 	}
 
 
-	public void OnMouseDown() {	
-		Vector3 mousePosition = Input.mousePosition;
-		mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-
+	public void OnMouseDown() {
+		Debug.Log ("Down!");
 		pressed = true;
 		transform.SetAsLastSibling();
 	}
