@@ -8,7 +8,7 @@ public class LevelController : MonoBehaviour {
 	private static int currentLevel = 9;
 	private static GameObject currentLevelGameObject;
 
-	public static void setLevelReady() {
+	void Start () {
 		string moduleName = "Module" + currentModule;
 		GameObject module = GameObject.Find(moduleName) as GameObject;
 		module.GetComponent<LevelHolder> ().levels [currentLevel].SetActive (true);
