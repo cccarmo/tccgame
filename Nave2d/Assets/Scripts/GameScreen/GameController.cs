@@ -30,6 +30,7 @@ public class GameController : MonoBehaviour {
 
 	void Start() {
 		gameOver = startedSimulation = false;
+		LevelController.setLevelReady ();
 	}
 	
 	public void GameOver() {

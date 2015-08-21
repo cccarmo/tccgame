@@ -23,7 +23,7 @@ public class CommandCreator : MonoBehaviour {
 		return true;
 	}
 	
-	void OnEnable() {
+	void Start() {
 		spaceShip = GameObject.FindWithTag ("Player");
 		PlayerController spaceShipController = spaceShip.GetComponent<PlayerController>();
 		interpreter = panel.GetComponent<CommandInterpreter>();

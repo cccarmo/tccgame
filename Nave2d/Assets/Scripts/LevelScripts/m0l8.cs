@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class m1l8 : MonoBehaviour {
+public class m0l8 : MonoBehaviour {
 
 	private Button buttonToSetOff;
 
