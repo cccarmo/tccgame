@@ -62,7 +62,6 @@ public class CommandBox : MonoBehaviour {
 
 
 	public void OnMouseDown() {
-		Debug.Log ("Down!");
 		pressed = true;
 		transform.SetAsLastSibling();
 	}
