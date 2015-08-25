@@ -37,21 +37,21 @@ public class ComparisonBox : MonoBehaviour {
 		GetComponent<Image>().color = highlightColor;
 	}
 	
-	
 	void Start() {
 		offset = Vector3.zero;
 		ticks  = 0;
-		originalPosition = transform.position;
 	}
 	
 	void Update() {
-		if (Screen.width != screenRect.width || Screen.height != screenRect.height) {
-			screenRect = new Rect (0, 0, Screen.width, Screen.height);
+		if(ticks > 0) {
+			ticks = ticks - 1;
+			transform.position = transform.position + offset;
 		}
 		
-		if(ticks > 0) {
-			ticks--;
-			transform.position = transform.position + offset;
+		if (pressed) {
+			Vector3 mousePosition = Input.mousePosition;
+			mousePosition = Camera.main.ScreenToWorldPoint (mousePosition);
+			transform.position = Vector2.Lerp (transform.position, mousePosition, moveSpeed);
 		}
 	}
 	
@@ -62,33 +62,23 @@ public class ComparisonBox : MonoBehaviour {
 		transform.localPosition = position;
 		Vector3 newPos = transform.position;
 		transform.position = oldPos;
-		offset = (newPos - transform.position)/ticks;
+		
+		offset = (newPos - transform.position)/ticks;	
 	}
-
-
-
-	public void OnMouseUp() {
-		if (!attached) {
-			Destroy(transform.gameObject);
-		}
-	}
-
+	
+	
 	public void OnMouseDown() {
-		Vector3 mousePosition = Input.mousePosition;
-		mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-		touchOffset = originalPosition - mousePosition;
+		pressed = true;
 		transform.SetAsLastSibling();
 	}
 	
-	void OnMouseDrag() {
-		Vector3 mousePosition = Input.mousePosition;
-		/*if(!screenRect.Contains(mousePosition))
-			transform.position = originalPosition;
-		else {*/
-			mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-			transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed) + touchOffset;
-		/*}*/
+	public void OnMouseUp() {
+		if (!attached) {
+			Destroy(this.transform.gameObject);
+		}
+		pressed = false;
 	}
+
 	
 	public void changeNegativePositive (bool b) {
 		command.negateComparrison = b;
