@@ -12,6 +12,7 @@ public class FlowCommandComparisonBox : CommandBox {
 	private ComparisonBox comparisonBox;
 	
 	void OnTriggerEnter2D(Collider2D collider) {
+		Debug.Log("Colidiu");
 		if (collider.tag == "Comparison") {
 			FlowCommand flowCommand = (FlowCommand)command;
 			comparisonBox = collider.GetComponent<ComparisonBox>();
