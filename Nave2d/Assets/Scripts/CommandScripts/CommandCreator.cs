@@ -15,13 +15,13 @@ public class CommandCreator : MonoBehaviour {
 	public GameObject[] availableBoxes;
 	
 	
-	private bool KFunctionTrue() {
-		return true;
-	}
+	//private bool KFunctionTrue() {
+	//	return true;
+	//}
 	
-	private bool KFlowFunctionTrue(BoolCondition cond, ref int programCounter) {
-		return true;
-	}
+	//private bool KFlowFunctionTrue(BoolCondition cond, ref int programCounter) {
+	//	return true;
+	//}
 	
 	void Start() {
 		spaceShip = GameObject.FindWithTag ("Player");
@@ -41,7 +41,8 @@ public class CommandCreator : MonoBehaviour {
 
 		newCommandClosure newForCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[7], 1);
 		newCommandClosure newEndForCommand = () => new FlowCommand(interpreter.semanticInterpreter.EndForCommand, "Scoped Repetition End", availableBoxes[8], -1);
-		
+		newCommandClosure newForComparisonCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition Comparison", availableBoxes[9], 1);
+
 		// Adding Ship Commands to dictionary
 		actions.Add("Shoot", newShootCommand);
 		actions.Add("Move Forward", newFowardCommand);
@@ -54,11 +55,13 @@ public class CommandCreator : MonoBehaviour {
 		// Adding Flow Commands to dictionary
 		actions.Add("Scoped Repetition", newForCommand);
 		actions.Add("Scoped Repetition End", newEndForCommand);
+		actions.Add("Scoped Repetition Comparison", newForComparisonCommand);
+
 	}
 	
 	public GameObject handleEvent(string eventType) {
 		GameObject box = interpreter.addCommand((Command) (actions [eventType])());
-		if (eventType == "Scoped Repetition")
+		if (eventType.Contains("Scoped Repetition"))
 			interpreter.addCommand ((Command)(actions ["Scoped Repetition End"])());
 		return box;
 	}

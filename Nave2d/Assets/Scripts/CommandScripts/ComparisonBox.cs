@@ -6,8 +6,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.IO;
 
-public class ComparrisonBox : MonoBehaviour {
-	public string label;
+public class ComparisonBox : MonoBehaviour {
 	private Vector3 originalPosition;
 	public float moveSpeed = 1f;
 	private Vector2 touchOffset;

@@ -4,8 +4,8 @@ using System.Collections;
 public class LevelController : MonoBehaviour {
 
 	// Deletar a inicialização quando a referencia vier de fora automaticamente pela setModuleAndLevel.
-	private static int currentModule = 0;
-	private static int currentLevel = 9;
+	private static int currentModule = 99;
+	private static int currentLevel = 0;
 	private static GameObject currentLevelGameObject;
 
 	void Start () {
