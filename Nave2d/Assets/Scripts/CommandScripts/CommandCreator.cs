@@ -12,6 +12,7 @@ public class CommandCreator : MonoBehaviour {
 	private CommandInterpreter interpreter;
 	public GameObject panel;
 	private Dictionary<string, newCommandClosure> actions;
+	private Dictionary<string, GameObject> comparisons;
 	public GameObject[] availableBoxes;
 	
 	
@@ -29,6 +30,7 @@ public class CommandCreator : MonoBehaviour {
 		interpreter = panel.GetComponent<CommandInterpreter>();
 		
 		actions = new Dictionary<string, newCommandClosure>();
+		comparisons = new Dictionary<string,  GameObject>();
 		
 		// Creating Command Generators
 		newCommandClosure newShootCommand = () => new ShipCommand (spaceShipController.shoot, "Shoot", availableBoxes [0]);
@@ -57,12 +59,20 @@ public class CommandCreator : MonoBehaviour {
 		actions.Add("Scoped Repetition End", newEndForCommand);
 		actions.Add("Scoped Repetition Comparison", newForComparisonCommand);
 
+		// Adding Comparison boxes to dictionary
+		comparisons.Add ("Comparing Asteroid Number", availableBoxes [10]);
+
 	}
 	
 	public GameObject handleEvent(string eventType) {
-		GameObject box = interpreter.addCommand((Command) (actions [eventType])());
-		if (eventType.Contains("Scoped Repetition"))
-			interpreter.addCommand ((Command)(actions ["Scoped Repetition End"])());
+		GameObject box;
+		if (eventType.Contains ("Comparing")) {
+			box = interpreter.addComparison (comparisons[eventType]);
+		} else {
+			box = interpreter.addCommand((Command) (actions [eventType])());
+			if (eventType.Contains("Scoped Repetition"))
+				interpreter.addCommand ((Command)(actions ["Scoped Repetition End"])());
+		}
 		return box;
 	}
 

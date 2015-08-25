@@ -3,13 +3,13 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class CommandFactory : MonoBehaviour {
+public class ComparisonFactory : MonoBehaviour {
 	private bool dragging;
 	private bool clicked;
 	private CommandCreator commandCreator;
-	public PanelListener listener;
 	public string eventType;
-	public GameObject box;
+	private GameObject box;
+	public GameObject ParentPanelForBoxes;
 
 	void Start() {
 		dragging = clicked = false;
@@ -21,11 +21,9 @@ public class CommandFactory : MonoBehaviour {
 	}
 
 	void OnMouseUp() {
-		if (clicked) {
-			commandCreator.handleEvent(eventType);
-		} else if (dragging) {
-			CommandBox commandBox = box.GetComponent<CommandBox>();
-			commandBox.OnMouseUp();
+		if (dragging) {
+			ComparisonBox comparisonBox = box.GetComponent<ComparisonBox>();
+			comparisonBox.OnMouseUp();
 		}
 		clicked = dragging = false;
 	}
@@ -36,12 +34,12 @@ public class CommandFactory : MonoBehaviour {
 			dragging = true;
 
 			box = commandCreator.handleEvent(eventType);
-			
-			var pointer = new PointerEventData(EventSystem.current);
-			CommandBox commandBox = box.GetComponent<CommandBox>();
+
+			ComparisonBox comparisonBox = box.GetComponent<ComparisonBox>();
 
 			box.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			commandBox.OnMouseDown();
+
+			comparisonBox.OnMouseDown();
 		}
 	}
 }

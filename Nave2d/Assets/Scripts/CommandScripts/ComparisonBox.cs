@@ -15,12 +15,16 @@ public class ComparisonBox : MonoBehaviour {
 	private Vector3 offset;
 	private Rect screenRect = new Rect(0, 0, Screen.width, Screen.height);
 	private int ticks;
+	private bool attached = false;
+	private bool pressed;
 
 	public InputField inputFieldValue;
 
 	public VariableForComparisson variableForComparisson;
 
 	public void Init(FlowCommand command) {
+		Debug.Log("Attached");
+		attached = true;
 		this.command = command;
 		command.comparrison = TypeOfComparisson.equals;
 		command.intToCompare = 0;
@@ -60,9 +64,16 @@ public class ComparisonBox : MonoBehaviour {
 		transform.position = oldPos;
 		offset = (newPos - transform.position)/ticks;
 	}
-	
-	
-	void OnMouseDown() {
+
+
+
+	public void OnMouseUp() {
+		if (!attached) {
+			Destroy(transform.gameObject);
+		}
+	}
+
+	public void OnMouseDown() {
 		Vector3 mousePosition = Input.mousePosition;
 		mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 		touchOffset = originalPosition - mousePosition;
@@ -78,7 +89,7 @@ public class ComparisonBox : MonoBehaviour {
 			transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed) + touchOffset;
 		/*}*/
 	}
-
+	
 	public void changeNegativePositive (bool b) {
 		command.negateComparrison = b;
 	}

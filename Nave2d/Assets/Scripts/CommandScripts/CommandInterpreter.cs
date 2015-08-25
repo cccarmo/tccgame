@@ -42,6 +42,10 @@ public class CommandInterpreter : DataRetriever {
 		saveData(commandList);
 	}
 
+	public GameObject addComparison (GameObject eventType) {
+		return instantiateComparisonBox(eventType); 
+	}
+
 	public GameObject addCommand(Command newCommand) {
 		if(commandsDrawn.Count < maxCommands && !startedSimulation) {
 			int nestLevel = 0;
@@ -123,6 +127,17 @@ public class CommandInterpreter : DataRetriever {
 		box.transform.localScale = new Vector2(1, 1);
 		box.GetComponent<CommandBox>().Init(command);
 		
+		return box;
+	}
+
+	private GameObject instantiateComparisonBox(GameObject boxType) {
+		GameObject box = Instantiate(boxType);
+		box.transform.SetParent(gameObject.transform);
+		
+		/// Place and fix local scale
+		//box.transform.localPosition = calculateBoxPosition(box, index, nestLevel);
+		box.transform.localScale = new Vector2(1, 1);
+
 		return box;
 	}
 
