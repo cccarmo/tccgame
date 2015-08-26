@@ -22,7 +22,7 @@ public class ComparisonBox : MonoBehaviour {
 
 	public VariableForComparisson variableForComparisson;
 
-	public void Init(FlowCommand command) {
+	public void attach(FlowCommand command) {
 		Debug.Log("Attached");
 		attached = true;
 		this.command = command;
@@ -43,15 +43,17 @@ public class ComparisonBox : MonoBehaviour {
 	}
 	
 	void Update() {
-		if(ticks > 0) {
-			ticks = ticks - 1;
-			transform.position = transform.position + offset;
-		}
+		if (!attached) {
+			if (ticks > 0) {
+				ticks = ticks - 1;
+				transform.position = transform.position + offset;
+			}
 		
-		if (pressed) {
-			Vector3 mousePosition = Input.mousePosition;
-			mousePosition = Camera.main.ScreenToWorldPoint (mousePosition);
-			transform.position = Vector2.Lerp (transform.position, mousePosition, moveSpeed);
+			if (pressed) {
+				Vector3 mousePosition = Input.mousePosition;
+				mousePosition = Camera.main.ScreenToWorldPoint (mousePosition);
+				transform.position = Vector2.Lerp (transform.position, mousePosition, moveSpeed);
+			}
 		}
 	}
 	

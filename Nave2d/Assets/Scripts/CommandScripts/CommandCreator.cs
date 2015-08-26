@@ -16,13 +16,13 @@ public class CommandCreator : MonoBehaviour {
 	public GameObject[] availableBoxes;
 	
 	
-	//private bool KFunctionTrue() {
-	//	return true;
-	//}
+	private bool KFunctionTrue() {
+		return true;
+	}
 	
-	//private bool KFlowFunctionTrue(BoolCondition cond, ref int programCounter) {
-	//	return true;
-	//}
+	private bool KFlowFunctionTrue(BoolCondition cond, ref int programCounter) {
+		return true;
+	}
 	
 	void Start() {
 		spaceShip = GameObject.FindWithTag ("Player");
