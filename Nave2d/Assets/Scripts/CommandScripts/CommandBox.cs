@@ -13,7 +13,7 @@ public class CommandBox : MonoBehaviour {
 	public Command command;
 	private Vector3 offset;
 	private int ticks;
-	private bool pressed;
+	public bool pressed;
 
 	public void Init(Command command) {
 		this.command   = command;

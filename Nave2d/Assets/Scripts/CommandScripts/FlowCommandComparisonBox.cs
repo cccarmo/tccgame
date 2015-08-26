@@ -10,23 +10,39 @@ using System.IO;
 public class FlowCommandComparisonBox : CommandBox {
 
 	private ComparisonBox comparisonBox;
-	bool isComplete = false;
-	
+	private bool isComplete = false;
+	private bool holdingComparison;
+	private Collider2D comparisonBoxCollider;
+
 	void OnTriggerEnter2D(Collider2D collider) {
 		if (collider.tag == "Comparison") {
-			isComplete = true;
-			attachCollider(collider);
+			comparisonBoxCollider = collider;
+			holdingComparison = true;
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D collider) {
+		if (collider.tag == "Comparison") {
+			comparisonBoxCollider = null;
+			holdingComparison = false;
 		}
 	}
 
 	void OnMouseEnter() {
+		if (holdingComparison) {
+			attachCollider(comparisonBoxCollider);
+		}
 	}
 	
 	void OnMouseExit() {
+		if (holdingComparison) {
+			isComplete = false;
+			comparisonBoxCollider.GetComponent<ComparisonBox>().disattach();
+		}
 	}
 
-
 	private void attachCollider (Collider2D collider) {
+		isComplete = true;
 		FlowCommand flowCommand = (FlowCommand)command;
 		comparisonBox = collider.GetComponent<ComparisonBox>();
 		comparisonBox.attach(flowCommand);

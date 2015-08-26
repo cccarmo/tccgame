@@ -23,7 +23,6 @@ public class ComparisonBox : MonoBehaviour {
 	public VariableForComparisson variableForComparisson;
 
 	public void attach(FlowCommand command) {
-		Debug.Log("Attached");
 		attached = true;
 		this.command = command;
 		command.comparrison = TypeOfComparisson.equals;
@@ -31,6 +30,11 @@ public class ComparisonBox : MonoBehaviour {
 		command.negateComparrison = false;
 		command.setTypeOfComparisson (variableForComparisson);
 		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
+	}
+
+	public void disattach () {
+		attached = false;
+		command = null;
 	}
 	
 	public void Highlight() {
