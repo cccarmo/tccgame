@@ -23,15 +23,16 @@ public class ComparisonBox : MonoBehaviour {
 
 	public VariableForComparisson variableForComparisson;
 
-	public void attach(FlowCommand command, FlowCommandComparisonBox cBox) {
+	public void attach(FlowCommand flowCommand, FlowCommandComparisonBox cBox) {
 		attached = true;
 		commandBox = cBox;
-		this.command = command;
+		command = flowCommand;
 		command.comparrison = TypeOfComparisson.equals;
 		command.intToCompare = 0;
 		command.negateComparrison = false;
 		command.setTypeOfComparisson (variableForComparisson);
 		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
+
 	}
 
 	public void disattach () {
@@ -75,14 +76,27 @@ public class ComparisonBox : MonoBehaviour {
 		offset = (newPos - transform.position)/ticks;	
 	}
 	
-	
-	public void OnMouseDown() {
-		if (attached) {
-			disattach ();
-			GetComponentInParent<Transform>().SetAsLastSibling();
+	public bool clickedOnChildren () {
+		ClickDetection[] children = GetComponentsInChildren<ClickDetection> ();
+
+		foreach (ClickDetection child in children) {
+			if (child.isBeingClicked) {
+				return true;
+			}
 		}
-		pressed = true;
-		transform.SetAsLastSibling();
+
+		return false;
+	}
+
+	public void OnMouseDown() {
+		if (!clickedOnChildren ()) {
+			if (attached) {
+				disattach ();
+				GetComponentInParent<Transform> ().SetAsLastSibling ();
+			}
+			pressed = true;
+			transform.SetAsLastSibling ();
+		}
 	}
 	
 	public void OnMouseUp() {
