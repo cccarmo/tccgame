@@ -17,13 +17,15 @@ public class ComparisonBox : MonoBehaviour {
 	private int ticks;
 	private bool attached = false;
 	private bool pressed;
+	private FlowCommandComparisonBox commandBox;
 
 	public InputField inputFieldValue;
 
 	public VariableForComparisson variableForComparisson;
 
-	public void attach(FlowCommand command) {
+	public void attach(FlowCommand command, FlowCommandComparisonBox cBox) {
 		attached = true;
+		commandBox = cBox;
 		this.command = command;
 		command.comparrison = TypeOfComparisson.equals;
 		command.intToCompare = 0;
@@ -33,6 +35,7 @@ public class ComparisonBox : MonoBehaviour {
 	}
 
 	public void disattach () {
+		commandBox.disattach ();
 		attached = false;
 		command = null;
 	}
@@ -74,6 +77,10 @@ public class ComparisonBox : MonoBehaviour {
 	
 	
 	public void OnMouseDown() {
+		if (attached) {
+			disattach ();
+			GetComponentInParent<Transform>().SetAsLastSibling();
+		}
 		pressed = true;
 		transform.SetAsLastSibling();
 	}

@@ -16,8 +16,10 @@ public class FlowCommandComparisonBox : CommandBox {
 
 	void OnTriggerEnter2D(Collider2D collider) {
 		if (collider.tag == "Comparison") {
-			comparisonBoxCollider = collider;
-			holdingComparison = true;
+			if (!isComplete) {
+				comparisonBoxCollider = collider;
+				holdingComparison = true;
+			}
 		}
 	}
 
@@ -45,7 +47,7 @@ public class FlowCommandComparisonBox : CommandBox {
 		isComplete = true;
 		FlowCommand flowCommand = (FlowCommand)command;
 		comparisonBox = collider.GetComponent<ComparisonBox>();
-		comparisonBox.attach(flowCommand);
+		comparisonBox.attach(flowCommand, this);
 		Vector3 newPosition = transform.position;
 		newPosition.x += (GetComponent<BoxCollider2D>().bounds.size.x + collider.GetComponent<BoxCollider2D>().bounds.size.x) / 2;
 		collider.transform.position = newPosition;
@@ -53,5 +55,7 @@ public class FlowCommandComparisonBox : CommandBox {
 		collider.transform.localScale = transform.localScale;
 	}
 
-
+	public void disattach() {
+		isComplete = false;
+	}
 }
