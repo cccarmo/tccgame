@@ -34,7 +34,6 @@ public class FlowCommand : Command {
 	}
 
 	public void setTypeOfComparisson (VariableForComparisson type) {
-		Debug.Log("Setou o tipo de comparação");
 		variableForComparisson = type;
 		switch (type) {
 		case VariableForComparisson.numberOfAsteroids: condition = KFunctionCompareIntValues;
@@ -46,7 +45,6 @@ public class FlowCommand : Command {
 	private int getIntValueToCompare () {
 		switch (variableForComparisson) {
 		case VariableForComparisson.numberOfAsteroids:
-			Debug.Log("Asteroides = " + GameObject.FindGameObjectsWithTag("Asteroid").Length);
 			return GameObject.FindGameObjectsWithTag("Asteroid").Length;
 		}
 		return -1;
@@ -54,12 +52,10 @@ public class FlowCommand : Command {
 
 	private bool KFunctionCompareIntValues () {
 		int variableValue = getIntValueToCompare ();
-		Debug.Log ("Ta fazendo e a comparacao é " + comparrison);
 		bool answer = false;
 		switch (comparrison) {
 		case TypeOfComparisson.equals:
 			if (variableValue == intToCompare) {
-				Debug.Log("TRUE");
 				answer = true;
 			}
 			break;

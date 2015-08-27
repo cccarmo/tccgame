@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void Update() {
-		if (interpretCommands)
+		if (interpretCommands && getNumberOfMissiles() == 0)
 			interpreter.execute();
 		if (animate) {
 			switch (currentAnimation) {
@@ -99,45 +99,14 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 	}
-	
+
+	private int getNumberOfMissiles () {
+		return GameObject.FindGameObjectsWithTag ("Shot").Length;
+	}
+
 	public bool animating() {
 		return animate;
 	}
-
-	/*private bool move(Vector2 direction) {
-		float intensity = ((float)executionTime - ticks - 1) / executionTime;
-		body.velocity = direction * fixedSpeed * intensity;
-		// Balancinho - tirei pq tava estragando o movimento depois que mudei pra ser relativo a rotacao
-		//body.rotation = body.velocity.x * (-tilt);
-		body.position = new Vector2 (Mathf.Clamp (body.position.x, boundary.xMin, boundary.xMax), 
-	                             Mathf.Clamp (body.position.y, boundary.yMin, boundary.yMax));
-		ticks = (ticks + 1) % executionTime;
-		return (ticks == 0);
-	}
-
-	public bool moveForward() {
-		float sin = Mathf.Sin (Mathf.Deg2Rad * (body.rotation - 90f));
-		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
-		return move(new Vector2(-cosin, -sin));
-	}
-
-	public bool moveBackward() {
-		float sin = Mathf.Sin (Mathf.Deg2Rad * (body.rotation - 90f));
-		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
-		return move(new Vector2(cosin, sin));
-	}
-
-	public bool moveLeftwards() {
-		float sin = Mathf.Sin (Mathf.Deg2Rad * (body.rotation - 90f));
-		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
-		return move(new Vector2(sin, -cosin));
-	}
-
-	public bool moveRightwards() {
-		float sin = Mathf.Sin (Mathf.Deg2Rad * (body.rotation - 90f));
-		float cosin = Mathf.Cos (Mathf.Deg2Rad * (body.rotation - 90f));
-		return move(new Vector2(-sin, cosin));
-	}*/
 
 	private bool moveToNextPosition() {
 		Vector3 nextPlace = new Vector3 (nextPosition.x, nextPosition.y,0);
