@@ -17,6 +17,7 @@ public class ComparisonBox : MonoBehaviour {
 	private bool attached = false;
 	public bool pressed;
 	private FlowCommandComparisonBox commandBox;
+	private bool disattacheable;
 
 	private Vector2 originalTouchPosition;
 
@@ -47,7 +48,6 @@ public class ComparisonBox : MonoBehaviour {
 	}
 	
 	void Start() {
-		pressed = true;
 		offset = Vector3.zero;
 		ticks  = 0;
 	}
@@ -79,6 +79,8 @@ public class ComparisonBox : MonoBehaviour {
 	}
 
 	public void OnMouseDown() {
+		disattacheable = true;
+		pressed = true;
 		transform.SetAsLastSibling ();
 		originalTouchPosition = Input.mousePosition;
 		GetComponentInParent<Transform> ().SetAsLastSibling ();
@@ -89,13 +91,14 @@ public class ComparisonBox : MonoBehaviour {
 	}
 
 	public void OnMouseDrag() {
-		if (attached && Dist(originalTouchPosition, Input.mousePosition) > 10) {
-			disattach ();
+		if (attached) {
+			if (Dist(originalTouchPosition, Input.mousePosition) > 10 && disattacheable) {
+				disattach ();
+				disattacheable = false;
+			}
 		}
-
-		pressed = true;
 	}
-	
+
 	public void OnMouseUp() {
 		if (!attached) {
 			Destroy(this.transform.gameObject);
