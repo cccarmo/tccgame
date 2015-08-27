@@ -19,6 +19,8 @@ public class ComparisonBox : MonoBehaviour {
 	private bool pressed;
 	private FlowCommandComparisonBox commandBox;
 
+	private Vector2 originalTouchPosition;
+
 	public InputField inputFieldValue;
 
 	public VariableForComparisson variableForComparisson;
@@ -46,6 +48,7 @@ public class ComparisonBox : MonoBehaviour {
 	}
 	
 	void Start() {
+		pressed = true;
 		offset = Vector3.zero;
 		ticks  = 0;
 	}
@@ -90,19 +93,29 @@ public class ComparisonBox : MonoBehaviour {
 
 	public void OnMouseDown() {
 		if (!clickedOnChildren ()) {
-			if (attached) {
-				disattach ();
-				GetComponentInParent<Transform> ().SetAsLastSibling ();
-			}
-			pressed = true;
 			transform.SetAsLastSibling ();
 		}
+		originalTouchPosition = Input.mousePosition;
+		GetComponentInParent<Transform> ().SetAsLastSibling ();
+	}
+
+	public double Dist(Vector2 a, Vector2 b) {
+		return Math.Sqrt ((a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y));
+	}
+
+	public void OnMouseDrag() {
+		if (attached && Dist(originalTouchPosition, Input.mousePosition) > 10) {
+			disattach ();
+		}
+
+		pressed = true;
 	}
 	
 	public void OnMouseUp() {
 		if (!attached) {
 			Destroy(this.transform.gameObject);
 		}
+		originalTouchPosition = Vector2.zero;
 		pressed = false;
 	}
 

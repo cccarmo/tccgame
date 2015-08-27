@@ -1,13 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/CommandScripts/FlowCommandComparisonBox.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CommandScripts\ComparisonBox.cs">
     <Files>
-      <File FileName="Assets/Scripts/CommandScripts/ComparisonBox.cs" Line="56" Column="3" />
-      <File FileName="Assets/Scripts/CommandScripts/ComparisonFactory.cs" Line="42" Column="29" />
-      <File FileName="Assets/Scripts/CommandScripts/CommandCreator.cs" Line="33" Column="54" />
-      <File FileName="Assets/Scripts/CommandScripts/CommandInterpreter.cs" Line="139" Column="43" />
-      <File FileName="Assets/Scripts/CommandScripts/CommandBox.cs" Line="71" Column="3" />
-      <File FileName="Assets/Scripts/CommandScripts/FlowCommandComparisonBox.cs" Line="15" Column="24" />
+      <File FileName="Assets\Scripts\CommandScripts\ComparisonBox.cs" Line="61" Column="5" />
+      <File FileName="Assets\Scripts\CommandScripts\ComparisonFactory.cs" Line="46" Column="1" />
+      <File FileName="Assets\Scripts\CommandScripts\CommandCreator.cs" Line="84" Column="1" />
+      <File FileName="Assets\Scripts\CommandScripts\CommandInterpreter.cs" Line="203" Column="1" />
+      <File FileName="Assets\Scripts\CommandScripts\CommandBox.cs" Line="54" Column="3" />
+      <File FileName="Assets\Scripts\CommandScripts\FlowCommandComparisonBox.cs" Line="13" Column="34" />
+      <File FileName="Assets\Scripts\CommandScripts\FlowCommandBox.cs" Line="22" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -49,7 +49,7 @@ public class FlowCommandComparisonBox : CommandBox {
 		comparisonBox = collider.GetComponent<ComparisonBox>();
 		comparisonBox.attach(flowCommand, this);
 		Vector3 newPosition = transform.position;
-		newPosition.x += (GetComponent<BoxCollider2D>().bounds.size.x + collider.GetComponent<BoxCollider2D>().bounds.size.x) / 2;
+		newPosition.x += 0.2f + (GetComponent<BoxCollider2D>().bounds.size.x + collider.GetComponent<BoxCollider2D>().bounds.size.x) / 2;
 		collider.transform.position = newPosition;
 		collider.transform.SetParent(transform);
 		collider.transform.localScale = transform.localScale;
