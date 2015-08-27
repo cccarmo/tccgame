@@ -13,10 +13,9 @@ public class ComparisonBox : MonoBehaviour {
 	private Color highlightColor;
 	public FlowCommand command;
 	private Vector3 offset;
-	private Rect screenRect = new Rect(0, 0, Screen.width, Screen.height);
 	private int ticks;
 	private bool attached = false;
-	private bool pressed;
+	public bool pressed;
 	private FlowCommandComparisonBox commandBox;
 
 	private Vector2 originalTouchPosition;
@@ -78,23 +77,9 @@ public class ComparisonBox : MonoBehaviour {
 		
 		offset = (newPos - transform.position)/ticks;	
 	}
-	
-	public bool clickedOnChildren () {
-		ClickDetection[] children = GetComponentsInChildren<ClickDetection> ();
-
-		foreach (ClickDetection child in children) {
-			if (child.isBeingClicked) {
-				return true;
-			}
-		}
-
-		return false;
-	}
 
 	public void OnMouseDown() {
-		if (!clickedOnChildren ()) {
-			transform.SetAsLastSibling ();
-		}
+		transform.SetAsLastSibling ();
 		originalTouchPosition = Input.mousePosition;
 		GetComponentInParent<Transform> ().SetAsLastSibling ();
 	}

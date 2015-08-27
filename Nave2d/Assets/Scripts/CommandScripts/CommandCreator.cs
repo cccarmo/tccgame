@@ -43,7 +43,7 @@ public class CommandCreator : MonoBehaviour {
 
 		newCommandClosure newForCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[7], 1);
 		newCommandClosure newEndForCommand = () => new FlowCommand(interpreter.semanticInterpreter.EndForCommand, "Scoped Repetition End", availableBoxes[8], -1);
-		newCommandClosure newForComparisonCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition Comparison", availableBoxes[9], 1);
+		newCommandClosure newForComparisonCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[9], 1);
 
 		// Adding Ship Commands to dictionary
 		actions.Add("Shoot", newShootCommand);

@@ -9,10 +9,12 @@ public class SimulationManager : Scheduler {
 	
 	void Start() {
 		running = false;
-		spaceship = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
 	}
 	
 	void Update() {
+		if (spaceship == null) {
+			spaceship = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+		}
 		if(running && interpreter.shouldRestartSimulation()) {
 			interpreter.saveCommandList();
 			executeAfter(1.25f, new Action(reloadLevel));

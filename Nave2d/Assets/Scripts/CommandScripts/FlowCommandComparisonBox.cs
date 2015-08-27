@@ -18,27 +18,20 @@ public class FlowCommandComparisonBox : CommandBox {
 		if (collider.tag == "Comparison") {
 			if (!isComplete) {
 				comparisonBoxCollider = collider;
-				holdingComparison = true;
+				comparisonBox = collider.GetComponent<ComparisonBox>();
 			}
 		}
 	}
-
-	void OnTriggerExit2D(Collider2D collider) {
-		if (collider.tag == "Comparison") {
-			comparisonBoxCollider = null;
-			holdingComparison = false;
-		}
-	}
-
+	
 	void OnMouseEnter() {
-		if (holdingComparison) {
+		if (comparisonBox != null && comparisonBox.pressed) {
 			attachCollider(comparisonBoxCollider);
 		}
 	}
 	
 	void OnMouseExit() {
-		if (holdingComparison) {
-			isComplete = false;
+		if (comparisonBox.pressed) {
+			disattach();
 			comparisonBoxCollider.GetComponent<ComparisonBox>().disattach();
 		}
 	}
@@ -46,7 +39,6 @@ public class FlowCommandComparisonBox : CommandBox {
 	private void attachCollider (Collider2D collider) {
 		isComplete = true;
 		FlowCommand flowCommand = (FlowCommand)command;
-		comparisonBox = collider.GetComponent<ComparisonBox>();
 		comparisonBox.attach(flowCommand, this);
 		Vector3 newPosition = transform.position;
 		newPosition.x += 0.2f + (GetComponent<BoxCollider2D>().bounds.size.x + collider.GetComponent<BoxCollider2D>().bounds.size.x) / 2;
