@@ -246,7 +246,7 @@ public class PlayerController : MonoBehaviour {
 		return (ticks == 0);
 	}
 
-	public bool turnCounterClockwise() {
+	public bool turnCounterclockwise() {
 		if (ticks == 0) {
 			direction = (direction - 1);
 			if (direction == -1)

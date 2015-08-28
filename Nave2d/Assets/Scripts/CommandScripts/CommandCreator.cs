@@ -3,19 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-
 delegate Command newCommandClosure();
 
 
 public class CommandCreator : MonoBehaviour {
-	private GameObject spaceShip;
 	private CommandInterpreter interpreter;
 	public GameObject panel;
 	private Dictionary<string, newCommandClosure> actions;
 	private Dictionary<string, GameObject> comparisons;
 	public GameObject[] availableBoxes;
-	
-	
+
 	private bool KFunctionTrue() {
 		return true;
 	}
@@ -23,23 +20,21 @@ public class CommandCreator : MonoBehaviour {
 	private bool KFlowFunctionTrue(BoolCondition cond, ref int programCounter) {
 		return true;
 	}
-	
+
 	void Start() {
-		spaceShip = GameObject.FindWithTag ("Player");
-		PlayerController spaceShipController = spaceShip.GetComponent<PlayerController>();
 		interpreter = panel.GetComponent<CommandInterpreter>();
 		
 		actions = new Dictionary<string, newCommandClosure>();
 		comparisons = new Dictionary<string,  GameObject>();
 		
 		// Creating Command Generators
-		newCommandClosure newShootCommand = () => new ShipCommand (spaceShipController.shoot, "Shoot", availableBoxes [0]);
-		newCommandClosure newFowardCommand = () => new ShipCommand (spaceShipController.moveForward, "Move Forward", availableBoxes [1]);
-		newCommandClosure newBackwardCommand = () => new ShipCommand (spaceShipController.moveBackward, "Move Backward", availableBoxes [2]);
-		newCommandClosure neweLeftwardCommand = () => new ShipCommand (spaceShipController.moveLeftwards, "Move Leftwards", availableBoxes [3]);
-		newCommandClosure newRightwardCommand = () => new ShipCommand(spaceShipController.moveRightwards, "Move Rightwards", availableBoxes[4]);
-		newCommandClosure newClockwiseCommand = () => new ShipCommand(spaceShipController.turnClockwise, "Turn Clockwise", availableBoxes[5]);
-		newCommandClosure newCounterClockwiseCommand = () => new ShipCommand(spaceShipController.turnCounterClockwise, "Turn Counterclockwise", availableBoxes[6]);
+		newCommandClosure newShootCommand = () => new ShootCommand(this);
+		newCommandClosure newFowardCommand = () => new MoveForwardCommand(this);
+		newCommandClosure newBackwardCommand = () => new MoveBackwardCommand(this);
+		newCommandClosure neweLeftwardCommand = () => new MoveLeftwardsCommand(this);
+		newCommandClosure newRightwardCommand = () => new MoveRightwardsCommand(this);
+		newCommandClosure newClockwiseCommand = () => new TurnClockwiseCommand(this);
+		newCommandClosure newCounterclockwiseCommand = () => new TurnCounterclockwiseCommand(this);
 
 		newCommandClosure newForCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[7], 1);
 		newCommandClosure newEndForCommand = () => new FlowCommand(interpreter.semanticInterpreter.EndForCommand, "Scoped Repetition End", availableBoxes[8], -1);
@@ -52,7 +47,7 @@ public class CommandCreator : MonoBehaviour {
 		actions.Add("Move Leftwards", neweLeftwardCommand);
 		actions.Add("Move Rightwards", newRightwardCommand);
 		actions.Add("Turn Clockwise", newClockwiseCommand);
-		actions.Add("Turn Counterclockwise", newCounterClockwiseCommand);
+		actions.Add("Turn Counterclockwise", newCounterclockwiseCommand);
 		
 		// Adding Flow Commands to dictionary
 		actions.Add("Scoped Repetition", newForCommand);
@@ -74,10 +69,5 @@ public class CommandCreator : MonoBehaviour {
 				interpreter.addCommand ((Command)(actions ["Scoped Repetition End"])());
 		}
 		return box;
-	}
-
-	public void rebuildCommands(ArrayList commandsList) {
-		foreach(Command eventType in commandsList)
-			interpreter.addCommand((Command) (actions [eventType.ToString()])());
 	}
 }

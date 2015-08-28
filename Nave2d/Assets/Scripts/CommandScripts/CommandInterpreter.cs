@@ -24,10 +24,9 @@ public class CommandInterpreter : DataRetriever {
 		restartSimulation();
 
 		ArrayList persistedList = (ArrayList) retrieveData();
-		if(persistedList != null) {
-			CommandCreator creator = picker.GetComponent<CommandCreator>();
-			creator.rebuildCommands(persistedList);
-		}
+		if(persistedList != null)
+			foreach(Command command in persistedList)
+				addCommand((Command) command);
 	}
 
 	public void restartSimulation() {
