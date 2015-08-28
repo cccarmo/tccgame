@@ -36,9 +36,11 @@ public class CommandCreator : MonoBehaviour {
 		newCommandClosure newClockwiseCommand = () => new TurnClockwiseCommand(this);
 		newCommandClosure newCounterclockwiseCommand = () => new TurnCounterclockwiseCommand(this);
 
-		newCommandClosure newForCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[7], 1);
-		newCommandClosure newEndForCommand = () => new FlowCommand(interpreter.semanticInterpreter.EndForCommand, "Scoped Repetition End", availableBoxes[8], -1);
-		newCommandClosure newForComparisonCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[9], 1);
+		newCommandClosure newForCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[7], 1, true);
+		newCommandClosure newEndForCommand = () => new FlowCommand(interpreter.semanticInterpreter.EndForCommand, "Scoped Repetition End", availableBoxes[8], -1, false);
+		newCommandClosure newForComparisonCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[9], 1, true);
+
+		newCommandClosure newIfCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[11], 1, false);
 
 		// Adding Ship Commands to dictionary
 		actions.Add("Shoot", newShootCommand);
@@ -53,6 +55,9 @@ public class CommandCreator : MonoBehaviour {
 		actions.Add("Scoped Repetition", newForCommand);
 		actions.Add("Scoped Repetition End", newEndForCommand);
 		actions.Add("Scoped Repetition Comparison", newForComparisonCommand);
+
+		// Adding If Command to dictionary
+		actions.Add("Scoped Repetition If", newIfCommand);
 
 		// Adding Comparison boxes to dictionary
 		comparisons.Add ("Comparing Asteroid Number", availableBoxes [10]);

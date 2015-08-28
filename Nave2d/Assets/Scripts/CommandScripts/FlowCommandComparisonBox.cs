@@ -10,7 +10,7 @@ using System.IO;
 public class FlowCommandComparisonBox : CommandBox {
 
 	private ComparisonBox comparisonBox;
-	private bool isComplete = false;
+	public bool isComplete = false;
 	private bool holdingComparison;
 	private Collider2D comparisonBoxCollider;
 
@@ -24,15 +24,20 @@ public class FlowCommandComparisonBox : CommandBox {
 	}
 	
 	void OnMouseEnter() {
-		if (comparisonBox != null && comparisonBox.pressed) {
-			attachCollider();
+		if (comparisonBox != null) {
+			if (comparisonBox != null && comparisonBox.pressed) {
+				attachCollider();
+			}
 		}
 	}
 	
 	void OnMouseExit() {
-		if (comparisonBox.pressed) {
-			comparisonBox.disattach();
+		if (comparisonBox != null) {
+			if (comparisonBox.pressed) {
+				comparisonBox.disattach();
+			}
 		}
+
 	}
 
 	private void attachCollider () {

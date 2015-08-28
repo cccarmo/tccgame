@@ -19,9 +19,12 @@ public class FlowCommand : Command {
 	public TypeOfComparisson comparrison = TypeOfComparisson.none;
 	public bool negateComparrison = false;
 	private VariableForComparisson variableForComparisson = VariableForComparisson.none;
+	private bool wasAlreadyUsed = false;
+	private bool isLoop;
 
 	// Constructor
-	public FlowCommand (FlowCallback flowCallback, string label, GameObject boxPreFab, int indentLevel) {
+	public FlowCommand (FlowCallback flowCallback, string label, GameObject boxPreFab, int indentLevel, bool IsLoop) {
+		isLoop = IsLoop;
 		this.label = label;
 		this.commandBoxPreFab = boxPreFab;
 
@@ -51,6 +54,18 @@ public class FlowCommand : Command {
 	}
 
 	private bool KFunctionCompareIntValues () {
+
+		// Add this to make usable for If as well
+		if (!isLoop) {
+			if (wasAlreadyUsed) {
+				wasAlreadyUsed = false;
+				return false;
+			} else {
+				wasAlreadyUsed = true;
+			}
+		}
+
+
 		int variableValue = getIntValueToCompare ();
 		bool answer = false;
 		switch (comparrison) {
@@ -91,16 +106,6 @@ public class FlowCommand : Command {
 	}
 	
 	public bool KFunctionRepeate (){
-		if (repetitionCounter < repetitionMax) {
-			repetitionCounter++;
-			return true;
-		} else {
-			repetitionCounter = 0;
-			return false;
-		}
-	}
-	
-	public bool KFunctionCompare (){
 		if (repetitionCounter < repetitionMax) {
 			repetitionCounter++;
 			return true;

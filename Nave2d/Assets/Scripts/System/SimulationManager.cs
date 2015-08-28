@@ -22,6 +22,24 @@ public class SimulationManager : Scheduler {
 	}
 	
 	public void simulate() {
+
+		bool containsIncompleteComparisons = false;
+		GameObject[] comparisonFlowBoxes = GameObject.FindGameObjectsWithTag ("ComparisonFlow");
+		FlowCommandComparisonBox FlowComparisonBox;
+		foreach (GameObject comparisonFlowBox in comparisonFlowBoxes) {
+			FlowComparisonBox = comparisonFlowBox.gameObject.GetComponent<FlowCommandComparisonBox>();
+			if (!FlowComparisonBox.isComplete) {
+				containsIncompleteComparisons = true;
+				break;
+			}
+		}
+
+		// Add some feedback for the user here
+		if (containsIncompleteComparisons) {
+			Debug.Log("Falta completar alguma comparação");
+			return;
+		}
+
 		if(!running) {
 			interpreter.startSimulation();
 			running = true;
