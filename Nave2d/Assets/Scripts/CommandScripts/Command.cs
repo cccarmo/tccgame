@@ -4,8 +4,10 @@ using UnityEngine.UI;
 abstract public class Command {
 	public int indentLevel;
 	public string label;
+	protected int repetitionCounter;
+	public int repetitionMax;
 	protected GameObject commandBoxPreFab;
-	
+
 	public override string ToString() {
 		return label;
 	}

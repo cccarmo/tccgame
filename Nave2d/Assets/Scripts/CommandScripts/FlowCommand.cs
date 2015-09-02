@@ -13,8 +13,6 @@ public class FlowCommand : Command {
 	private BoolCondition condition;
 	protected FlowCallback flowCallback;
 
-	public int repetitionMax;
-	public int repetitionCounter;
 	public int intToCompare;
 	public TypeOfComparisson comparrison = TypeOfComparisson.none;
 	public bool negateComparrison = false;
@@ -33,7 +31,7 @@ public class FlowCommand : Command {
 		
 		repetitionMax = 0;
 		repetitionCounter = 0;
-		condition = KFunctionRepeate;
+		condition = KFunctionRepeat;
 	}
 
 	public void setTypeOfComparisson (VariableForComparisson type) {
@@ -53,8 +51,7 @@ public class FlowCommand : Command {
 		return -1;
 	}
 
-	private bool KFunctionCompareIntValues () {
-
+	private bool KFunctionCompareIntValues() {
 		// Add this to make usable for If as well
 		if (!isLoop) {
 			if (wasAlreadyUsed) {
@@ -104,8 +101,8 @@ public class FlowCommand : Command {
 			return answer;
 		}
 	}
-	
-	public bool KFunctionRepeate (){
+
+	private bool KFunctionRepeat(){
 		if (repetitionCounter < repetitionMax) {
 			repetitionCounter++;
 			return true;
@@ -116,6 +113,6 @@ public class FlowCommand : Command {
 	}
 	
 	public override bool execute(ref int programCounter) {
-		return flowCallback (condition, ref programCounter);
+		return flowCallback(condition, ref programCounter);
 	}
 }

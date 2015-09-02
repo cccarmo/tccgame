@@ -8,6 +8,8 @@ public abstract class ShipCommand : Command {
 		this.commandBoxPreFab = commandCreator.availableBoxes[boxPreFabIndex];
 		this.indentLevel = 0;
 		this.label = label;
+		this.repetitionCounter = 0;
+		this.repetitionMax = 1;
 	}
 
 	protected PlayerController getController() {
@@ -15,13 +17,25 @@ public abstract class ShipCommand : Command {
 		PlayerController spaceShipController = spaceShip.GetComponent<PlayerController>();
 		return spaceShipController;
 	}
+
+	protected bool finishedShipCommand(){
+		repetitionCounter++;
+		if (repetitionCounter < repetitionMax) {
+			return false;
+		} else {
+			repetitionCounter = 0;
+			return true;
+		}
+	}
 }
 
 public class ShootCommand : ShipCommand {
 	public ShootCommand(CommandCreator creator) : base(creator, 0, "Shoot") { }
 
 	public override bool execute(ref int programCounter) {
-		return getController().shoot();
+		if (getController().shoot())
+			return finishedShipCommand();
+		else return false;
 	}
 }
 
@@ -29,7 +43,9 @@ public class MoveForwardCommand : ShipCommand {
 	public MoveForwardCommand(CommandCreator creator) : base(creator, 1, "Move Forward") { }
 
 	public override bool execute(ref int programCounter) {
-		return getController().moveForward();
+		if (getController().moveForward())
+			return finishedShipCommand();
+		else return false;
 	}
 }
 
@@ -37,7 +53,9 @@ public class MoveBackwardCommand : ShipCommand {
 	public MoveBackwardCommand(CommandCreator creator) : base(creator, 2, "Move Backward") { }
 
 	public override bool execute(ref int programCounter) {
-		return getController().moveBackward();
+		if (getController().moveBackward())
+			return finishedShipCommand();
+		else return false;
 	}
 }
 
@@ -45,7 +63,9 @@ public class MoveLeftwardsCommand : ShipCommand {
 	public MoveLeftwardsCommand(CommandCreator creator) : base(creator, 3, "Move Leftwards") { }
 
 	public override bool execute(ref int programCounter) {
-		return getController().moveLeftwards();
+		if (getController().moveLeftwards())
+			return finishedShipCommand();
+		else return false;
 	}
 }
 
@@ -53,7 +73,9 @@ public class MoveRightwardsCommand : ShipCommand {
 	public MoveRightwardsCommand(CommandCreator creator) : base(creator, 4, "Move Rightwards") { }
 
 	public override bool execute(ref int programCounter) {
-		return getController().moveRightwards();
+		if (getController().moveRightwards())
+			return finishedShipCommand();
+		else return false;
 	}
 }
 
@@ -61,7 +83,9 @@ public class TurnClockwiseCommand : ShipCommand {
 	public TurnClockwiseCommand(CommandCreator creator) : base(creator, 5, "Turn Clockwise") { }
 
 	public override bool execute(ref int programCounter) {
-		return getController().turnClockwise();
+		if (getController().turnClockwise())
+			return finishedShipCommand();
+		else return false;
 	}
 }
 
@@ -69,6 +93,8 @@ public class TurnCounterclockwiseCommand : ShipCommand {
 	public TurnCounterclockwiseCommand(CommandCreator creator): base(creator, 6, "Turn Counterclockwise") { }
 
 	public override bool execute(ref int programCounter) {
-		return getController().turnCounterclockwise();
+		if (getController().turnCounterclockwise())
+			return finishedShipCommand();
+		else return false;
 	}
 }
