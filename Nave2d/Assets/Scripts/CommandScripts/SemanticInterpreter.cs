@@ -9,9 +9,12 @@ public class SemanticInterpreter {
 	private CommandInterpreter commandInterpreter;
 
 	public SemanticInterpreter(CommandInterpreter commandInterpreter) {
-		this.commandInterpreter = commandInterpreter;
+		setCommandInterpreter(commandInterpreter);
 	}
 
+	public void setCommandInterpreter(CommandInterpreter commandInterpreter) {
+		this.commandInterpreter = commandInterpreter;
+	}
 
 	public int getEndForFromIndex(int index) {
 		ArrayList commandList = commandInterpreter.makeCommandListFromCommandsDrawn();

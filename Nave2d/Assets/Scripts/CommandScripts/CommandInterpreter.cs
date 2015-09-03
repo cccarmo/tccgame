@@ -20,13 +20,18 @@ public class CommandInterpreter : DataRetriever {
 	
 	void Start() {
 		commandsDrawn = new ArrayList();
-		semanticInterpreter = new SemanticInterpreter(this);
-		restartSimulation();
-
-		ArrayList persistedList = (ArrayList) retrieveData();
-		if(persistedList != null)
-			foreach(Command command in persistedList)
+		
+		Queue persistentData = (Queue) retrieveData();
+		if(persistentData != null) {
+			semanticInterpreter = (SemanticInterpreter) persistentData.Dequeue();
+			semanticInterpreter.setCommandInterpreter(this);
+			ArrayList commandList = (ArrayList) persistentData.Dequeue();
+			foreach(Command command in commandList)
 				addCommand((Command) command);
+		}
+		else semanticInterpreter = new SemanticInterpreter(this);
+
+		restartSimulation();
 	}
 
 	public void restartSimulation() {
@@ -38,7 +43,10 @@ public class CommandInterpreter : DataRetriever {
 	public void saveCommandList() {
 		restartSimulation();
 		ArrayList commandList = makeCommandListFromCommandsDrawn();
-		saveData(commandList);
+		Queue persistentData = new Queue();
+		persistentData.Enqueue(semanticInterpreter);
+		persistentData.Enqueue(commandList);
+		saveData(persistentData);
 	}
 
 	public GameObject addComparison (GameObject eventType) {
