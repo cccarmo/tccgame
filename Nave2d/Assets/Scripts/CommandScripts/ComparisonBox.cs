@@ -23,16 +23,16 @@ public class ComparisonBox : MonoBehaviour {
 
 	public InputField inputFieldValue;
 
-	public VariableForComparisson variableForComparisson;
+	public VariableForComparison variableForComparison;
 
 	public void attach(FlowCommand flowCommand, FlowCommandComparisonBox cBox) {
 		attached = true;
 		commandBox = cBox;
 		command = flowCommand;
-		command.comparrison = TypeOfComparisson.equals;
+		command.comparrison = TypeOfComparison.equals;
 		command.intToCompare = 0;
 		command.negateComparrison = false;
-		command.setTypeOfComparisson (variableForComparisson);
+		command.setTypeOfComparison(variableForComparison);
 		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
 
 	}
@@ -108,26 +108,26 @@ public class ComparisonBox : MonoBehaviour {
 	}
 
 	
-	public void changeNegativePositive (bool b) {
+	public void changeNegativePositive(bool b) {
 		command.negateComparrison = b;
 	}
 
-	public void changeComparissonType (int type) {
+	public void changeComparisonType(int type) {
 		switch (type) {
-		case 0: command.comparrison = TypeOfComparisson.equals;
+		case 0: command.comparrison = TypeOfComparison.equals;
 			break;
-		case 1: command.comparrison = TypeOfComparisson.lesser;
+		case 1: command.comparrison = TypeOfComparison.lesser;
 			break;
-		case 2: command.comparrison = TypeOfComparisson.greater;
+		case 2: command.comparrison = TypeOfComparison.greater;
 			break;
-		case 3: command.comparrison = TypeOfComparisson.lesserOrEquals;
+		case 3: command.comparrison = TypeOfComparison.lesserOrEquals;
 			break;
-		case 4: command.comparrison = TypeOfComparisson.greaterOrEquals;
+		case 4: command.comparrison = TypeOfComparison.greaterOrEquals;
 			break;
 		}
 	}
 
-	public void changeIntToCompare () {
+	public void changeIntToCompare() {
 		if (inputFieldValue.text.IsNullOrWhiteSpace()) {
 			command.intToCompare = 0;
 		} else {

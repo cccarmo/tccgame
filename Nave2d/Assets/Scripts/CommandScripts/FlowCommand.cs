@@ -5,8 +5,8 @@ public delegate bool BoolCondition();
 public delegate bool FlowCallback(BoolCondition cond, ref int programCounter);
 
 
-public enum TypeOfComparisson {equals, greater, lesser, greaterOrEquals, lesserOrEquals, none};
-public enum VariableForComparisson {numberOfAsteroids, none};
+public enum TypeOfComparison{equals, greater, lesser, greaterOrEquals, lesserOrEquals, none};
+public enum VariableForComparison{numberOfAsteroids, none};
 
 
 public class FlowCommand : Command {
@@ -14,38 +14,38 @@ public class FlowCommand : Command {
 	protected FlowCallback flowCallback;
 
 	public int intToCompare;
-	public TypeOfComparisson comparrison = TypeOfComparisson.none;
+	public TypeOfComparison comparrison = TypeOfComparison.none;
 	public bool negateComparrison = false;
-	private VariableForComparisson variableForComparisson = VariableForComparisson.none;
+	private VariableForComparison variableForComparison = VariableForComparison.none;
 	private bool wasAlreadyUsed = false;
 	private bool isLoop;
 
 	// Constructor
-	public FlowCommand (FlowCallback flowCallback, string label, GameObject boxPreFab, int indentLevel, bool IsLoop) {
+	public FlowCommand(FlowCallback flowCallback, string label, GameObject boxPreFab, int indentLevel, bool IsLoop) {
 		isLoop = IsLoop;
 		this.label = label;
 		this.commandBoxPreFab = boxPreFab;
 
 		this.flowCallback = flowCallback;
 		this.indentLevel = indentLevel;
-		
-		repetitionMax = 0;
+
 		repetitionCounter = 0;
+		repetitionMax = 1;
 		condition = KFunctionRepeat;
 	}
 
-	public void setTypeOfComparisson (VariableForComparisson type) {
-		variableForComparisson = type;
+	public void setTypeOfComparison(VariableForComparison type) {
+		variableForComparison = type;
 		switch (type) {
-		case VariableForComparisson.numberOfAsteroids: condition = KFunctionCompareIntValues;
+		case VariableForComparison.numberOfAsteroids: condition = KFunctionCompareIntValues;
 			break;
 		}
 	}
 	
 	// methods to compare int variables
 	private int getIntValueToCompare () {
-		switch (variableForComparisson) {
-		case VariableForComparisson.numberOfAsteroids:
+		switch (variableForComparison) {
+		case VariableForComparison.numberOfAsteroids:
 			return GameObject.FindGameObjectsWithTag("Asteroid").Length;
 		}
 		return -1;
@@ -66,27 +66,27 @@ public class FlowCommand : Command {
 		int variableValue = getIntValueToCompare ();
 		bool answer = false;
 		switch (comparrison) {
-		case TypeOfComparisson.equals:
+		case TypeOfComparison.equals:
 			if (variableValue == intToCompare) {
 				answer = true;
 			}
 			break;
-		case TypeOfComparisson.greater:
+		case TypeOfComparison.greater:
 			if (variableValue > intToCompare) {
 				answer = true;
 			}
 			break;
-		case TypeOfComparisson.lesser:
+		case TypeOfComparison.lesser:
 			if (variableValue < intToCompare) {
 				answer = true;
 			}	
 			break;
-		case TypeOfComparisson.greaterOrEquals:
+		case TypeOfComparison.greaterOrEquals:
 			if (variableValue >= intToCompare) {
 				answer = true;
 			}
 			break;
-		case TypeOfComparisson.lesserOrEquals:
+		case TypeOfComparison.lesserOrEquals:
 			if (variableValue <= intToCompare) {
 				answer = true;
 			}
