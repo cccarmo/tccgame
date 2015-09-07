@@ -6,6 +6,7 @@ delegate void ButtonAction();
 
 public class RepetitionsDisplay : MonoBehaviour {
 	private Command command;
+	private CommandBox commandBox;
 	private Text repetitions;
 	private bool clicked, holding;
 	private int performedActions;
@@ -15,8 +16,10 @@ public class RepetitionsDisplay : MonoBehaviour {
 	private static float clickTransitionTime = 0.5f;
 
 	void Start() {
-		command = gameObject.GetComponentInParent<CommandBox>().command;
+		commandBox = gameObject.GetComponentInParent<CommandBox>();
+		command = commandBox.command;
 		repetitions = GetComponent<Text>();
+		repetitions.text = command.repetitionMax.ToString() + "x";
 		clicked = holding = false;
 	}
 	
@@ -31,7 +34,6 @@ public class RepetitionsDisplay : MonoBehaviour {
 	}
 
 	public void accumulateOnHolding() {
-		Debug.Log("clicou em +");
 		updateNumberOfRepetitions = increaseNumberOfRepetitions;
 		onClick();
 	}
@@ -40,7 +42,16 @@ public class RepetitionsDisplay : MonoBehaviour {
 		updateNumberOfRepetitions = decreaseNumberOfRepetitions;
 		onClick();
 	}
-	
+
+	public void onEnter() {
+		if(!commandBox.dragging())
+			commandBox.disableDrag();
+	}
+
+	public void onExit() {
+		commandBox.enableDrag();
+	}
+
 	private void onClick() {
 		holding = false;
 		clicked = true;

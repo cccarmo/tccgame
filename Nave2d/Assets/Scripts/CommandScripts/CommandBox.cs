@@ -13,7 +13,7 @@ public class CommandBox : MonoBehaviour {
 	public Command command;
 	private Vector3 offset;
 	private int ticks;
-	private bool pressed;
+	private bool pressed, enabled;
 
 	public void Init(Command command) {
 		this.command   = command;
@@ -34,6 +34,8 @@ public class CommandBox : MonoBehaviour {
 	void Start() {
 		offset = Vector3.zero;
 		ticks  = 0;
+		enabled = true;
+		pressed = false;
 	}
 
 	void Update() {
@@ -62,11 +64,25 @@ public class CommandBox : MonoBehaviour {
 
 
 	public void OnMouseDown() {
-		pressed = true;
-		transform.SetAsLastSibling();
+		if(enabled) {
+			pressed = true;
+			transform.SetAsLastSibling ();
+		}
 	}
 
 	public void OnMouseUp() {
 		pressed = false;
+	}
+
+	public bool dragging() {
+		return pressed;
+	}
+
+	public void enableDrag() {
+		enabled = true;
+	}
+
+	public void disableDrag() {
+		enabled = false;
 	}
 }

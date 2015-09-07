@@ -121,7 +121,7 @@ public class CommandInterpreter : DataRetriever {
 		int baseX = -310, baseY = 275, margin = 30;
 		float width = box.GetComponent<RectTransform>().rect.width;
 		return new Vector3(width/2 + baseX + margin + nestLevel * 50,
-		                   baseY - margin + index * -55, 0);
+		                   baseY - margin + index * -60, 0);
 	}
 
 
