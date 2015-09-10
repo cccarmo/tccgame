@@ -29,9 +29,9 @@ public class ComparisonBox : MonoBehaviour {
 		attached = true;
 		commandBox = cBox;
 		command = flowCommand;
-		command.comparrison = TypeOfComparison.equals;
+		command.comparison = TypeOfComparison.equals;
 		command.intToCompare = 0;
-		command.negateComparrison = false;
+		command.negateComparison = false;
 		command.setTypeOfComparison(variableForComparison);
 		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
 
@@ -109,21 +109,23 @@ public class ComparisonBox : MonoBehaviour {
 
 	
 	public void changeNegativePositive(bool b) {
-		command.negateComparrison = b;
+		command.negateComparison = b;
 	}
 
 	public void changeComparisonType(int type) {
-		switch (type) {
-		case 0: command.comparrison = TypeOfComparison.equals;
-			break;
-		case 1: command.comparrison = TypeOfComparison.lesser;
-			break;
-		case 2: command.comparrison = TypeOfComparison.greater;
-			break;
-		case 3: command.comparrison = TypeOfComparison.lesserOrEquals;
-			break;
-		case 4: command.comparrison = TypeOfComparison.greaterOrEquals;
-			break;
+		switch(type) {
+			case 0: command.comparison = TypeOfComparison.equals;
+				break;
+			case 1: command.comparison = TypeOfComparison.doesNotEqual;
+				break;
+			case 2: command.comparison = TypeOfComparison.lesser;
+				break;
+			case 3: command.comparison = TypeOfComparison.lesserOrEquals;
+				break;
+			case 4: command.comparison = TypeOfComparison.greater;
+				break;
+			case 5: command.comparison = TypeOfComparison.greaterOrEquals;
+				break;
 		}
 	}
 
@@ -131,7 +133,7 @@ public class ComparisonBox : MonoBehaviour {
 		if (inputFieldValue.text.IsNullOrWhiteSpace()) {
 			command.intToCompare = 0;
 		} else {
-			command.intToCompare = Convert.ToInt32 (inputFieldValue.text);
+			command.intToCompare = Convert.ToInt32(inputFieldValue.text);
 		}
 	}
 }

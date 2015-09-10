@@ -5,7 +5,7 @@ public delegate bool BoolCondition();
 public delegate bool FlowCallback(BoolCondition cond, ref int programCounter);
 
 
-public enum TypeOfComparison{equals, greater, lesser, greaterOrEquals, lesserOrEquals, none};
+public enum TypeOfComparison{equals, doesNotEqual, lesser, lesserOrEquals, greater, greaterOrEquals, none};
 public enum VariableForComparison{numberOfAsteroids, none};
 
 
@@ -14,8 +14,8 @@ public class FlowCommand : Command {
 	protected FlowCallback flowCallback;
 
 	public int intToCompare;
-	public TypeOfComparison comparrison = TypeOfComparison.none;
-	public bool negateComparrison = false;
+	public TypeOfComparison comparison = TypeOfComparison.none;
+	public bool negateComparison = false;
 	private VariableForComparison variableForComparison = VariableForComparison.none;
 	private bool wasAlreadyUsed = false;
 	private bool isLoop;
@@ -61,40 +61,44 @@ public class FlowCommand : Command {
 				wasAlreadyUsed = true;
 			}
 		}
-
-
+		
 		int variableValue = getIntValueToCompare ();
 		bool answer = false;
-		switch (comparrison) {
-		case TypeOfComparison.equals:
-			if (variableValue == intToCompare) {
-				answer = true;
-			}
-			break;
-		case TypeOfComparison.greater:
-			if (variableValue > intToCompare) {
-				answer = true;
-			}
-			break;
-		case TypeOfComparison.lesser:
-			if (variableValue < intToCompare) {
-				answer = true;
-			}	
-			break;
-		case TypeOfComparison.greaterOrEquals:
-			if (variableValue >= intToCompare) {
-				answer = true;
-			}
-			break;
-		case TypeOfComparison.lesserOrEquals:
-			if (variableValue <= intToCompare) {
-				answer = true;
-			}
-			break;
-		default: return false;
+		switch(comparison) {
+			case TypeOfComparison.equals:
+				if (variableValue == intToCompare) {
+					answer = true;
+				}
+				break;
+			case TypeOfComparison.doesNotEqual:
+				if (variableValue != intToCompare) {
+					answer = true;
+				}
+				break;
+			case TypeOfComparison.lesser:
+				if (variableValue < intToCompare) {
+					answer = true;
+				}
+				break;
+			case TypeOfComparison.lesserOrEquals:
+				if (variableValue <= intToCompare) {
+					answer = true;
+				}
+				break;
+			case TypeOfComparison.greater:
+				if (variableValue > intToCompare) {
+					answer = true;
+				}
+				break;
+			case TypeOfComparison.greaterOrEquals:
+				if (variableValue >= intToCompare) {
+					answer = true;
+				}
+				break;
+			default: return false;
 		}
 		
-		if (negateComparrison) {
+		if (negateComparison) {
 			return !answer;
 		}
 		else {
