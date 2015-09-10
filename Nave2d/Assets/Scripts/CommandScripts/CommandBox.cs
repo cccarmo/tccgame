@@ -13,7 +13,7 @@ public class CommandBox : MonoBehaviour {
 	public Command command;
 	private Vector3 offset;
 	private int ticks;
-	private bool pressed, isEnabled;
+	private bool pressed = false, isEnabled = true;
 
 	public void Init(Command command) {
 		this.command   = command;
@@ -34,8 +34,6 @@ public class CommandBox : MonoBehaviour {
 	void Start() {
 		offset = Vector3.zero;
 		ticks  = 0;
-		isEnabled = true;
-		pressed = false;
 	}
 
 	void Update() {
@@ -46,7 +44,7 @@ public class CommandBox : MonoBehaviour {
 
 		if (pressed) {
 			Vector3 mousePosition = Input.mousePosition;
-			mousePosition = Camera.main.ScreenToWorldPoint (mousePosition);
+			mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 			transform.position = Vector2.Lerp (transform.position, mousePosition, moveSpeed);
 		}
 	}
@@ -63,14 +61,14 @@ public class CommandBox : MonoBehaviour {
 	}
 
 
-	public void OnMouseDown() {
+	public void onClick() {
 		if(isEnabled) {
 			pressed = true;
-			transform.SetAsLastSibling ();
+			transform.SetAsLastSibling();
 		}
 	}
 
-	public void OnMouseUp() {
+	public void onRelease() {
 		pressed = false;
 	}
 

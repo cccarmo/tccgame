@@ -25,7 +25,7 @@ public class CommandFactory : MonoBehaviour {
 			commandCreator.handleEvent(eventType);
 		} else if (dragging) {
 			CommandBox commandBox = box.GetComponent<CommandBox>();
-			commandBox.OnMouseUp();
+			commandBox.onRelease();
 		}
 		clicked = dragging = false;
 	}
@@ -41,7 +41,7 @@ public class CommandFactory : MonoBehaviour {
 			CommandBox commandBox = box.GetComponent<CommandBox>();
 
 			box.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			commandBox.OnMouseDown();
+			commandBox.onClick();
 		}
 	}
 }
