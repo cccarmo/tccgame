@@ -7,9 +7,8 @@ public class CommandFactory : MonoBehaviour {
 	private bool dragging;
 	private bool clicked;
 	private CommandCreator commandCreator;
-	public PanelListener listener;
 	public string eventType;
-	public GameObject box;
+	private GameObject box;
 
 	void Start() {
 		dragging = clicked = false;
@@ -24,8 +23,9 @@ public class CommandFactory : MonoBehaviour {
 		if (clicked) {
 			commandCreator.handleEvent(eventType);
 		} else if (dragging) {
-			CommandBox commandBox = box.GetComponent<CommandBox>();
-			commandBox.onRelease();
+			DestroyOnTrash removeIfNotOverPanel = box.GetComponent<DestroyOnTrash>();
+			removeIfNotOverPanel.onRelease();
+			box.GetComponent<CommandBox>().onRelease();
 		}
 		clicked = dragging = false;
 	}
@@ -36,12 +36,8 @@ public class CommandFactory : MonoBehaviour {
 			dragging = true;
 
 			box = commandCreator.handleEvent(eventType);
-			
-			var pointer = new PointerEventData(EventSystem.current);
-			CommandBox commandBox = box.GetComponent<CommandBox>();
-
 			box.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			commandBox.onClick();
+			box.GetComponent<CommandBox>().onClick();
 		}
 	}
 }

@@ -2,26 +2,33 @@
 using System.Collections;
 
 public class DestroyOnTrash : MonoBehaviour {
-	bool delete = false;
-	
-	void OnTriggerEnter2D(Collider2D collider) {
-		if (collider.tag == "TrashCan") {
-			delete = true;
-		}
+	private CommandInterpreter commandInterpreter;
+	private bool delete = true;
+
+	void Start() {
+		commandInterpreter = this.GetComponentInParent<CommandInterpreter>();
 	}
 
+	void OnTriggerEnter2D(Collider2D collider) {
+		if(collider.tag == "TrashCan")
+			delete = true;
+		else if(collider.tag == "DropPanel")
+			delete = false;
+	}
 
 	void OnTriggerExit2D(Collider2D collider) {
-		if (collider.tag == "TrashCan") {
+		if(collider.tag == "TrashCan")
 			delete = false;
-		}
+		else if(collider.tag == "DropPanel")
+			delete = true;
 	}
 
-
 	void OnMouseUp(){
-		if (delete) {
-			CommandInterpreter commandInterpreter = this.GetComponentInParent<CommandInterpreter>();
+		if(delete)
 			commandInterpreter.removeFromList(transform.gameObject);
-		}
+	}
+
+	public void onRelease() {
+		OnMouseUp();
 	}
 }
