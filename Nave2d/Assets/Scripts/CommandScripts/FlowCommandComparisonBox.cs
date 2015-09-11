@@ -20,18 +20,16 @@ public class FlowCommandComparisonBox : CommandBox {
 				comparisonBoxCollider = collider;
 				comparisonBox = collider.GetComponent<ComparisonBox>();
 			}
-		}
-	}
-	
-	void OnMouseEnter() {
-		if (comparisonBox != null) {
-			if (comparisonBox != null && comparisonBox.pressed) {
-				attachCollider();
+		} else if (collider.tag == "MouseDetector") {
+			if (comparisonBox != null) {
+				if (comparisonBox.pressed) {
+					attachCollider();
+				}
 			}
 		}
 	}
 	
-	void OnMouseExit() {
+	public void MouseExit() {
 		if (comparisonBox != null) {
 			if (comparisonBox.pressed) {
 				comparisonBox.disattach();
