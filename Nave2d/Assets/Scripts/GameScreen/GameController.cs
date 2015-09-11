@@ -13,7 +13,10 @@ public class GameController : MonoBehaviour {
 	private bool gameOver;
 	private bool startedSimulation;
 	public GameObject gameScreen;
-	
+
+	public GameObject VictoryPopUp;
+	private static GameObject victoryPopUp;
+
 	IEnumerator spawnWaves() {
 		yield return new WaitForSeconds (startWait);
 		while (!gameOver) {
@@ -30,6 +33,10 @@ public class GameController : MonoBehaviour {
 
 	void Start() {
 		gameOver = startedSimulation = false;
+		victoryPopUp = VictoryPopUp;
+
+		if (AudioPlayer.bgMusic != null)
+			AudioPlayer.bgMusic.Play ();
 	}
 	
 	public void GameOver() {
@@ -39,6 +46,10 @@ public class GameController : MonoBehaviour {
 	void Update() {
 		if (startedSimulation && Input.GetKeyDown(KeyCode.R))
 			StartCoroutine(spawnWaves());
+	}
+
+	public static void SetVictoryPopUpVisible () {
+		victoryPopUp.SetActive (true);
 	}
 }
 

@@ -6,10 +6,7 @@ public class AudioPlayer : Enduring {
 	public static AudioSource winMusic;
 	
 	void Start() {
-		if(bgMusic == null) {
-			bgMusic = GetComponents<AudioSource>()[0];
-			bgMusic.Play();
-		}
+		bgMusic = GetComponents<AudioSource>()[0];
 		winMusic = GetComponents<AudioSource>()[1];
 	}
 }

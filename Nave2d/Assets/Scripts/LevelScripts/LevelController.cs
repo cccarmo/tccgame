@@ -18,4 +18,15 @@ public class LevelController : MonoBehaviour {
 		currentModule = m;
 		currentLevel = l;
 	}
+
+	public void goToNextLevel () {
+		AudioPlayer.winMusic.Stop ();
+		if (currentLevel == 9) {
+			currentModule++;
+			currentLevel = 0;
+		}
+		else {
+			currentLevel++;
+		}
+	}
 }

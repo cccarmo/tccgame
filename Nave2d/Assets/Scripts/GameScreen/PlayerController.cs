@@ -274,6 +274,7 @@ public class PlayerController : MonoBehaviour {
 	}
   
 	public void ArriveAtPlanet(Vector3 planetPosition) {
+		GameController.SetVictoryPopUpVisible ();
 		tag = "Win";
 		interpretCommands = false;
 		body.velocity = new Vector2(0,0);
