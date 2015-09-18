@@ -13,7 +13,8 @@ public class SimulationManager : Scheduler {
 	
 	void Update() {
 		if (spaceship == null) {
-			spaceship = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+			if (GameObject.FindWithTag("Player").GetComponent<PlayerController>() != null)
+				spaceship = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
 		}
 		if(running && interpreter.shouldRestartSimulation()) {
 			interpreter.saveCommandList();
