@@ -8,14 +8,27 @@ using System.IO;
 
 
 public class FlowCommandBox : CommandBox {
-	public InputField numberOfRepetitions;
 
-	
-	public void updateNumberOfRepetitions () {
-		FlowCommand flowCommand = (FlowCommand)command;
-		if (numberOfRepetitions.text.IsNullOrWhiteSpace()) {
-			flowCommand.repetitionMax = 0;
-		}
-		flowCommand.repetitionMax = Math.Abs (Convert.ToInt32 (numberOfRepetitions.text));
+	private CommandBox endOfScope;
+
+	public void setEndOfScopeAsChild (CommandBox EndOfScope) {
+		endOfScope = EndOfScope;
+		endOfScope.transform.SetParent (transform);
+		endOfScope.transform.localScale = new Vector2 (1, 1);
 	}
+
+	public void setEndUnderBox () {
+		Vector3 pos = transform.position;
+		pos.y -= (GetComponent<Collider2D>().bounds.size.y * 1.45f) * (GetComponentsInChildren<CommandBox>().Length - 1);
+		endOfScope.transform.position = pos;
+	}
+
+	public override void onClick() {
+		if(isEnabled) {
+			setAllChildrenInactive();
+			pressed = true;
+			transform.SetAsLastSibling();
+		}
+	}
+
 }

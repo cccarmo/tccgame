@@ -12,8 +12,11 @@ public class CommandBox : MonoBehaviour {
 	private Color normalColor;
 	public Command command;
 	private Vector3 offset;
-	private int ticks;
-	private bool pressed = false, isEnabled = true;
+	private int ticks = 0;
+	private static int maxTicks = 8;
+	public bool pressed = false;
+	protected bool isEnabled = true;
+	public bool isActive = true;
 
 	public void Init(Command command) {
 		this.command   = command;
@@ -33,12 +36,14 @@ public class CommandBox : MonoBehaviour {
 
 	void Start() {
 		offset = Vector3.zero;
-		ticks  = 0;
 	}
 
 	void Update() {
-		if(ticks > 0) {
+		if(ticks > 0 && isActive && !pressed) {
 			ticks = ticks - 1;
+			if (ticks == 0) {
+				setAllChildrenActive();
+			}
 			transform.position = transform.position + offset;
 		}
 
@@ -50,18 +55,26 @@ public class CommandBox : MonoBehaviour {
 	}
 
 	public void GoToPos(Vector3 position) {
-		ticks = 8;
-		
-		Vector3 oldPos = transform.position;
-		transform.localPosition = position;
-		Vector3 newPos = transform.position;
-		transform.position = oldPos;
+		Transform oldestParent;
 
-		offset = (newPos - transform.position)/ticks;	
+		if (ticks == 0) {
+			Vector3 newPos;
+
+			for (oldestParent = transform; oldestParent.parent.tag != "DropPanel"; oldestParent = oldestParent.transform.parent);
+
+			Vector3 oldPos = oldestParent.position;
+			oldestParent.localPosition = position;
+			newPos = oldestParent.position;
+			oldestParent.position = oldPos;
+			offset = (newPos - transform.position) / maxTicks;	
+
+			if(offset != Vector3.zero)
+				ticks = maxTicks;
+		}
 	}
 
 
-	public void onClick() {
+	public virtual void onClick() {
 		if(isEnabled) {
 			pressed = true;
 			transform.SetAsLastSibling();
@@ -82,5 +95,23 @@ public class CommandBox : MonoBehaviour {
 
 	public void disableDrag() {
 		isEnabled = false;
+	}
+
+	public void setAllChildrenInactive () {
+		CommandBox[] children = GetComponentsInChildren<CommandBox>();
+		
+		foreach (CommandBox child in children) {
+			if (child.transform.parent != transform.parent)
+				child.isActive = false;
+		}
+	}
+	
+	public void setAllChildrenActive () {
+		CommandBox[] children = GetComponentsInChildren<CommandBox>();
+		
+		foreach (CommandBox child in children) {
+			if (child.transform.parent != transform.parent)
+				child.isActive = true;
+		}
 	}
 }

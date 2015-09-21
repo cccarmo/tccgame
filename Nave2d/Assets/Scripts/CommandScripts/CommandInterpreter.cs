@@ -151,6 +151,7 @@ public class CommandInterpreter : DataRetriever {
 	public ArrayList makeCommandListFromCommandsDrawn() {
 		int index = 0, nestLevel = 0;
 		ArrayList commandList = new ArrayList();
+		GameObject lastCommandBox = GameObject.FindGameObjectWithTag("DropPanel");
 
 		foreach(var b in commandsDrawn) {
 			GameObject box = (GameObject) b;
@@ -161,7 +162,28 @@ public class CommandInterpreter : DataRetriever {
 			if (command.indentLevel < 0)
 				nestLevel = nestLevel + command.indentLevel;
 
-			commandBox.GoToPos(calculateBoxPosition(box, index, nestLevel));
+			if (command.indentLevel != -1) {
+				if (commandBox.isActive && !commandBox.pressed) {
+						commandBox.GoToPos(calculateBoxPosition(box, index, nestLevel));
+				}
+			} else {
+				if (commandBox.transform.parent.GetComponent<FlowCommandBox>() != null) {
+					commandBox.transform.parent.GetComponent<FlowCommandBox>().setEndUnderBox();
+				}
+			}
+
+			if (commandBox.pressed) {
+				commandBox.transform.SetParent(lastCommandBox.transform);
+				commandBox.transform.localScale = new Vector2(1, 1);
+			}
+			if (commandBox.GetComponent<FlowCommandBox>() != null) {
+				lastCommandBox = commandBox.gameObject;
+			}
+			else {
+				if (command.indentLevel == -1)
+					lastCommandBox = lastCommandBox.transform.parent.gameObject;
+			}
+
 			
 			if (command.indentLevel > 0)
 				nestLevel = nestLevel + command.indentLevel;

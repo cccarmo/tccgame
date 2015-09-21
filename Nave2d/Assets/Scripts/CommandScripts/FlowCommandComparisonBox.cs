@@ -7,13 +7,13 @@ using System.Collections.Generic;
 using System.IO;
 
 
-public class FlowCommandComparisonBox : CommandBox {
+public class FlowCommandComparisonBox : FlowCommandBox {
 
 	private ComparisonBox comparisonBox;
 	public bool isComplete = false;
 	private bool holdingComparison;
 	private Collider2D comparisonBoxCollider;
-
+	
 	void OnTriggerEnter2D(Collider2D collider) {
 		if (collider.tag == "Comparison") {
 			if (!isComplete) {
@@ -53,4 +53,5 @@ public class FlowCommandComparisonBox : CommandBox {
 		comparisonBoxCollider.transform.SetParent(transform.parent);
 		isComplete = false;
 	}
+
 }

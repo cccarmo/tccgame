@@ -70,8 +70,18 @@ public class CommandCreator : MonoBehaviour {
 			box = interpreter.addComparison (comparisons[eventType]);
 		} else {
 			box = interpreter.addCommand((Command) (actions [eventType])());
-			if (eventType.Contains("Scoped Repetition"))
-				interpreter.addCommand ((Command)(actions ["Scoped Repetition End"])());
+			if (eventType.Contains("Scoped Repetition")) {
+				GameObject box2;
+				box2 = interpreter.addCommand ((Command)(actions ["Scoped Repetition End"])());
+				if (box.GetComponent<FlowCommandBox>() != null) {
+					FlowCommandBox scopedCommand = box.GetComponent<FlowCommandBox>();
+					scopedCommand.setEndOfScopeAsChild(box2.GetComponent<CommandBox>());
+				} else {
+					FlowCommandComparisonBox scopedCommand = box.GetComponent<FlowCommandComparisonBox>();
+					scopedCommand.setEndOfScopeAsChild(box2.GetComponent<CommandBox>());
+				}
+			}
+
 		}
 		return box;
 	}

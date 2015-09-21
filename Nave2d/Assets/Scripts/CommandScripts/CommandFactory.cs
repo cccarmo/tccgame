@@ -38,6 +38,9 @@ public class CommandFactory : MonoBehaviour {
 			box = commandCreator.handleEvent(eventType);
 			box.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			box.GetComponent<CommandBox>().onClick();
+			if (box.GetComponent<FlowCommandBox>() != null) {
+				box.GetComponent<FlowCommandBox>().setEndUnderBox();
+			}
 		}
 	}
 }
