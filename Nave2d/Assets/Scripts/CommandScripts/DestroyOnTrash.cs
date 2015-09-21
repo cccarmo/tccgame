@@ -3,16 +3,18 @@ using System.Collections;
 
 public class DestroyOnTrash : MonoBehaviour {
 	private CommandInterpreter commandInterpreter;
+	private CommandBox box;
 	private bool delete = true;
 
 	void Start() {
 		commandInterpreter = this.GetComponentInParent<CommandInterpreter>();
+		box = this.GetComponent<CommandBox>();
 	}
 
 	void OnTriggerEnter2D(Collider2D collider) {
-		if(collider.tag == "TrashCan")
+		if(collider.tag == "TrashCan" && box.isActive)
 			delete = true;
-		else if(collider.tag == "DropPanel")
+		else if(collider.tag == "DropPanel" && box.isActive)
 			delete = false;
 	}
 
@@ -24,8 +26,12 @@ public class DestroyOnTrash : MonoBehaviour {
 	}
 
 	void OnMouseUp(){
-		if(delete)
-			commandInterpreter.removeFromList(transform.gameObject);
+		if(delete) {
+			CommandBox[] children = GetComponentsInChildren<CommandBox>();
+			foreach(CommandBox child in children) {
+				commandInterpreter.removeFromList(child.transform.gameObject);
+			}
+		}
 	}
 
 	public void onRelease() {

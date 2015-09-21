@@ -13,7 +13,7 @@ public class CommandBox : MonoBehaviour {
 	public Command command;
 	private Vector3 offset;
 	private int ticks = 0;
-	private static int maxTicks = 8;
+	private static int maxTicks = 1;
 	public bool pressed = false;
 	protected bool isEnabled = true;
 	public bool isActive = true;
@@ -99,7 +99,6 @@ public class CommandBox : MonoBehaviour {
 
 	public void setAllChildrenInactive () {
 		CommandBox[] children = GetComponentsInChildren<CommandBox>();
-		
 		foreach (CommandBox child in children) {
 			if (child.transform.parent != transform.parent)
 				child.isActive = false;
