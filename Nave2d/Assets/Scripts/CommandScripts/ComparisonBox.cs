@@ -79,6 +79,7 @@ public class ComparisonBox : MonoBehaviour {
 	}
 
 	public void OnMouseDown() {
+		Debug.Log("WALA");
 		disattacheable = true;
 		pressed = true;
 		transform.SetAsLastSibling ();
