@@ -71,10 +71,9 @@ public class CommandCreator : MonoBehaviour {
 		} else {
 			box = interpreter.addCommand((Command) (actions [eventType])());
 			if (eventType.Contains("Scoped Repetition")) {
-				GameObject box2;
-				box2 = interpreter.addCommand ((Command)(actions ["Scoped Repetition End"])());
-				FlowCommandBox scopedCommand = box.GetComponent<FlowCommandBox>();
-				scopedCommand.setEndOfScopeAsChild(box2.GetComponent<CommandBox>());
+				GameObject box2 = interpreter.addCommand ((Command)(actions ["Scoped Repetition End"])());
+//				FlowCommandBox scopedCommand = box.GetComponent<FlowCommandBox>();
+//				scopedCommand.setEndOfScopeAsChild(box2.GetComponent<CommandBox>());
 			}
 
 		}

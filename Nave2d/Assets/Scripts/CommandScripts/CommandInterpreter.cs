@@ -12,6 +12,7 @@ public class CommandInterpreter : DataRetriever {
 	private int nextCommandIndex;
 	private readonly int maxCommands = 21;
 	private bool startedSimulation, finishedAnimation, restart;
+	private Stack scopedBeginning;
 	public GameObject picker;
 	public SemanticInterpreter semanticInterpreter;
 
@@ -20,7 +21,8 @@ public class CommandInterpreter : DataRetriever {
 	
 	void Start() {
 		commandsDrawn = new ArrayList();
-		
+		scopedBeginning = new Stack();
+
 		Queue persistentData = (Queue) retrieveData();
 		if(persistentData != null) {
 			semanticInterpreter = (SemanticInterpreter) persistentData.Dequeue();
@@ -60,13 +62,23 @@ public class CommandInterpreter : DataRetriever {
 			for(int index = 0; index < commandsDrawn.Count; index++) {
 				Command command = (Command) commandList[index];
 				
-				if (command.indentLevel < 0)
-					nestLevel = nestLevel + command.indentLevel;
-				else if (command.indentLevel > 0)
+				if (command.indentLevel != 0)
 					nestLevel = nestLevel + command.indentLevel;
 			}
 
 			GameObject box = instantiateCommandBox(newCommand, commandsDrawn.Count, nestLevel);
+			if(newCommand.indentLevel == -1) {
+				GameObject scopedBox = (GameObject) scopedBeginning.Pop();
+				FlowCommandBox scopedCommand = scopedBox.GetComponent<FlowCommandBox>();
+				scopedCommand.setEndOfScopeAsChild(box.GetComponent<CommandBox>());
+			} else if(newCommand.indentLevel == 1) {
+				scopedBeginning.Push(box);
+			} else if (scopedBeginning.Count > 0) {
+				GameObject scopedBox = (GameObject) scopedBeginning.Peek();
+				box.transform.SetParent(scopedBox.transform);
+				box.transform.localScale = new Vector2(1, 1);
+			}
+
 			commandsDrawn.Add(box);
 
 			return box;
