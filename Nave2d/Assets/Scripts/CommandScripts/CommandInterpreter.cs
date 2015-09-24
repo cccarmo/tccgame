@@ -71,13 +71,13 @@ public class CommandInterpreter : DataRetriever {
 				GameObject scopedBox = (GameObject) scopedBeginning.Pop();
 				FlowCommandBox scopedCommand = scopedBox.GetComponent<FlowCommandBox>();
 				scopedCommand.setEndOfScopeAsChild(box.GetComponent<CommandBox>());
-			} else if(newCommand.indentLevel == 1) {
-				scopedBeginning.Push(box);
-			} else if (scopedBeginning.Count > 0) {
+			} else if(scopedBeginning.Count > 0) {
 				GameObject scopedBox = (GameObject) scopedBeginning.Peek();
 				box.transform.SetParent(scopedBox.transform);
 				box.transform.localScale = new Vector2(1, 1);
 			}
+			if(newCommand.indentLevel == 1)
+				scopedBeginning.Push(box);
 
 			commandsDrawn.Add(box);
 
