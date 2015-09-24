@@ -3,12 +3,11 @@ using System.Collections;
 
 public class DestroyOnTrash : MonoBehaviour {
 	private CommandInterpreter commandInterpreter;
-	private CommandBox box;
+	public CommandBox box;
 	private bool delete = true;
 
 	void Start() {
 		commandInterpreter = this.GetComponentInParent<CommandInterpreter>();
-		box = this.GetComponent<CommandBox>();
 	}
 
 	void OnTriggerEnter2D(Collider2D collider) {
