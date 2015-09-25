@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class m0l2 : MonoBehaviour {
+public class m0l4 : MonoBehaviour {
 
 	private Button buttonToSetOff;
 	private GameObject fabricToSetOff;
+	private GameObject tabToSetOff;
 
 	// Use this for initialization
 	void Start () {
@@ -16,11 +17,16 @@ public class m0l2 : MonoBehaviour {
 		buttonToSetOff.enabled = false;
 		fabricToSetOff = GameObject.Find ("Shoot Button");
 		fabricToSetOff.SetActive (false);
-		fabricToSetOff = GameObject.Find ("Clockwise Button");
+		fabricToSetOff = GameObject.Find ("Left Button");
 		fabricToSetOff.SetActive (false);
-		fabricToSetOff = GameObject.Find ("Counterclockwise Button");
+		fabricToSetOff = GameObject.Find ("Right Button");
 		fabricToSetOff.SetActive (false);
-
+		
+		tabToSetOff = GameObject.Find ("ControllTab");
+		tabToSetOff.SetActive (false);
+		
+		tabToSetOff = GameObject.Find ("VariableTab");
+		tabToSetOff.SetActive (false);
 	}
 
 }

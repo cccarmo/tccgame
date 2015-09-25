@@ -10,7 +10,7 @@ public class CommandInterpreter : DataRetriever {
 	private Command currentCommand;
 	private ArrayList commandsDrawn;
 	private int nextCommandIndex;
-	private readonly int maxCommands = 21;
+	public int maxCommands = 9;
 	private bool startedSimulation, finishedAnimation, restart;
 	private Stack scopedBeginning;
 	public GameObject picker;
@@ -164,6 +164,7 @@ public class CommandInterpreter : DataRetriever {
 		int index = 0, nestLevel = 0;
 		ArrayList commandList = new ArrayList();
 		GameObject lastCommandBox = GameObject.FindGameObjectWithTag("DropPanel");
+		
 
 		foreach(var b in commandsDrawn) {
 			GameObject box = (GameObject) b;

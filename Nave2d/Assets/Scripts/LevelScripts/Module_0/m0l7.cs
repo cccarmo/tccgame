@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class m0l7 : MonoBehaviour {
 
 	private Button buttonToSetOff;
+	private GameObject tabToSetOff;
 
 	// Use this for initialization
 	void Start () {
@@ -13,6 +14,12 @@ public class m0l7 : MonoBehaviour {
 		buttonToSetOff.enabled = false;
 		buttonToSetOff = GameObject.Find ("Variable").GetComponent<Button> ();
 		buttonToSetOff.enabled = false;
+		
+		tabToSetOff = GameObject.Find ("ControllTab");
+		tabToSetOff.SetActive (false);
+		
+		tabToSetOff = GameObject.Find ("VariableTab");
+		tabToSetOff.SetActive (false);
 	}
 
 }

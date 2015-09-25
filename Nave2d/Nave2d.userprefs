@@ -1,10 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CommandScripts\DestroyOnTrash.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/CommandScripts/CommandBox.cs">
     <Files>
-      <File FileName="Assets\Scripts\CommandScripts\CommandInterpreter.cs" Line="61" Column="25" />
-      <File FileName="Assets\Scripts\CommandScripts\DestroyOnTrash.cs" Line="8" Column="2" />
-      <File FileName="Assets\Scripts\CommandScripts\CommandBox.cs" Line="16" Column="34" />
+      <File FileName="Assets/Scripts/CommandScripts/CommandInterpreter.cs" Line="60" Column="18" />
+      <File FileName="Assets/Scripts/CommandScripts/CommandBox.cs" Line="62" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
