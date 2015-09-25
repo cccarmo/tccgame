@@ -27,6 +27,15 @@ public class m0l0: MonoBehaviour {
 		fabricToSetOff = GameObject.Find ("Counterclockwise Button");
 		fabricToSetOff.SetActive (false);
 
+		GameObject scroll = GameObject.FindWithTag ("ScrollPanel");
+		ScrollRect scrollRect = scroll.GetComponent<ScrollRect> ();
+		scrollRect.enabled = false;
+		GameObject scrollBar = GameObject.FindWithTag ("ScrollBar");
+		scrollBar.SetActive(false);
+		GameObject panel = GameObject.FindWithTag ("DropPanel");
+		CommandInterpreter interpreter = panel.GetComponent<CommandInterpreter> ();
+		interpreter.SetMaxCommands (9);
+
 	}
 
 }

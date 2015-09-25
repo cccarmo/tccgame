@@ -10,7 +10,7 @@ public class CommandInterpreter : DataRetriever {
 	private Command currentCommand;
 	private ArrayList commandsDrawn;
 	private int nextCommandIndex;
-	private readonly int maxCommands = 20;
+	private int maxCommands = 20;
 	private bool startedSimulation, finishedAnimation, restart;
 	private Stack scopedBeginning;
 	public GameObject picker;
@@ -222,6 +222,11 @@ public class CommandInterpreter : DataRetriever {
 		commandsDrawn.Remove(box);
 		GameObject.Destroy(box);
 		makeCommandListFromCommandsDrawn();
+	}
+
+
+	public void SetMaxCommands(int newMax) {
+		maxCommands = newMax;
 	}
 }
 

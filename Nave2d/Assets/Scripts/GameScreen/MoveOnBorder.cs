@@ -8,20 +8,21 @@ public class MoveOnBorder : MonoBehaviour {
 	private bool shouldMove;
 	public ScrollRect scrollRect;
 	private readonly float speed = 0.005f;
-
-
+	
 	void Start () {
 		shouldMove = false;
 	}
 	
 
 	void Update () {
-		if (shouldMove) {
-			scrollRect.verticalNormalizedPosition += moveOffset*speed;
-		}
+		if (scrollRect.enabled) {
+			if (shouldMove) {
+				scrollRect.verticalNormalizedPosition += moveOffset * speed;
+			}
 
-		if (Input.GetMouseButtonUp (0))
-			shouldMove = false;
+			if (Input.GetMouseButtonUp (0))
+				shouldMove = false;
+		}
 	}
 
 	
