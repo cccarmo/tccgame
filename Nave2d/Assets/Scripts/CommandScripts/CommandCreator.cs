@@ -8,7 +8,6 @@ delegate Command newCommandClosure();
 
 public class CommandCreator : MonoBehaviour {
 	private CommandInterpreter interpreter;
-	public GameObject panel;
 	private Dictionary<string, newCommandClosure> actions;
 	private Dictionary<string, GameObject> comparisons;
 	public GameObject[] availableBoxes;
@@ -22,6 +21,7 @@ public class CommandCreator : MonoBehaviour {
 	}
 
 	void Start() {
+		GameObject panel = GameObject.FindWithTag ("DropPanel");
 		interpreter = panel.GetComponent<CommandInterpreter>();
 		
 		actions = new Dictionary<string, newCommandClosure>();

@@ -10,13 +10,13 @@ public class CommandInterpreter : DataRetriever {
 	private Command currentCommand;
 	private ArrayList commandsDrawn;
 	private int nextCommandIndex;
-	public int maxCommands = 9;
+	private readonly int maxCommands = 20;
 	private bool startedSimulation, finishedAnimation, restart;
 	private Stack scopedBeginning;
 	public GameObject picker;
 	public SemanticInterpreter semanticInterpreter;
 
-	public GameObject lastBox;
+	private GameObject lastBox;
 
 	
 	void Start() {
@@ -130,7 +130,7 @@ public class CommandInterpreter : DataRetriever {
 	}
 
 	private Vector3 calculateBoxPosition(GameObject box, int index, int nestLevel) {
-		int baseX = -310, baseY = 275, margin = 30;
+		int baseX = -310, baseY = 850, margin = 30;
 		float width = box.GetComponent<RectTransform>().rect.width;
 		return new Vector3(width/2 + baseX + margin + nestLevel * 50,
 		                   baseY - margin + index * -60, 0);

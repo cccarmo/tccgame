@@ -3,11 +3,14 @@ using System.Collections;
 
 public class SimulationManager : Scheduler {
 	private PlayerController spaceship;
-	public CommandInterpreter interpreter;
+	private CommandInterpreter interpreter;
 
 	private bool running;
 	
 	void Start() {
+		GameObject panel = GameObject.FindWithTag ("DropPanel");
+		interpreter = panel.GetComponent<CommandInterpreter>();
+
 		running = false;
 	}
 	

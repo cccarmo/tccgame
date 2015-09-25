@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour {
 	public Transform ShotSpawn;
 
 	public GameObject GameScreen;
-	public CommandInterpreter interpreter;
+	private CommandInterpreter interpreter;
 	private AudioSource shootSound;
 	private AudioSource failSound;
 	private AudioSource landingSound;
@@ -69,6 +69,9 @@ public class PlayerController : MonoBehaviour {
 		nextFire = 0.0f;
 		ticks = 0;
 		initRotationDirection ();
+
+		GameObject panel = GameObject.FindWithTag ("DropPanel");
+		interpreter = panel.GetComponent<CommandInterpreter> ();
 	}
 
 	private void initRotationDirection () {
