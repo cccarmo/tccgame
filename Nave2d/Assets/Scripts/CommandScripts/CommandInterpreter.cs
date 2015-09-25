@@ -130,7 +130,7 @@ public class CommandInterpreter : DataRetriever {
 	}
 
 	private Vector3 calculateBoxPosition(GameObject box, int index, int nestLevel) {
-		int baseX = -310, baseY = 850, margin = 30;
+		int baseX = -310, baseY = 865, margin = 30;
 		float width = box.GetComponent<RectTransform>().rect.width;
 		return new Vector3(width/2 + baseX + margin + nestLevel * 50,
 		                   baseY - margin + index * -60, 0);
