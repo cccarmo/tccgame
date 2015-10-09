@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour {
 	public readonly float fixedSpeed = 5.15f;
 	public readonly float tilt = 3.0f;
 	public readonly float fireRate = 0.25f;
-	private int laserMissiles = 5;
+	private int laserMissiles = 11;
 	private float nextFire;
 	public GameObject Shot;
 	public Transform ShotSpawn;

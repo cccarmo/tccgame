@@ -24,7 +24,7 @@ public class RepetitionsDisplay : MonoBehaviour {
 	}
 	
 	private void increaseNumberOfRepetitions() {
-		command.repetitionMax = Mathf.Min(command.repetitionMax + 1, 9);
+		command.repetitionMax = Mathf.Min(command.repetitionMax + 1, 99);
 		repetitions.text = command.repetitionMax.ToString() + "x";
 	}
 

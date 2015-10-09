@@ -11,8 +11,6 @@ public class m1l1: MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		buttonToSetOff = GameObject.Find ("Controll").GetComponent<Button> ();
-		buttonToSetOff.enabled = false;
 		buttonToSetOff = GameObject.Find ("Variable").GetComponent<Button> ();
 		buttonToSetOff.enabled = false;
 		fabricToSetOff = GameObject.Find ("Down Button");
