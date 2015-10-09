@@ -32,6 +32,13 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Start() {
+
+		// TrashCan bizarre bug fix
+		Vector3 position = GameObject.FindWithTag ("TrashCan").transform.position;
+		position.x += 0.01f;
+
+		GameObject.FindWithTag ("TrashCan").transform.position = position;
+
 		gameOver = startedSimulation = false;
 		victoryPopUp = VictoryPopUp;
 

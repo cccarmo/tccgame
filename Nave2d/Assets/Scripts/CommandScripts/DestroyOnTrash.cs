@@ -4,7 +4,7 @@ using System.Collections;
 public class DestroyOnTrash : MonoBehaviour {
 	private CommandInterpreter commandInterpreter;
 	public CommandBox box;
-	private bool delete = true;
+	private bool delete = false;
 
 	void Start() {
 		commandInterpreter = this.GetComponentInParent<CommandInterpreter>();
