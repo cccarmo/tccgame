@@ -13,15 +13,16 @@ public class m1l1: MonoBehaviour {
 	void Start () {
 		buttonToSetOff = GameObject.Find ("Variable").GetComponent<Button> ();
 		buttonToSetOff.enabled = false;
-		fabricToSetOff = GameObject.Find ("Down Button");
-		fabricToSetOff.SetActive (false);
 		fabricToSetOff = GameObject.Find ("Shoot Button");
 		fabricToSetOff.SetActive (false);
-		fabricToSetOff = GameObject.Find ("Clockwise Button");
+		
+		buttonToSetOff = GameObject.Find ("Variable").GetComponent<Button> ();
+		buttonToSetOff.enabled = false;
+		fabricToSetOff = GameObject.Find ("DoWhile Button");
 		fabricToSetOff.SetActive (false);
-		fabricToSetOff = GameObject.Find ("Counterclockwise Button");
+		fabricToSetOff = GameObject.Find ("If Button");
 		fabricToSetOff.SetActive (false);
-
+		
 		tabToSetOff = GameObject.Find ("ControllTab");
 		tabToSetOff.SetActive (false);
 		

@@ -13,11 +13,20 @@ public class m1l3 : MonoBehaviour {
 	void Start () {
 		buttonToSetOff = GameObject.Find ("Variable").GetComponent<Button> ();
 		buttonToSetOff.enabled = false;
+		fabricToSetOff = GameObject.Find ("Shoot Button");
+		fabricToSetOff.SetActive (false);
 		fabricToSetOff = GameObject.Find ("Left Button");
 		fabricToSetOff.SetActive (false);
 		fabricToSetOff = GameObject.Find ("Right Button");
 		fabricToSetOff.SetActive (false);
-			
+		
+		buttonToSetOff = GameObject.Find ("Variable").GetComponent<Button> ();
+		buttonToSetOff.enabled = false;
+		fabricToSetOff = GameObject.Find ("DoWhile Button");
+		fabricToSetOff.SetActive (false);
+		fabricToSetOff = GameObject.Find ("If Button");
+		fabricToSetOff.SetActive (false);
+		
 		tabToSetOff = GameObject.Find ("ControllTab");
 		tabToSetOff.SetActive (false);
 		

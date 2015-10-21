@@ -1,8 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameScreen/PlayerController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/LevelScripts/Module_1/m1l1.cs">
     <Files>
+      <File FileName="Assets/Scripts/LevelScripts/LevelController.cs" Line="14" Column="1" />
       <File FileName="Assets/Scripts/GameScreen/PlayerController.cs" Line="25" Column="32" />
+      <File FileName="Assets/Scripts/LevelScripts/Module_1/m1l3.cs" Line="34" Column="33" />
+      <File FileName="Assets/Scripts/LevelScripts/Module_1/m1l4.cs" Line="15" Column="1" />
+      <File FileName="Assets/Scripts/LevelScripts/Module_1/m1l2.cs" Line="14" Column="1" />
+      <File FileName="Assets/Scripts/LevelScripts/Module_1/m1l1.cs" Line="17" Column="36" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
