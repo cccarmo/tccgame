@@ -38,7 +38,7 @@ public class CommandBox : MonoBehaviour {
 		offset = Vector3.zero;
 	}
 
-	void Update() {
+	void FixedUpdate() {
 		if(ticks > 0 && isActive && !pressed) {
 			ticks = ticks - 1;
 			if (ticks == 0) {
@@ -66,7 +66,7 @@ public class CommandBox : MonoBehaviour {
 			oldestParent.localPosition = position;
 			newPos = oldestParent.position;
 			oldestParent.position = oldPos;
-			offset = (newPos - transform.position) / maxTicks;	
+			offset = (newPos - transform.position) / maxTicks;
 
 			if(offset != Vector3.zero)
 				ticks = maxTicks;

@@ -45,7 +45,7 @@ public class CommandInterpreter : DataRetriever {
 
 	public void saveCommandList() {
 		restartSimulation();
-		ArrayList commandList = makeCommandListFromCommandsDrawn();
+		ArrayList commandList = getProgramFromPanel();
 		Queue persistentData = new Queue();
 		persistentData.Enqueue(semanticInterpreter);
 		persistentData.Enqueue(commandList);
@@ -60,7 +60,7 @@ public class CommandInterpreter : DataRetriever {
 		panelHelp.SetActive(false);
 		if(commandsDrawn.Count < maxCommands && !startedSimulation) {
 			int nestLevel = 0;
-			ArrayList commandList = makeCommandListFromCommandsDrawn();
+			ArrayList commandList = getProgramFromPanel();
 			for(int index = 0; index < commandsDrawn.Count; index++) {
 				Command command = (Command) commandList[index];
 				
@@ -123,7 +123,7 @@ public class CommandInterpreter : DataRetriever {
 	
 	public void execute() {
 		if(startedSimulation) {
-			interpretCommand(makeCommandListFromCommandsDrawn());
+			interpretCommand(getProgramFromPanel());
 		}
 	}
 	
@@ -162,18 +162,33 @@ public class CommandInterpreter : DataRetriever {
 		return box;
 	}
 
-	public ArrayList makeCommandListFromCommandsDrawn() {
-		int index = 0, nestLevel = 0;
+
+	public ArrayList getProgramFromPanel() {
+		IComparer comparator = new YPosComparator ();
+		commandsDrawn.Sort(comparator);
+
 		ArrayList commandList = new ArrayList();
+		foreach(var b in commandsDrawn) {
+			GameObject box = (GameObject) b;
+			CommandBox commandBox = box.GetComponent<CommandBox>();
+			Command command = commandBox.command;
+			
+			commandList.Add(command);
+		}
+
+		return commandList;
+	}
+
+
+	public void FixCommandsOrder() {
+		int index = 0, nestLevel = 0;
 		GameObject lastCommandBox = GameObject.FindGameObjectWithTag("DropPanel");
-		
 
 		foreach(var b in commandsDrawn) {
 			GameObject box = (GameObject) b;
 			CommandBox commandBox = box.GetComponent<CommandBox>();
 			Command command = commandBox.command;
 
-			commandList.Add(command);
 			if (command.indentLevel < 0)
 				nestLevel = nestLevel + command.indentLevel;
 
@@ -198,32 +213,30 @@ public class CommandInterpreter : DataRetriever {
 				if (command.indentLevel == -1)
 					lastCommandBox = lastCommandBox.transform.parent.gameObject;
 			}
-
 			
 			if (command.indentLevel > 0)
 				nestLevel = nestLevel + command.indentLevel;
 
 			index++;
 		}
-		return commandList;
 	}
 
 	
-	public void FixOrderOfBlock() {
+	public void FixOrderOfBlocks() {
 		IComparer comparator = new YPosComparator ();
 		commandsDrawn.Sort(comparator);
-		makeCommandListFromCommandsDrawn();
+		FixCommandsOrder();
 	}
 
-	public void Update() {
-		FixOrderOfBlock();
+	public void FixedUpdate() {
+		FixOrderOfBlocks();
 	}
 
 
 	public void removeFromList(GameObject box){
 		commandsDrawn.Remove(box);
 		GameObject.Destroy(box);
-		makeCommandListFromCommandsDrawn();
+		FixOrderOfBlocks();
 	}
 
 

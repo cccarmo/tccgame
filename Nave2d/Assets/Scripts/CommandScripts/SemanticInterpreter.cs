@@ -17,7 +17,7 @@ public class SemanticInterpreter {
 	}
 
 	public int getEndForFromIndex(int index) {
-		ArrayList commandList = commandInterpreter.makeCommandListFromCommandsDrawn();
+		ArrayList commandList = commandInterpreter.getProgramFromPanel();
 
 		int nestLevel = 0;
 		for (int i = index; i < commandList.Count; i++) {
@@ -38,7 +38,7 @@ public class SemanticInterpreter {
 
 
 	public int getBeginForFromIndex(int index) {
-		ArrayList commandList = commandInterpreter.makeCommandListFromCommandsDrawn();
+		ArrayList commandList = commandInterpreter.getProgramFromPanel();
 		
 		int nestLevel = 0;
 		for (int i = index; i >= 0; i--) {
