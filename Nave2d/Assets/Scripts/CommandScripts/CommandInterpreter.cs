@@ -14,6 +14,7 @@ public class CommandInterpreter : DataRetriever {
 	private bool startedSimulation, finishedAnimation, restart;
 	private Stack scopedBeginning;
 	public GameObject picker;
+	private GameObject panelHelp;
 	public SemanticInterpreter semanticInterpreter;
 
 	private GameObject lastBox;
@@ -34,6 +35,7 @@ public class CommandInterpreter : DataRetriever {
 		else semanticInterpreter = new SemanticInterpreter(this);
 
 		restartSimulation();
+		panelHelp = GameObject.FindWithTag("PanelPopUp");
 	}
 
 	public void restartSimulation() {
@@ -56,6 +58,7 @@ public class CommandInterpreter : DataRetriever {
 	}
 
 	public GameObject addCommand(Command newCommand) {
+		panelHelp.SetActive(false);
 		if(commandsDrawn.Count < maxCommands && !startedSimulation) {
 			int nestLevel = 0;
 			ArrayList commandList = makeCommandListFromCommandsDrawn();
