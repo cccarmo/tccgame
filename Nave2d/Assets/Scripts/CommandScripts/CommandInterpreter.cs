@@ -14,7 +14,7 @@ public class CommandInterpreter : DataRetriever {
 	private bool startedSimulation, finishedAnimation, restart;
 	private Stack scopedBeginning;
 	public GameObject picker;
-	private GameObject panelHelp;
+	public GameObject panelHelp;
 	public SemanticInterpreter semanticInterpreter;
 
 	private GameObject lastBox;
@@ -35,7 +35,6 @@ public class CommandInterpreter : DataRetriever {
 		else semanticInterpreter = new SemanticInterpreter(this);
 
 		restartSimulation();
-		panelHelp = GameObject.FindWithTag("PanelPopUp");
 	}
 
 	public void restartSimulation() {
