@@ -31,6 +31,10 @@ public class MoveOnBorder : MonoBehaviour {
 			CommandBox c = collider.GetComponent<CommandBox> ();
 			if (c.pressed) 
 				shouldMove = true;
+		} else if (collider.GetComponent<ComparisonBox> () != null) {
+			ComparisonBox c = collider.GetComponent<ComparisonBox> ();
+			if (c.pressed) 
+				shouldMove = true;
 		}
 	}
 	
@@ -40,6 +44,10 @@ public class MoveOnBorder : MonoBehaviour {
 			if (c.pressed)
 				shouldMove = false;
 
+		} else if (collider.GetComponent<ComparisonBox> () != null) {
+			ComparisonBox c = collider.GetComponent<ComparisonBox> ();
+			if (c.pressed) 
+				shouldMove = false;
 		}
 	}
 }

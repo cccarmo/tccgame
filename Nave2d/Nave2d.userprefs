@@ -1,14 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CommandScripts\CommandInterpreter.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/CommandScripts/CommandInterpreter.cs">
     <Files>
-      <File FileName="Assets\Scripts\CommandScripts\CommandInterpreter.cs" Line="60" Column="31" />
-      <File FileName="Assets\Scripts\LevelScripts\LevelController.cs" Line="14" Column="1" />
-      <File FileName="Assets\Scripts\GameScreen\PlayerController.cs" Line="25" Column="32" />
-      <File FileName="Assets\Scripts\LevelScripts\Module_1\m1l3.cs" Line="25" Column="3" />
-      <File FileName="Assets\Scripts\LevelScripts\Module_1\m1l4.cs" Line="15" Column="1" />
-      <File FileName="Assets\Scripts\LevelScripts\Module_1\m1l2.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\LevelScripts\Module_1\m1l1.cs" Line="17" Column="36" />
+      <File FileName="Assets/Scripts/CommandScripts/CommandInterpreter.cs" Line="17" Column="8" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
