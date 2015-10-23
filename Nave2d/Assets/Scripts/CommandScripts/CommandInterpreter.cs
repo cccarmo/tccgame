@@ -184,8 +184,6 @@ public class CommandInterpreter : DataRetriever {
 		int index = 0, nestLevel = 0;
 		GameObject lastCommandBox = GameObject.FindGameObjectWithTag("DropPanel");
 
-
-		int cont = 0;
 		foreach(var b in commandsDrawn) {
 			GameObject box = (GameObject) b;
 			CommandBox commandBox = box.GetComponent<CommandBox>();
