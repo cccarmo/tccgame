@@ -184,6 +184,8 @@ public class CommandInterpreter : DataRetriever {
 		int index = 0, nestLevel = 0;
 		GameObject lastCommandBox = GameObject.FindGameObjectWithTag("DropPanel");
 
+
+		int cont = 0;
 		foreach(var b in commandsDrawn) {
 			GameObject box = (GameObject) b;
 			CommandBox commandBox = box.GetComponent<CommandBox>();
@@ -192,16 +194,9 @@ public class CommandInterpreter : DataRetriever {
 			if (command.indentLevel < 0)
 				nestLevel = nestLevel + command.indentLevel;
 
-			if (command.indentLevel != -1) {
-				if (commandBox.isActive && !commandBox.pressed) {
-					commandBox.GoToPos(calculateBoxPosition(box, index, nestLevel));
-				}
-			} else {
-				if (commandBox.transform.parent.GetComponent<FlowCommandBox>() != null) {
-					commandBox.transform.parent.GetComponent<FlowCommandBox>().setEndUnderBox();
-				}
-			}
-
+			if (commandBox.isActive && !commandBox.pressed)
+				commandBox.GoToPos(calculateBoxPosition(box, index, nestLevel));
+			
 			if (commandBox.pressed) {
 				commandBox.transform.SetParent(lastCommandBox.transform);
 				commandBox.transform.localScale = new Vector2(1, 1);
