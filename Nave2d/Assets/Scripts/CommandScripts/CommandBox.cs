@@ -12,7 +12,6 @@ public class CommandBox : MonoBehaviour {
 	private Color normalColor;
 	public Command command;
 	private Vector3 offset;
-	private int ticks = 0;
 	public bool pressed = false;
 	protected bool isEnabled = true;
 	public bool isActive = true;
@@ -47,25 +46,22 @@ public class CommandBox : MonoBehaviour {
 
 	public void GoToPos(Vector3 position) {
 		Transform oldestParent;
+		Vector3 newPos;
 
-		if (ticks == 0) {
-			Vector3 newPos;
+		for (oldestParent = transform; oldestParent.parent.tag != "DropPanel"; oldestParent = oldestParent.transform.parent);
 
-			for (oldestParent = transform; oldestParent.parent.tag != "DropPanel"; oldestParent = oldestParent.transform.parent);
+		Vector3 oldPos = oldestParent.position;
+		oldestParent.localPosition = position;
+		newPos = oldestParent.position;
+		oldestParent.position = oldPos;
+		offset = (newPos - transform.position);
 
-			Vector3 oldPos = oldestParent.position;
-			oldestParent.localPosition = position;
-			newPos = oldestParent.position;
-			oldestParent.position = oldPos;
-			offset = (newPos - transform.position);
+		transform.position = newPos;
 
-			transform.position = transform.position + offset;
+		if (isActive && offset != Vector3.zero && !pressed)
+			setAllChildrenActive ();
 
-			if(isActive && offset != Vector3.zero && !pressed)
-				setAllChildrenActive();
-
-			offset = Vector3.zero;
-		}
+		offset = Vector3.zero;
 	}
 
 
