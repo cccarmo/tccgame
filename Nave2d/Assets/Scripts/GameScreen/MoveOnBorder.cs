@@ -14,8 +14,7 @@ public class MoveOnBorder : MonoBehaviour {
 	}
 	
 
-	void Update () {
-		Debug.Log (scrollRect.verticalNormalizedPosition);
+	void FixedUpdate () {
 		if (scrollRect.enabled) {
 			if (shouldMove) {
 				scrollRect.verticalNormalizedPosition += moveOffset * speed;
