@@ -7,6 +7,7 @@ public class LevelController : MonoBehaviour {
 	public static int currentModule = 99;
 	private static int currentLevel = 1;
 	private static GameObject currentLevelGameObject;
+	public static bool showPigAtNextLevel = true;
 
 	void Start () {
 		string moduleName = "Module" + currentModule;

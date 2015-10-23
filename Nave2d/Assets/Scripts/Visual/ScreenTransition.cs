@@ -11,8 +11,19 @@ public class ScreenTransition : MonoBehaviour {
 
 	//Transition
 	public void LoadNextLevel(string name) {
+		StartCoroutine(LevelLoad(name));
+		panelFade.GetComponent<Animator>().Play("FadeOut");
+	}
+
+	public void LoadNextLevelPig() {
+		string name;
+
 		if (LevelController.currentModule == 3) {
 			name = "GameOver";
+		} else if (LevelController.showPigAtNextLevel) {
+			name = "Welcome";
+		} else {
+			name = "MainScreen";
 		}
 		StartCoroutine(LevelLoad(name));
 		panelFade.GetComponent<Animator>().Play("FadeOut");
