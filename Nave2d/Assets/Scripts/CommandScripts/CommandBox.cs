@@ -13,7 +13,6 @@ public class CommandBox : MonoBehaviour {
 	public Command command;
 	private Vector3 offset;
 	private int ticks = 0;
-	private static int maxTicks = 1;
 	public bool pressed = false;
 	protected bool isEnabled = true;
 	public bool isActive = true;
@@ -39,14 +38,6 @@ public class CommandBox : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		if(ticks > 0 && isActive && !pressed) {
-			ticks = ticks - 1;
-			if (ticks == 0) {
-				setAllChildrenActive();
-			}
-			transform.position = transform.position + offset;
-		}
-
 		if (pressed) {
 			Vector3 mousePosition = Input.mousePosition;
 			mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
@@ -66,10 +57,14 @@ public class CommandBox : MonoBehaviour {
 			oldestParent.localPosition = position;
 			newPos = oldestParent.position;
 			oldestParent.position = oldPos;
-			offset = (newPos - transform.position) / maxTicks;
+			offset = (newPos - transform.position);
 
-			if(offset != Vector3.zero)
-				ticks = maxTicks;
+			transform.position = transform.position + offset;
+
+			if(isActive && offset != Vector3.zero && !pressed)
+				setAllChildrenActive();
+
+			offset = Vector3.zero;
 		}
 	}
 

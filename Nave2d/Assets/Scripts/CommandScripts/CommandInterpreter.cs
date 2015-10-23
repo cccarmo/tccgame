@@ -194,7 +194,7 @@ public class CommandInterpreter : DataRetriever {
 
 			if (command.indentLevel != -1) {
 				if (commandBox.isActive && !commandBox.pressed) {
-						commandBox.GoToPos(calculateBoxPosition(box, index, nestLevel));
+					commandBox.GoToPos(calculateBoxPosition(box, index, nestLevel));
 				}
 			} else {
 				if (commandBox.transform.parent.GetComponent<FlowCommandBox>() != null) {
@@ -208,8 +208,7 @@ public class CommandInterpreter : DataRetriever {
 			}
 			if (commandBox.GetComponent<FlowCommandBox>() != null) {
 				lastCommandBox = commandBox.gameObject;
-			}
-			else {
+			} else {
 				if (command.indentLevel == -1)
 					lastCommandBox = lastCommandBox.transform.parent.gameObject;
 			}
