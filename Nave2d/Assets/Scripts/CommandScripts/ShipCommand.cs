@@ -31,7 +31,7 @@ public abstract class ShipCommand : Command {
 
 
 public class ShieldCommand : ShipCommand {
-	public ShieldCommand(CommandCreator creator) : base(creator, 0, "Shield") { }
+	public ShieldCommand(CommandCreator creator) : base(creator, 12, "Shield") { }
 	
 	public override bool execute(ref int programCounter) {
 		if (getController().activateShield())
