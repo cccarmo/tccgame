@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+
 using System.Collections;
 using System.Collections.Generic;
 
@@ -29,6 +31,7 @@ public class PlayerController : MonoBehaviour {
 
 	public GameObject GameScreen;
 	private CommandInterpreter interpreter;
+	private Text missilesLabel;
 	private AudioSource shootSound;
 	private AudioSource failSound;
 	private AudioSource landingSound;
@@ -72,6 +75,10 @@ public class PlayerController : MonoBehaviour {
 
 		GameObject panel = GameObject.FindWithTag ("DropPanel");
 		interpreter = panel.GetComponent<CommandInterpreter> ();
+
+		GameObject missilesDisplayer = GameObject.FindWithTag("MissilesDisplayer");
+		missilesLabel = missilesDisplayer.GetComponentInChildren<Text>();
+		missilesLabel.text = laserMissiles.ToString();
 	}
 
 	private void initRotationDirection () {
@@ -92,8 +99,10 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void Update() {
-		if (interpretCommands && getNumberOfMissiles() == 0)
+		if (interpretCommands && getNumberOfMissiles() == 0) {
 			interpreter.execute();
+			missilesLabel.text = laserMissiles.ToString();
+		}
 		if (animate) {
 			switch (currentAnimation) {
 			case AnimationType.moveToPlanet:
@@ -305,16 +314,5 @@ public class PlayerController : MonoBehaviour {
 			body.position = Vector3.MoveTowards (body.position, position, .01f);
 		ticks--;
 		return ticks > 0;
-	}
-
-  	void OnGUI() {   
-		GUIStyle style = new GUIStyle();
-		style.fontSize = 20;
-		style.normal.textColor = Color.white;
-		
-		Rect missiles = new Rect(0.95f*Screen.width, 0.73f*Screen.height, 16, 16);
-		GUI.Label(missiles, laserMissiles.ToString(), style);
-		Rect laserIconSpace = new Rect(missiles.xMax, 0.5f*missiles.yMin + 0.5f*missiles.yMax, 20, 5);
-		GUI.DrawTexture(laserIconSpace, laserTexture);                      
 	}
 }
