@@ -2,14 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-/*[System.Serializable]
-public class Boundary {
-	public float xMin;
-	public float xMax;
-	public float yMin;
-	public float yMax;
-}*/
-
 public class PlayerController : MonoBehaviour {
 
 	enum AnimationType {
@@ -17,7 +9,6 @@ public class PlayerController : MonoBehaviour {
 	};
 
 	private Rigidbody2D body;
-	//public Boundary boundary;
 
 	public readonly float fixedSpeed = 5.15f;
 	public readonly float tilt = 3.0f;
@@ -35,6 +26,7 @@ public class PlayerController : MonoBehaviour {
 
 	private uint ticks;
 	private readonly uint executionTime = 25;
+	private readonly uint shiledTime = 100;
 
 	public Texture2D laserTexture;
 
@@ -75,7 +67,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void initRotationDirection () {
-
 		float lB, hB;
 
 		hB = 382.5f;
@@ -91,9 +82,10 @@ public class PlayerController : MonoBehaviour {
 
 	}
 	
-	void Update() {
+	void FixedUpdate() {
 		if (interpretCommands && getNumberOfMissiles() == 0)
 			interpreter.execute();
+
 		if (animate) {
 			switch (currentAnimation) {
 			case AnimationType.moveToPlanet:
@@ -274,6 +266,17 @@ public class PlayerController : MonoBehaviour {
 			return true;
 		}
 		else return false;
+	}
+
+	public bool activateShield() {
+		if (ticks == 0) {
+			//TODO desativar escudo
+		} else {
+			//TODO ativar escudo
+		}
+
+		ticks = (ticks + 1) % shiledTime;
+		return (ticks == 0);
 	}
   
 	public void ArriveAtPlanet(Vector3 planetPosition) {

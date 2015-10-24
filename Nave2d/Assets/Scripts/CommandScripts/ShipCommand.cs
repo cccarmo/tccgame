@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public delegate bool CommandCallback();
+
 
 public abstract class ShipCommand : Command {
 	protected ShipCommand(CommandCreator commandCreator, int boxPreFabIndex, string label) {
@@ -26,6 +26,17 @@ public abstract class ShipCommand : Command {
 			repetitionCounter = 0;
 			return true;
 		}
+	}
+}
+
+
+public class ShieldCommand : ShipCommand {
+	public ShieldCommand(CommandCreator creator) : base(creator, 0, "Shield") { }
+	
+	public override bool execute(ref int programCounter) {
+		if (getController().activateShield())
+			return finishedShipCommand();
+		else return false;
 	}
 }
 

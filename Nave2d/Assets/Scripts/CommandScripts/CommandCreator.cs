@@ -29,6 +29,7 @@ public class CommandCreator : MonoBehaviour {
 		
 		// Creating Command Generators
 		newCommandClosure newShootCommand = () => new ShootCommand(this);
+		newCommandClosure newShieldCommand = () => new ShieldCommand(this);
 		newCommandClosure newFowardCommand = () => new MoveForwardCommand(this);
 		newCommandClosure newBackwardCommand = () => new MoveBackwardCommand(this);
 		newCommandClosure neweLeftwardCommand = () => new MoveLeftwardsCommand(this);
@@ -44,6 +45,7 @@ public class CommandCreator : MonoBehaviour {
 
 		// Adding Ship Commands to dictionary
 		actions.Add("Shoot", newShootCommand);
+		actions.Add("Shield", newShieldCommand);
 		actions.Add("Move Forward", newFowardCommand);
 		actions.Add("Move Backward", newBackwardCommand);
 		actions.Add("Move Leftwards", neweLeftwardCommand);
