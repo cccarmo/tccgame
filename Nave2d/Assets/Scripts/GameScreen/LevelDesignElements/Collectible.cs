@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Collectible : MonoBehaviour {
 	public GameObject collectionParticle;
+	public GameObject shotExplosion;
 	private GameObject gameScreen;
 	
 	void Start() {
@@ -16,6 +17,12 @@ public class Collectible : MonoBehaviour {
 			GameObject brightParticle = GameObject.Instantiate(collectionParticle, transform.position, transform.rotation) as GameObject;
 			brightParticle.transform.parent = gameScreen.transform;
 			Destroy(this.gameObject, 0.1f);
+		}
+		else if (collider.tag == "Shot") {
+			GameObject newExplosion = GameObject.Instantiate(shotExplosion, collider.transform.position, collider.transform.rotation) as GameObject;
+			newExplosion.transform.parent = gameScreen.transform;
+			collider.transform.parent = gameScreen.transform;
+			Destroy(collider.gameObject);
 		}
 	}
 }

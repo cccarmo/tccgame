@@ -13,7 +13,7 @@ public class SpeechBalloon : MonoBehaviour {
 	void Start () {
 		balloonTexts = GetComponentsInChildren<Text> ();
 		index = 0;
-		if (balloonTexts.Length == 1) {
+		if (balloonTexts.Length == 2) {
 			buttonNext.gameObject.SetActive(false);
 		}
 		for (int i = 1; i < balloonTexts.Length - 1; i++) {
