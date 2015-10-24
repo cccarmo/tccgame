@@ -16,8 +16,6 @@ public class m1l3 : MonoBehaviour {
 		LevelController.showPigAtNextLevel = this.showPigAtNextLevel; 
 		buttonToSetOff = GameObject.Find ("Variable").GetComponent<Button> ();
 		buttonToSetOff.enabled = false;
-		fabricToSetOff = GameObject.Find ("Shoot Button");
-		fabricToSetOff.SetActive (false);
 		fabricToSetOff = GameObject.Find ("Left Button");
 		fabricToSetOff.SetActive (false);
 		fabricToSetOff = GameObject.Find ("Right Button");
