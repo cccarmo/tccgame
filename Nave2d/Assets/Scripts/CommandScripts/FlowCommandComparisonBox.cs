@@ -11,7 +11,6 @@ public class FlowCommandComparisonBox : FlowCommandBox {
 
 	private ComparisonBox comparisonBox;
 	public bool isComplete = false;
-	private bool holdingComparison;
 	private Collider2D comparisonBoxCollider;
 	
 	void OnTriggerEnter2D(Collider2D collider) {
