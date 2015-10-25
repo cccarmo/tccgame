@@ -23,11 +23,14 @@ public class ComparisonBox : MonoBehaviour {
 
 	public InputField inputFieldValue;
 
+	public void Init(Comparison comparison) {
+		this.comparison = comparison;
+	}
 
 	public void attach(FlowCommand flowCommand, FlowCommandComparisonBox cBox) {
 		attached = true;
 		commandBox = cBox;
-		comparison = new Comparison(flowCommand);
+		comparison.setFlowCommand(flowCommand);
 		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
 
 	}
@@ -35,7 +38,6 @@ public class ComparisonBox : MonoBehaviour {
 	public void disattach () {
 		commandBox.disattach();
 		attached = false;
-		comparison = null;
 	}
 	
 	public void Highlight() {

@@ -88,6 +88,10 @@ public class CommandBox : MonoBehaviour {
 		isEnabled = false;
 	}
 
+	public virtual bool hasAttachments() {
+		return false;
+	}
+
 	public void setAllChildrenInactive () {
 		CommandBox[] children = GetComponentsInChildren<CommandBox>();
 		foreach (CommandBox child in children) {

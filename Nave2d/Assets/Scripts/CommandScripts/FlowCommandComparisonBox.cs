@@ -53,4 +53,7 @@ public class FlowCommandComparisonBox : FlowCommandBox {
 		isComplete = false;
 	}
 
+	public override bool hasAttachments() {
+		return isComplete;
+	}
 }

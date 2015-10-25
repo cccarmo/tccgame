@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 
 delegate Command newCommandClosure();
-
+delegate Comparison newComparisonClosure();
 
 public class CommandCreator : MonoBehaviour {
 	private CommandInterpreter interpreter;
 	private Dictionary<string, newCommandClosure> actions;
-	private Dictionary<string, GameObject> comparisons;
+	private Dictionary<string, newComparisonClosure> comparisons;
 	public GameObject[] availableBoxes;
 
 	private bool KFunctionTrue() {
@@ -25,7 +25,7 @@ public class CommandCreator : MonoBehaviour {
 		interpreter = panel.GetComponent<CommandInterpreter>();
 		
 		actions = new Dictionary<string, newCommandClosure>();
-		comparisons = new Dictionary<string,  GameObject>();
+		comparisons = new Dictionary<string, newComparisonClosure>();
 		
 		// Creating Command Generators
 		newCommandClosure newShootCommand = () => new ShootCommand(this);
@@ -40,8 +40,9 @@ public class CommandCreator : MonoBehaviour {
 		newCommandClosure newForCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[7], 1, true);
 		newCommandClosure newEndForCommand = () => new FlowCommand(interpreter.semanticInterpreter.EndForCommand, "Scoped Repetition End", availableBoxes[8], -1, false);
 		newCommandClosure newForComparisonCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[9], 1, true);
-
 		newCommandClosure newIfCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[11], 1, false);
+		
+		newComparisonClosure newComparison = () => new Comparison(availableBoxes[10]);
 
 		// Adding Ship Commands to dictionary
 		actions.Add("Shoot", newShootCommand);
@@ -61,21 +62,20 @@ public class CommandCreator : MonoBehaviour {
 		// Adding If Command to dictionary
 		actions.Add("Scoped Repetition If", newIfCommand);
 
-		// Adding Comparison boxes to dictionary
-		comparisons.Add ("Comparing Asteroid Number", availableBoxes [10]);
+		// Adding Comparisons to dictionary
+		comparisons.Add("Comparing Asteroid Number", newComparison);
 
 	}
 	
 	public GameObject handleEvent(string eventType) {
 		GameObject box;
-		if (eventType.Contains ("Comparing")) {
-			box = interpreter.addComparison (comparisons[eventType]);
+		if (eventType.Contains("Comparing")) {
+			box = interpreter.addComparison(comparisons[eventType]());
 		} else {
 			box = interpreter.addCommand((Command) (actions [eventType])());
 			if (eventType.Contains("Scoped Repetition")) {
-				interpreter.addCommand ((Command)(actions ["Scoped Repetition End"])());
+				interpreter.addCommand((Command)(actions ["Scoped Repetition End"])());
 			}
-
 		}
 		return box;
 	}

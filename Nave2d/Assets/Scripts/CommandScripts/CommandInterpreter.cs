@@ -28,9 +28,18 @@ public class CommandInterpreter : DataRetriever {
 		if(persistentData != null) {
 			semanticInterpreter = (SemanticInterpreter) persistentData.Dequeue();
 			semanticInterpreter.setCommandInterpreter(this);
+
 			ArrayList commandList = (ArrayList) persistentData.Dequeue();
-			foreach(Command command in commandList)
+			ArrayList comparisonList = (ArrayList) persistentData.Dequeue();
+			int currentIndex = 0;
+			foreach(Command command in commandList) {
 				addCommand((Command) command);
+				if(comparisonList[currentIndex] != null) {
+					//bool hasAttachments = (bool) comparisonList[currentIndex];
+					Debug.Log(currentIndex + " has attachment.");
+				}
+				currentIndex++;
+			}
 		}
 		else semanticInterpreter = new SemanticInterpreter(this);
 
@@ -46,14 +55,17 @@ public class CommandInterpreter : DataRetriever {
 	public void saveCommandList() {
 		restartSimulation();
 		ArrayList commandList = getProgramFromPanel();
+		ArrayList comparisonList = getComparisonsFromPanel();
+
 		Queue persistentData = new Queue();
 		persistentData.Enqueue(semanticInterpreter);
 		persistentData.Enqueue(commandList);
+		persistentData.Enqueue(comparisonList);
 		saveData(persistentData);
 	}
 
-	public GameObject addComparison (GameObject eventType) {
-		return instantiateComparisonBox(eventType); 
+	public GameObject addComparison(Comparison comparison) {
+		return instantiateComparisonBox(comparison); 
 	}
 
 	public GameObject addCommand(Command newCommand) {
@@ -152,10 +164,11 @@ public class CommandInterpreter : DataRetriever {
 		return box;
 	}
 
-	private GameObject instantiateComparisonBox(GameObject boxType) {
-		GameObject box = Instantiate(boxType);
+	private GameObject instantiateComparisonBox(Comparison comparison) {
+		GameObject box = Instantiate(comparison.getComparisonBoxPreFab()) as GameObject;
 		box.transform.SetParent(gameObject.transform);
-		
+		box.GetComponent<ComparisonBox>().Init(comparison);
+
 		/// Place and fix local scale
 		//box.transform.localPosition = calculateBoxPosition(box, index, nestLevel);
 		box.transform.localScale = new Vector2(1, 1);
@@ -178,6 +191,19 @@ public class CommandInterpreter : DataRetriever {
 		}
 
 		return commandList;
+	}
+
+	public ArrayList getComparisonsFromPanel() {
+		ArrayList comparisonList = new ArrayList();
+		foreach(var b in commandsDrawn) {
+			GameObject box = (GameObject) b;
+			CommandBox commandBox = box.GetComponent<CommandBox>();
+			if(commandBox.hasAttachments())
+				comparisonList.Add(true);
+			else comparisonList.Add(null);
+		}
+
+		return comparisonList;
 	}
 
 

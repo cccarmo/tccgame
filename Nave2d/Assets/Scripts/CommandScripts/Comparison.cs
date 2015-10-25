@@ -4,13 +4,22 @@ using System.Collections;
 public class Comparison {
 	public FlowCommand command;
 	public VariableForComparison variableForComparison;
+	private GameObject comparisonBoxPreFab;
 
-	public Comparison(FlowCommand flowCommand) {
+	public Comparison(GameObject boxPreFab) {
+		comparisonBoxPreFab = boxPreFab;	
+	}
+
+	public void setFlowCommand(FlowCommand flowCommand) {
 		command = flowCommand;
 		command.comparison = TypeOfComparison.equals;
 		command.intToCompare = 0;
 		command.negateComparison = false;
 		command.setTypeOfComparison(variableForComparison);
+	}
+
+	public GameObject getComparisonBoxPreFab() {
+		return comparisonBoxPreFab;
 	}
 
 	public void shouldNegateComparison(bool b) {
