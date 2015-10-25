@@ -16,5 +16,9 @@ abstract public class Command {
 		return commandBoxPreFab;
 	}
 
+	public void resetRepetitionCounter() {
+		repetitionCounter = 0;
+	}
+
 	abstract public bool execute(ref int programCounter);
 }

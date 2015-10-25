@@ -58,6 +58,7 @@ public class CommandInterpreter : DataRetriever {
 
 	public GameObject addCommand(Command newCommand) {
 		panelHelp.SetActive(false);
+		newCommand.resetRepetitionCounter();
 		if(commandsDrawn.Count < maxCommands && !startedSimulation) {
 			int nestLevel = 0;
 			ArrayList commandList = getProgramFromPanel();
