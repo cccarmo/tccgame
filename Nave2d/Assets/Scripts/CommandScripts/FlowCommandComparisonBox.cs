@@ -42,7 +42,7 @@ public class FlowCommandComparisonBox : FlowCommandBox {
 		FlowCommand flowCommand = (FlowCommand)command;
 		comparisonBox.attach(flowCommand, this);
 		Vector3 newPosition = transform.position;
-		newPosition.x += 0.2f + (GetComponent<Collider2D>().bounds.size.x + comparisonBoxCollider.bounds.size.x) / 2;
+		newPosition.x += (GetComponent<Collider2D>().bounds.size.x + comparisonBoxCollider.bounds.size.x) / 2;
 		comparisonBoxCollider.transform.position = newPosition;
 		comparisonBoxCollider.transform.SetParent(transform);
 		comparisonBoxCollider.transform.localScale = transform.localScale;

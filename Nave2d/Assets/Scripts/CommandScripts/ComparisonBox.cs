@@ -11,36 +11,31 @@ public class ComparisonBox : MonoBehaviour {
 	public float moveSpeed = 1f;
 	private Vector2 touchOffset;
 	private Color highlightColor;
-	public FlowCommand command;
 	private Vector3 offset;
 	private int ticks;
 	private bool attached = false;
 	public bool pressed;
-	private FlowCommandComparisonBox commandBox;
 	private bool disattacheable;
+	private FlowCommandComparisonBox commandBox;
+	private Comparison comparison;
 
 	private Vector2 originalTouchPosition;
 
 	public InputField inputFieldValue;
 
-	public VariableForComparison variableForComparison;
 
 	public void attach(FlowCommand flowCommand, FlowCommandComparisonBox cBox) {
 		attached = true;
 		commandBox = cBox;
-		command = flowCommand;
-		command.comparison = TypeOfComparison.equals;
-		command.intToCompare = 0;
-		command.negateComparison = false;
-		command.setTypeOfComparison(variableForComparison);
+		comparison = new Comparison(flowCommand);
 		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
 
 	}
 
 	public void disattach () {
-		commandBox.disattach ();
+		commandBox.disattach();
 		attached = false;
-		command = null;
+		comparison = null;
 	}
 	
 	public void Highlight() {
@@ -109,31 +104,18 @@ public class ComparisonBox : MonoBehaviour {
 
 	
 	public void changeNegativePositive(bool b) {
-		command.negateComparison = b;
+		comparison.shouldNegateComparison(b);
 	}
 
 	public void changeComparisonType(int type) {
-		switch(type) {
-			case 0: command.comparison = TypeOfComparison.equals;
-				break;
-			case 1: command.comparison = TypeOfComparison.doesNotEqual;
-				break;
-			case 2: command.comparison = TypeOfComparison.lesser;
-				break;
-			case 3: command.comparison = TypeOfComparison.lesserOrEquals;
-				break;
-			case 4: command.comparison = TypeOfComparison.greater;
-				break;
-			case 5: command.comparison = TypeOfComparison.greaterOrEquals;
-				break;
-		}
+		comparison.changeType(type);
 	}
 
 	public void changeIntToCompare() {
 		if (inputFieldValue.text.IsNullOrWhiteSpace()) {
-			command.intToCompare = 0;
+			comparison.command.intToCompare = 0;
 		} else {
-			command.intToCompare = Convert.ToInt32(inputFieldValue.text);
+			comparison.command.intToCompare = Convert.ToInt32(inputFieldValue.text);
 		}
 	}
 }
