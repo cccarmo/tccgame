@@ -8,12 +8,10 @@ public class m1l0: MonoBehaviour {
 	private Button buttonToSetOff;
 	private GameObject fabricToSetOff;
 	private GameObject tabToSetOff;
-	public bool showPigAtNextLevel;
-	
+
 	// Use this for initialization
 	void Start () {
 		
-		LevelController.showPigAtNextLevel = this.showPigAtNextLevel;
 		tabToSetOff = GameObject.Find ("ControllTab");
 		tabToSetOff.SetActive (true);
 

@@ -7,12 +7,10 @@ public class m0l0: MonoBehaviour {
 
 	private Button buttonToSetOff;
 	private GameObject fabricToSetOff;
-	public bool showPigAtNextLevel;
 
 	// Use this for initialization
 	void Start () {
 
-		LevelController.showPigAtNextLevel = this.showPigAtNextLevel;
 
 		buttonToSetOff = GameObject.Find ("Controll").GetComponent<Button> ();
 		buttonToSetOff.enabled = false;

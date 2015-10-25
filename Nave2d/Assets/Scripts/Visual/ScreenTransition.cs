@@ -20,7 +20,7 @@ public class ScreenTransition : MonoBehaviour {
 
 		if (LevelController.currentModule == 3) {
 			name = "GameOver";
-		} else if (LevelController.showPigAtNextLevel) {
+		} else if (LevelController.showPigAtLevel[LevelController.currentModule * 10 + LevelController.currentLevel]) {
 			name = "Welcome";
 		} else {
 			name = "MainScreen";

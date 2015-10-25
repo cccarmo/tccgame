@@ -5,14 +5,24 @@ public class LevelController : MonoBehaviour {
 
 	// Deletar a inicialização quando a referencia vier de fora automaticamente pela setModuleAndLevel.
 	public static int currentModule = 99;
-	private static int currentLevel = 1;
+	public static int currentLevel = 1;
 	private static GameObject currentLevelGameObject;
-	public static bool showPigAtNextLevel = true;
+	public static bool[] showPigAtLevel;
 
 	void Start () {
+		showPigAtLevel = new bool[30];
+		for (int i = 0; i < 30; i++) {
+			showPigAtLevel[i] = true;
+		}
+
+		// Adicionar aqui os niveis que não terão o porquinho falando, as dezenas são o módulo e as unidades o level
+		// Ex: modulo: 1 level: 0 = showPigAtLevel[10]
+
 		string moduleName = "Module" + currentModule;
 		GameObject module = GameObject.Find(moduleName) as GameObject;
-		module.GetComponent<LevelHolder> ().levels [currentLevel].SetActive (true);
+		if (module != null) {
+			module.GetComponent<LevelHolder> ().levels [currentLevel].SetActive (true);
+		}
 	}
 
 	public static void setModuleAndLevel (int m, int l) {
