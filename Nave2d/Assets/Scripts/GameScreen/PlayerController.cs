@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour {
 	private uint ticks;
 	private readonly uint executionTime = 25;
 	private readonly uint shiledTime = 100;
+	public bool isShield;
+
 
 	public Texture2D laserTexture;
 
@@ -277,13 +279,14 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public bool activateShield() {
+		ticks = (ticks + 1) % shiledTime;
+
 		if (ticks == 0) {
-			//TODO desativar escudo
+			isShield = false;
 		} else {
-			//TODO ativar escudo
+			isShield = true;
 		}
 
-		ticks = (ticks + 1) % shiledTime;
 		return (ticks == 0);
 	}
   

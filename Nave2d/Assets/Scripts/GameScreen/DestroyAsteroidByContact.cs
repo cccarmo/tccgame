@@ -11,21 +11,34 @@ public class DestroyAsteroidByContact : Scheduler {
 		gameScreen = GameObject.FindWithTag("GameScreen");
 		simulationManager = gameScreen.GetComponent<SimulationManager>();
 	}
+
+	void Explode() {
+		GameObject newExplosion = GameObject.Instantiate(shotExplosion, transform.position, transform.rotation) as GameObject;
+		newExplosion.transform.parent = gameScreen.transform;
+		Destroy(this.gameObject);
+	}
+
 	
 	void OnTriggerEnter2D(Collider2D collider) {
 		if (collider.tag == "Player") {
-			GameObject newExplosion = GameObject.Instantiate(playerExplosion, collider.transform.position, collider.transform.rotation) as GameObject;
-			newExplosion.transform.parent = gameScreen.transform;
-			collider.transform.parent = gameScreen.transform;
-			Destroy(collider.gameObject);
-			restartGameAfterSeconds();
+			GameObject player = collider.gameObject;
+			PlayerController controller = player.GetComponent<PlayerController>();
+
+			if (controller.isShield) {
+				Explode();
+
+			} else {
+				GameObject newExplosion = GameObject.Instantiate(playerExplosion, collider.transform.position, collider.transform.rotation) as GameObject;
+				newExplosion.transform.parent = gameScreen.transform;
+				collider.transform.parent = gameScreen.transform;
+				Destroy(player);
+				restartGameAfterSeconds();
+			}
 		}
 		else if (collider.tag == "Shot") {
-			GameObject newExplosion = GameObject.Instantiate(shotExplosion, collider.transform.position, collider.transform.rotation) as GameObject;
-			newExplosion.transform.parent = gameScreen.transform;
+			Explode();
 			collider.transform.parent = gameScreen.transform;
 			Destroy(collider.gameObject);
-			Destroy(this.gameObject);
 		}
 	}
 	
