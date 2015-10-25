@@ -27,6 +27,11 @@ public class FlowCommandComparisonBox : FlowCommandBox {
 			}
 		}
 	}
+
+	public void setComparison(GameObject comparisonObject) {
+		comparisonBoxCollider = comparisonObject.GetComponent<Collider2D>();
+		comparisonBox = comparisonObject.GetComponent<ComparisonBox>();
+	}
 	
 	public void MouseExit() {
 		if (comparisonBox != null) {
@@ -37,7 +42,7 @@ public class FlowCommandComparisonBox : FlowCommandBox {
 
 	}
 
-	private void attachCollider () {
+	public void attachCollider() {
 		isComplete = true;
 		FlowCommand flowCommand = (FlowCommand)command;
 		comparisonBox.attach(flowCommand, this);
@@ -55,5 +60,9 @@ public class FlowCommandComparisonBox : FlowCommandBox {
 
 	public override bool hasAttachments() {
 		return isComplete;
+	}
+
+	public ComparisonBox getComparisonBox() {
+		return comparisonBox;
 	}
 }

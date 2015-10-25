@@ -30,9 +30,8 @@ public class ComparisonBox : MonoBehaviour {
 	public void attach(FlowCommand flowCommand, FlowCommandComparisonBox cBox) {
 		attached = true;
 		commandBox = cBox;
-		comparison.setFlowCommand(flowCommand);
+		comparison.configureFlowCommand(flowCommand);
 		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
-
 	}
 
 	public void disattach () {
@@ -111,6 +110,10 @@ public class ComparisonBox : MonoBehaviour {
 
 	public void changeComparisonType(int type) {
 		comparison.changeType(type);
+	}
+
+	public Comparison getComparison() {
+		return comparison;
 	}
 
 	public void changeIntToCompare() {

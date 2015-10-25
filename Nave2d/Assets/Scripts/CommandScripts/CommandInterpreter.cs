@@ -33,10 +33,13 @@ public class CommandInterpreter : DataRetriever {
 			ArrayList comparisonList = (ArrayList) persistentData.Dequeue();
 			int currentIndex = 0;
 			foreach(Command command in commandList) {
-				addCommand((Command) command);
+				GameObject box = (GameObject) addCommand((Command) command);
 				if(comparisonList[currentIndex] != null) {
-					//bool hasAttachments = (bool) comparisonList[currentIndex];
-					Debug.Log(currentIndex + " has attachment.");
+					FlowCommandComparisonBox flowBox = box.GetComponent<FlowCommandComparisonBox>();
+					Comparison persistentComparison = (Comparison) comparisonList[currentIndex];
+					GameObject newComparison = addComparison(persistentComparison);
+					flowBox.setComparison(newComparison);
+					flowBox.attachCollider();
 				}
 				currentIndex++;
 			}
@@ -198,8 +201,10 @@ public class CommandInterpreter : DataRetriever {
 		foreach(var b in commandsDrawn) {
 			GameObject box = (GameObject) b;
 			CommandBox commandBox = box.GetComponent<CommandBox>();
-			if(commandBox.hasAttachments())
-				comparisonList.Add(true);
+			if(commandBox.hasAttachments()) {
+				FlowCommandComparisonBox flowCommandComparisonBox = (FlowCommandComparisonBox) commandBox;
+				comparisonList.Add(flowCommandComparisonBox.getComparisonBox().getComparison());
+			}
 			else comparisonList.Add(null);
 		}
 

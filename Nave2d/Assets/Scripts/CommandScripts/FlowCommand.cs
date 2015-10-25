@@ -14,7 +14,7 @@ public class FlowCommand : Command {
 	protected FlowCallback flowCallback;
 
 	public int intToCompare;
-	public TypeOfComparison comparison = TypeOfComparison.none;
+	public TypeOfComparison comparisonType = TypeOfComparison.none;
 	public bool negateComparison = false;
 	private VariableForComparison variableForComparison = VariableForComparison.none;
 	private bool wasAlreadyUsed = false;
@@ -64,7 +64,7 @@ public class FlowCommand : Command {
 		
 		int variableValue = getIntValueToCompare ();
 		bool answer = false;
-		switch(comparison) {
+		switch(comparisonType) {
 			case TypeOfComparison.equals:
 				if (variableValue == intToCompare) {
 					answer = true;
