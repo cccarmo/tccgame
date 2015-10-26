@@ -21,8 +21,9 @@ public class ComparisonBox : MonoBehaviour {
 
 	private Vector2 originalTouchPosition;
 
-	public InputField inputFieldValue;
-
+	public GameObject negativeImage;
+	public GameObject positiveImage;
+	
 	public void Init(Comparison comparison) {
 		this.comparison = comparison;
 	}
@@ -103,11 +104,6 @@ public class ComparisonBox : MonoBehaviour {
 		pressed = false;
 	}
 
-	
-	public void changeNegativePositive(bool b) {
-		comparison.shouldNegateComparison(b);
-	}
-
 	public void changeComparisonType(int type) {
 		comparison.changeType(type);
 	}
@@ -116,11 +112,16 @@ public class ComparisonBox : MonoBehaviour {
 		return comparison;
 	}
 
-	public void changeIntToCompare() {
-		if (inputFieldValue.text.IsNullOrWhiteSpace()) {
-			comparison.command.intToCompare = 0;
+	public void changePositiveNegative () {
+		if (positiveImage.activeSelf) {
+			positiveImage.SetActive(false);
+			negativeImage.SetActive(true);
+			comparison.shouldNegateComparison(true);
 		} else {
-			comparison.command.intToCompare = Convert.ToInt32(inputFieldValue.text);
+			positiveImage.SetActive(true);
+			negativeImage.SetActive(false);
+			comparison.shouldNegateComparison(false);
 		}
 	}
+	
 }
