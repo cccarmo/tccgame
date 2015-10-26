@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class m1l1: MonoBehaviour {
+public class m2l0: MonoBehaviour {
 
 	private Button buttonToSetOff;
 	private GameObject fabricToSetOff;
@@ -11,23 +11,30 @@ public class m1l1: MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-		buttonToSetOff = GameObject.Find("Variable").GetComponent<Button>();
-		buttonToSetOff.enabled = false;
-		fabricToSetOff = GameObject.Find("Shoot Button");
-		fabricToSetOff.SetActive(false);
-		
+		tabToSetOff = GameObject.Find("ControllTab");
+		tabToSetOff.SetActive(true);
+
 		buttonToSetOff = GameObject.Find("Variable").GetComponent<Button>();
 		buttonToSetOff.enabled = false;
 		fabricToSetOff = GameObject.Find("DoWhile Button");
 		fabricToSetOff.SetActive(false);
 		fabricToSetOff = GameObject.Find("If Button");
 		fabricToSetOff.SetActive(false);
-		
+
 		tabToSetOff = GameObject.Find("ControllTab");
 		tabToSetOff.SetActive(false);
-		
+
 		tabToSetOff = GameObject.Find("VariableTab");
 		tabToSetOff.SetActive(false);
-	}
 
+		
+		GameObject scroll = GameObject.FindWithTag("ScrollPanel");
+		ScrollRect scrollRect = scroll.GetComponent<ScrollRect>();
+		scrollRect.enabled = false;
+		GameObject scrollBar = GameObject.FindWithTag("ScrollBar");
+		scrollBar.SetActive(false);
+		GameObject panel = GameObject.FindWithTag("DropPanel");
+		CommandInterpreter interpreter = panel.GetComponent<CommandInterpreter>();
+		interpreter.SetMaxCommands(9);
+	}
 }

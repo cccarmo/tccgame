@@ -10,24 +10,22 @@ public class m1l5 : MonoBehaviour {
 	private GameObject tabToSetOff;
 
 	// Use this for initialization
-	void Start () {
-		
-
-		buttonToSetOff = GameObject.Find ("Variable").GetComponent<Button> ();
+	void Start() {
+		buttonToSetOff = GameObject.Find("Variable").GetComponent<Button>();
 		buttonToSetOff.enabled = false;
 
-		buttonToSetOff = GameObject.Find ("Variable").GetComponent<Button> ();
+		buttonToSetOff = GameObject.Find("Variable").GetComponent<Button>();
 		buttonToSetOff.enabled = false;
-		fabricToSetOff = GameObject.Find ("DoWhile Button");
-		fabricToSetOff.SetActive (false);
-		fabricToSetOff = GameObject.Find ("If Button");
-		fabricToSetOff.SetActive (false);
+		fabricToSetOff = GameObject.Find("DoWhile Button");
+		fabricToSetOff.SetActive(false);
+		fabricToSetOff = GameObject.Find("If Button");
+		fabricToSetOff.SetActive(false);
 
-		tabToSetOff = GameObject.Find ("ControllTab");
-		tabToSetOff.SetActive (false);
+		tabToSetOff = GameObject.Find("ControllTab");
+		tabToSetOff.SetActive(false);
 		
-		tabToSetOff = GameObject.Find ("VariableTab");
-		tabToSetOff.SetActive (false);
+		tabToSetOff = GameObject.Find("VariableTab");
+		tabToSetOff.SetActive(false);
 	}
 	
 }

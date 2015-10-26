@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class m1l1: MonoBehaviour {
+public class m2l3 : MonoBehaviour {
 
 	private Button buttonToSetOff;
 	private GameObject fabricToSetOff;
@@ -13,7 +13,9 @@ public class m1l1: MonoBehaviour {
 	void Start() {
 		buttonToSetOff = GameObject.Find("Variable").GetComponent<Button>();
 		buttonToSetOff.enabled = false;
-		fabricToSetOff = GameObject.Find("Shoot Button");
+		fabricToSetOff = GameObject.Find("Left Button");
+		fabricToSetOff.SetActive(false);
+		fabricToSetOff = GameObject.Find("Right Button");
 		fabricToSetOff.SetActive(false);
 		
 		buttonToSetOff = GameObject.Find("Variable").GetComponent<Button>();
