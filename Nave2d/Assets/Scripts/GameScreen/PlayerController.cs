@@ -53,6 +53,8 @@ public class PlayerController : MonoBehaviour {
 
 	private Vector2 nextPosition;
 
+	public ObjectDetector objectDetector;
+
 
 	void Start() {
 		dX = (xMax - xMin) / 9f;
@@ -92,6 +94,44 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
+		float dx = 0.35f;
+		float dy = 0.35f;
+		switch (direction) {
+		case 0: 
+			dx = 0f;
+			dy = 1.05f;
+			break;
+		case 1: 
+			dx = 1.08f;
+			dy = 1.08f;
+			break;
+		case 2: 
+			dx = 1.05f;
+			dy = 0f;
+			break;
+		case 3: 
+			dx = 1.08f;
+			dy = -1.08f;
+			break;
+		case 4: 
+			dx = 0f;
+			dy = -1.05f;
+			break;
+		case 5: 
+			dx = -1.08f;
+			dy = -1.08f;
+			break;
+		case 6: 
+			dx = -1.05f;
+			dy = 0f;
+			break;
+		case 7: 
+			dx = -1.08f;
+			dy = 1.08f;
+			break;
+		};
+		Vector3 nextPlace = new Vector3 (body.position.x + dx, body.position.y + dy,0);
+		objectDetector.GetComponent<Rigidbody2D> ().position = nextPlace;
 		if (interpretCommands && getNumberOfMissiles() == 0) {
 			interpreter.execute();
 			missilesLabel.text = laserMissiles.ToString();
@@ -247,8 +287,13 @@ public class PlayerController : MonoBehaviour {
 			direction = (direction + 1) % 8;
 		}
 		body.rotation -= 1.8f;
+
+
 		ticks = (ticks + 1) % executionTime;
+
+
 		return (ticks == 0);
+
 	}
 
 	public bool turnCounterclockwise() {
@@ -258,6 +303,8 @@ public class PlayerController : MonoBehaviour {
 				direction = 7;
 		}
 		body.rotation += 1.8f;
+
+
 		ticks = (ticks + 1) % executionTime;
 		return (ticks == 0);
 	}

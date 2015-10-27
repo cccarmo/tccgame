@@ -5,8 +5,7 @@ public delegate bool BoolCondition();
 public delegate bool FlowCallback(BoolCondition cond, ref int programCounter);
 
 
-public enum TypeOfComparison{equals, doesNotEqual, lesser, lesserOrEquals, greater, greaterOrEquals, none};
-public enum VariableForComparison{numberOfAsteroids, none};
+public enum VariableForComparison{AsteroidsAhead, ForceFieldAhead, BatteryAhead, none};
 
 
 public class FlowCommand : Command {
@@ -14,7 +13,6 @@ public class FlowCommand : Command {
 	protected FlowCallback flowCallback;
 
 	public int intToCompare;
-	public TypeOfComparison comparisonType = TypeOfComparison.none;
 	public bool negateComparison = false;
 	private VariableForComparison variableForComparison = VariableForComparison.none;
 	private bool wasAlreadyUsed = false;
@@ -36,22 +34,19 @@ public class FlowCommand : Command {
 
 	public void setTypeOfComparison(VariableForComparison type) {
 		variableForComparison = type;
-		switch (type) {
-		case VariableForComparison.numberOfAsteroids: condition = KFunctionCompareIntValues;
-			break;
-		}
+		condition = KFunctionCompare;
 	}
 	
 	// methods to compare int variables
 	private int getIntValueToCompare () {
 		switch (variableForComparison) {
-		case VariableForComparison.numberOfAsteroids:
+		case VariableForComparison.AsteroidsAhead:
 			return GameObject.FindGameObjectsWithTag("Asteroid").Length;
 		}
 		return -1;
 	}
 
-	private bool KFunctionCompareIntValues() {
+	private bool KFunctionCompare() {
 		// Add this to make usable for If as well
 		if (!isLoop) {
 			if (wasAlreadyUsed) {
@@ -62,36 +57,21 @@ public class FlowCommand : Command {
 			}
 		}
 		
-		int variableValue = getIntValueToCompare ();
 		bool answer = false;
-		switch(comparisonType) {
-			case TypeOfComparison.equals:
-				if (variableValue == intToCompare) {
+		int hittingType = GameObject.FindWithTag ("ObjectDetector").GetComponent<ObjectDetector> ().getCollisionType ();
+		switch(variableForComparison) {
+			case VariableForComparison.AsteroidsAhead:
+				if (hittingType == 1) {
 					answer = true;
 				}
 				break;
-			case TypeOfComparison.doesNotEqual:
-				if (variableValue != intToCompare) {
+			case VariableForComparison.ForceFieldAhead:
+				if (hittingType == 2) {
 					answer = true;
 				}
 				break;
-			case TypeOfComparison.lesser:
-				if (variableValue < intToCompare) {
-					answer = true;
-				}
-				break;
-			case TypeOfComparison.lesserOrEquals:
-				if (variableValue <= intToCompare) {
-					answer = true;
-				}
-				break;
-			case TypeOfComparison.greater:
-				if (variableValue > intToCompare) {
-					answer = true;
-				}
-				break;
-			case TypeOfComparison.greaterOrEquals:
-				if (variableValue >= intToCompare) {
+			case VariableForComparison.BatteryAhead:
+				if (hittingType == 3) {
 					answer = true;
 				}
 				break;

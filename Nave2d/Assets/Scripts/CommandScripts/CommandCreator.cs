@@ -43,6 +43,8 @@ public class CommandCreator : MonoBehaviour {
 		newCommandClosure newIfCommand = () => new FlowCommand(interpreter.semanticInterpreter.ForCommand, "Scoped Repetition", availableBoxes[11], 1, false);
 		
 		newComparisonClosure newComparison = () => new Comparison(availableBoxes[10]);
+		newComparisonClosure newComparisonB = () => new Comparison(availableBoxes[13]);
+		newComparisonClosure newComparisonF = () => new Comparison(availableBoxes[14]);
 
 		// Adding Ship Commands to dictionary
 		actions.Add("Shoot", newShootCommand);
@@ -63,13 +65,16 @@ public class CommandCreator : MonoBehaviour {
 		actions.Add("Scoped Repetition If", newIfCommand);
 
 		// Adding Comparisons to dictionary
-		comparisons.Add("Comparing Asteroid Number", newComparison);
+		comparisons.Add("AsteroidsComparisonBox", newComparison);
+		comparisons.Add("BatteryComparisonBox", newComparisonB);
+		comparisons.Add("ForceFieldComparisonBox", newComparisonF);
+
 
 	}
 	
 	public GameObject handleEvent(string eventType) {
 		GameObject box;
-		if (eventType.Contains("Comparing")) {
+		if (eventType.Contains("ComparisonBox")) {
 			box = interpreter.addComparison(comparisons[eventType]());
 		} else {
 			box = interpreter.addCommand((Command) (actions [eventType])());

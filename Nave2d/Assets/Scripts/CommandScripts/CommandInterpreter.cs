@@ -172,8 +172,6 @@ public class CommandInterpreter : DataRetriever {
 		box.transform.SetParent(gameObject.transform);
 		box.GetComponent<ComparisonBox>().Init(comparison);
 
-		/// Place and fix local scale
-		//box.transform.localPosition = calculateBoxPosition(box, index, nestLevel);
 		box.transform.localScale = new Vector2(1, 1);
 
 		return box;

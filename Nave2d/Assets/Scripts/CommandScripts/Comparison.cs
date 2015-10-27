@@ -4,7 +4,7 @@ using System.Collections;
 public class Comparison {
 	public FlowCommand command;
 	public VariableForComparison variableForComparison;
-	private bool negateComparison;
+	public bool negateComparison;
 	private GameObject comparisonBoxPreFab;
 
 	public Comparison(GameObject boxPreFab) {
@@ -12,11 +12,11 @@ public class Comparison {
 		comparisonBoxPreFab = boxPreFab;
 	}
 
-	public void configureFlowCommand(FlowCommand flowCommand) {
+	public void configureFlowCommand(FlowCommand flowCommand, VariableForComparison v) {
 		command = flowCommand;
-		command.comparisonType = TypeOfComparison.equals;
 		command.intToCompare = 0;
 		command.negateComparison = negateComparison;
+		variableForComparison = v;
 		command.setTypeOfComparison(variableForComparison);
 	}
 
@@ -28,21 +28,5 @@ public class Comparison {
 		negateComparison = b;
 		command.negateComparison = negateComparison;
 	}
-
-	public void changeType(int type) {
-		switch(type) {
-		case 0: command.comparisonType = TypeOfComparison.equals;
-			break;
-		case 1: command.comparisonType = TypeOfComparison.doesNotEqual;
-			break;
-		case 2: command.comparisonType = TypeOfComparison.lesser;
-			break;
-		case 3: command.comparisonType = TypeOfComparison.lesserOrEquals;
-			break;
-		case 4: command.comparisonType = TypeOfComparison.greater;
-			break;
-		case 5: command.comparisonType = TypeOfComparison.greaterOrEquals;
-			break;
-		}
-	}
+	
 }

@@ -18,6 +18,7 @@ public class ComparisonBox : MonoBehaviour {
 	private bool disattacheable;
 	private FlowCommandComparisonBox commandBox;
 	private Comparison comparison;
+	public VariableForComparison variableForComparison;
 
 	private Vector2 originalTouchPosition;
 
@@ -31,7 +32,7 @@ public class ComparisonBox : MonoBehaviour {
 	public void attach(FlowCommand flowCommand, FlowCommandComparisonBox cBox) {
 		attached = true;
 		commandBox = cBox;
-		comparison.configureFlowCommand(flowCommand);
+		comparison.configureFlowCommand(flowCommand, variableForComparison);
 		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
 	}
 
@@ -47,6 +48,17 @@ public class ComparisonBox : MonoBehaviour {
 	void Start() {
 		offset = Vector3.zero;
 		ticks  = 0;
+		if (comparison != null) {
+			if (comparison.negateComparison) {
+				if (positiveImage.activeSelf) {
+					changePositiveNegative();
+				} 
+			} else {
+				if (negativeImage.activeSelf) {
+					changePositiveNegative();
+				} 
+			}
+		}
 	}
 	
 	void Update() {
@@ -103,11 +115,7 @@ public class ComparisonBox : MonoBehaviour {
 		originalTouchPosition = Vector2.zero;
 		pressed = false;
 	}
-
-	public void changeComparisonType(int type) {
-		comparison.changeType(type);
-	}
-
+	
 	public Comparison getComparison() {
 		return comparison;
 	}
