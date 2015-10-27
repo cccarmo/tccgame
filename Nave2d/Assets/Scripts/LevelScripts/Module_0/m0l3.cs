@@ -17,18 +17,15 @@ public class m0l3 : MonoBehaviour {
 		buttonToSetOff.enabled = false;
 		fabricToSetOff = GameObject.Find("Shoot Button");
 		fabricToSetOff.SetActive(false);
+		fabricToSetOff = GameObject.Find("Shield Button");
+		fabricToSetOff.SetActive(false);
 		fabricToSetOff = GameObject.Find("Down Button");
 		fabricToSetOff.SetActive(false);
 		fabricToSetOff = GameObject.Find("Right Button");
 		fabricToSetOff.SetActive(false);
 		fabricToSetOff = GameObject.Find("Left Button");
 		fabricToSetOff.SetActive(false);
-		
-		tabToSetOff = GameObject.Find("ControllTab");
-		tabToSetOff.SetActive(false);
-		
-		tabToSetOff = GameObject.Find("VariableTab");
-		tabToSetOff.SetActive(false);
+
 		GameObject scroll = GameObject.FindWithTag("ScrollPanel");
 		ScrollRect scrollRect = scroll.GetComponent<ScrollRect>();
 		scrollRect.enabled = false;
@@ -37,6 +34,11 @@ public class m0l3 : MonoBehaviour {
 		GameObject panel = GameObject.FindWithTag("DropPanel");
 		CommandInterpreter interpreter = panel.GetComponent<CommandInterpreter>();
 		interpreter.SetMaxCommands(9);
+
+		tabToSetOff = GameObject.Find("ControllTab");
+		tabToSetOff.SetActive(false);
+		tabToSetOff = GameObject.Find("VariableTab");
+		tabToSetOff.SetActive(false);
 	}
 
 }

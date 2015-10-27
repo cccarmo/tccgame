@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class m0l7 : MonoBehaviour {
 
 	private Button buttonToSetOff;
+	private GameObject fabricToSetOff;
 	private GameObject tabToSetOff;
 
 	// Use this for initialization
@@ -14,16 +15,17 @@ public class m0l7 : MonoBehaviour {
 		buttonToSetOff.enabled = false;
 		buttonToSetOff = GameObject.Find("Variable").GetComponent<Button>();
 		buttonToSetOff.enabled = false;
-		
-		tabToSetOff = GameObject.Find("ControllTab");
-		tabToSetOff.SetActive(false);
-		
-		tabToSetOff = GameObject.Find("VariableTab");
-		tabToSetOff.SetActive(false);
+		fabricToSetOff = GameObject.Find("Shield Button");
+		fabricToSetOff.SetActive(false);
 
 		GameObject panel = GameObject.FindWithTag("DropPanel");
 		CommandInterpreter interpreter = panel.GetComponent<CommandInterpreter>();
 		interpreter.SetMaxCommands(20);
+
+		tabToSetOff = GameObject.Find("ControllTab");
+		tabToSetOff.SetActive(false);
+		tabToSetOff = GameObject.Find("VariableTab");
+		tabToSetOff.SetActive(false);
 	}
 
 }

@@ -20,13 +20,8 @@ public class m1l0: MonoBehaviour {
 		fabricToSetOff.SetActive(false);
 		fabricToSetOff = GameObject.Find("If Button");
 		fabricToSetOff.SetActive(false);
-
-		tabToSetOff = GameObject.Find("ControllTab");
-		tabToSetOff.SetActive(false);
-
-		tabToSetOff = GameObject.Find("VariableTab");
-		tabToSetOff.SetActive(false);
-
+		fabricToSetOff = GameObject.Find("Shield Button");
+		fabricToSetOff.SetActive(false);
 		
 		GameObject scroll = GameObject.FindWithTag("ScrollPanel");
 		ScrollRect scrollRect = scroll.GetComponent<ScrollRect>();
@@ -36,5 +31,8 @@ public class m1l0: MonoBehaviour {
 		GameObject panel = GameObject.FindWithTag("DropPanel");
 		CommandInterpreter interpreter = panel.GetComponent<CommandInterpreter>();
 		interpreter.SetMaxCommands(9);
+		
+		tabToSetOff = GameObject.Find("VariableTab");
+		tabToSetOff.SetActive(false);
 	}
 }

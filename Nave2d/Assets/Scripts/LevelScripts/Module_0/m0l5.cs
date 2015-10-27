@@ -17,17 +17,17 @@ public class m0l5: MonoBehaviour {
 		buttonToSetOff.enabled = false;
 		fabricToSetOff = GameObject.Find("Shoot Button");
 		fabricToSetOff.SetActive(false);
-		
-		tabToSetOff = GameObject.Find("ControllTab");
-		tabToSetOff.SetActive(false);
-		
-		tabToSetOff = GameObject.Find("VariableTab");
-		tabToSetOff.SetActive(false);
-
+		fabricToSetOff = GameObject.Find("Shield Button");
+		fabricToSetOff.SetActive(false);
 
 		GameObject panel = GameObject.FindWithTag("DropPanel");
 		CommandInterpreter interpreter = panel.GetComponent<CommandInterpreter>();
 		interpreter.SetMaxCommands(20);
+
+		tabToSetOff = GameObject.Find("ControllTab");
+		tabToSetOff.SetActive(false);
+		tabToSetOff = GameObject.Find("VariableTab");
+		tabToSetOff.SetActive(false);
 	}
 
 }

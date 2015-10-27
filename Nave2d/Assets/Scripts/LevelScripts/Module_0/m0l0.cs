@@ -7,6 +7,7 @@ public class m0l0: MonoBehaviour {
 
 	private Button buttonToSetOff;
 	private GameObject fabricToSetOff;
+	private GameObject tabToSetOff;
 
 	// Use this for initialization
 	void Start() {
@@ -17,6 +18,8 @@ public class m0l0: MonoBehaviour {
 		fabricToSetOff = GameObject.Find("Down Button");
 		fabricToSetOff.SetActive(false);
 		fabricToSetOff = GameObject.Find("Shoot Button");
+		fabricToSetOff.SetActive(false);
+		fabricToSetOff = GameObject.Find("Shield Button");
 		fabricToSetOff.SetActive(false);
 		fabricToSetOff = GameObject.Find("Left Button");
 		fabricToSetOff.SetActive(false);
@@ -36,6 +39,10 @@ public class m0l0: MonoBehaviour {
 		CommandInterpreter interpreter = panel.GetComponent<CommandInterpreter>();
 		interpreter.SetMaxCommands(9);
 
+		tabToSetOff = GameObject.Find("ControllTab");
+		tabToSetOff.SetActive(false);
+		tabToSetOff = GameObject.Find("VariableTab");
+		tabToSetOff.SetActive(false);
 	}
 
 }
