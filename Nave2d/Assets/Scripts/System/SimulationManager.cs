@@ -6,6 +6,7 @@ public class SimulationManager : Scheduler {
 	private CommandInterpreter interpreter;
 
 	private bool running;
+	public GameObject Player;
 	
 	void Start() {
 		GameObject panel = GameObject.FindWithTag ("DropPanel");
@@ -42,6 +43,16 @@ public class SimulationManager : Scheduler {
 		if (containsIncompleteComparisons) {
 			Debug.Log("Falta completar alguma comparação");
 			return;
+		}
+
+		if (spaceship == null) {
+			GameObject[] spawners = GameObject.FindGameObjectsWithTag("Spawner");
+			int rand = Random.Range(0, spawners.Length);
+			GameObject spaceshipGO = GameObject.Instantiate(Player, spawners[rand].transform.position, spawners[rand].transform.rotation) as GameObject;
+			spaceshipGO.transform.parent = spawners[rand].transform.parent;
+			foreach (GameObject spawner in spawners) {
+				Destroy(spawner);
+			}
 		}
 
 		if(!running) {
