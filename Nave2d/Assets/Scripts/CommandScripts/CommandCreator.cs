@@ -74,12 +74,12 @@ public class CommandCreator : MonoBehaviour {
 	
 	public GameObject handleEvent(string eventType) {
 		GameObject box;
-		if (eventType.Contains("ComparisonBox")) {
+		if(eventType.Contains("ComparisonBox")) {
 			box = interpreter.addComparison(comparisons[eventType]());
 		} else {
 			box = interpreter.addCommand((Command) (actions [eventType])());
-			if (eventType.Contains("Scoped Repetition")) {
-				interpreter.addCommand((Command)(actions ["Scoped Repetition End"])());
+			if(box != null && eventType.Contains("Scoped Repetition")) {
+				interpreter.addCommand((Command)(actions["Scoped Repetition End"])());
 			}
 		}
 		return box;

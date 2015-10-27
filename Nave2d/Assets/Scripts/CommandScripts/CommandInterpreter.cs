@@ -74,12 +74,11 @@ public class CommandInterpreter : DataRetriever {
 	public GameObject addCommand(Command newCommand) {
 		panelHelp.SetActive(false);
 		newCommand.resetRepetitionCounter();
-		if(commandsDrawn.Count < maxCommands && !startedSimulation) {
+		if(commandsDrawn.Count < maxCommands - newCommand.indentLevel && !startedSimulation) {
 			int nestLevel = 0;
 			ArrayList commandList = getProgramFromPanel();
 			for(int index = 0; index < commandsDrawn.Count; index++) {
 				Command command = (Command) commandList[index];
-				
 				if (command.indentLevel != 0)
 					nestLevel = nestLevel + command.indentLevel;
 			}
