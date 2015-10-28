@@ -20,9 +20,9 @@ public class CommandFactory : MonoBehaviour {
 	}
 
 	void OnMouseUp() {
-		if (clicked) {
+		if(clicked) {
 			commandCreator.handleEvent(eventType);
-		} else if (dragging) {
+		} else if(dragging) {
 			DestroyOnTrash removeIfNotOverPanel = box.GetComponent<DestroyOnTrash>();
 			removeIfNotOverPanel.onRelease();
 			box.GetComponent<CommandBox>().onRelease();
@@ -33,13 +33,14 @@ public class CommandFactory : MonoBehaviour {
 	void OnMouseExit() {
 		if(clicked) {
 			clicked = false;
-			dragging = true;
-
 			box = commandCreator.handleEvent(eventType);
-			box.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			box.GetComponent<CommandBox>().onClick();
-			if (box.GetComponent<FlowCommandBox>() != null) {
-				box.GetComponent<FlowCommandBox>().setEndUnderBox();
+			if(box != null) {
+				dragging = true;
+				box.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				box.GetComponent<CommandBox>().onClick();
+				if(box.GetComponent<FlowCommandBox>() != null) {
+					box.GetComponent<FlowCommandBox>().setEndUnderBox();
+				}
 			}
 		}
 	}
