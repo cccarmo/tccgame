@@ -1,10 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+<<<<<<< Updated upstream
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LevelScripts\LevelController.cs">
     <Files>
       <File FileName="Assets\Scripts\LevelScripts\LevelController.cs" Line="15" Column="29" />
       <File FileName="Assets\Scripts\LevelScripts\Module_2\m2l9.cs" Line="14" Column="32" />
       <File FileName="Assets\Scripts\LevelScripts\Module_2\m2l4.cs" Line="21" Column="35" />
+=======
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/System/SimulationManager.cs">
+    <Files>
+      <File FileName="Assets/Scripts/GameScreen/PlayerController.cs" Line="318" Column="53" />
+      <File FileName="Assets/Scripts/System/SimulationManager.cs" Line="51" Column="1" />
+      <File FileName="Assets/Scripts/GameScreen/DestroyByContact.cs" Line="1" Column="1" />
+>>>>>>> Stashed changes
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
