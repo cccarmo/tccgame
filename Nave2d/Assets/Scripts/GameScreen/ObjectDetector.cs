@@ -33,7 +33,6 @@ public class ObjectDetector : MonoBehaviour {
 		if (other.tag != "Boundary") {
 			hittingType = 0;
 		}
-		Debug.Log (hittingType);
 	}
 
 	public int getCollisionType () {
