@@ -331,10 +331,17 @@ public class PlayerController : MonoBehaviour {
 		if (ticks == 0) {
 			isShield = false;
 		} else {
+			if (!isShield) {
+				playShieldAnimation();
+			}
 			isShield = true;
 		}
 
 		return (ticks == 0);
+	}
+
+	private void playShieldAnimation() {
+		GetComponent<Animator> ().Play ("ActivateShield");
 	}
   
 	public void ArriveAtPlanet(Vector3 planetPosition) {
