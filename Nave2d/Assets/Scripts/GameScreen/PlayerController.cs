@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour {
 	private AudioSource shootSound;
 	private AudioSource failSound;
 	private AudioSource landingSound;
+	private AudioSource shieldSound;
 
 	private uint ticks;
 	private readonly uint executionTime = 25;
@@ -64,7 +65,8 @@ public class PlayerController : MonoBehaviour {
 		body = GetComponent<Rigidbody2D>();
 		shootSound = GetComponents<AudioSource>()[0];
 		failSound = GetComponents<AudioSource>()[1];
-		landingSound = GetComponents<AudioSource> () [2];
+		landingSound = GetComponents<AudioSource>()[2];
+		shieldSound = GetComponents<AudioSource>()[3];
 		nextFire = 0.0f;
 		ticks = 0;
 		initRotationDirection ();
@@ -341,6 +343,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void playShieldAnimation() {
+		shieldSound.Play ();
 		GetComponent<Animator> ().Play ("ActivateShield");
 	}
   
