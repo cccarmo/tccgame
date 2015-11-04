@@ -10,7 +10,7 @@ public class RepetitionsDisplay : MonoBehaviour {
 	private Text repetitions;
 	private bool clicked, holding;
 	private int performedActions;
-	private float startTime, elapsedTime;
+	private float elapsedTime;
 	private ButtonAction updateNumberOfRepetitions;
 
 	private static float clickTransitionTime = 0.5f;

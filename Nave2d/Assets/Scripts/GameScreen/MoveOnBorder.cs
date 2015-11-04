@@ -7,7 +7,9 @@ public class MoveOnBorder : MonoBehaviour {
 	public int moveOffset;
 	private bool shouldMove;
 	public ScrollRect scrollRect;
-	private readonly float speed = 0.005f;
+	private float elapsedTime = 0.0f;
+	private readonly float speed = 0.007f;
+	private readonly static float clickTransitionTime = 0.3f;
 	
 	void Start () {
 		shouldMove = false;
@@ -15,8 +17,9 @@ public class MoveOnBorder : MonoBehaviour {
 	
 
 	void FixedUpdate () {
+		calculateElapsedTime();
 		if (scrollRect.enabled) {
-			if (shouldMove) {
+			if (shouldMove && elapsedTime > clickTransitionTime) {
 				scrollRect.verticalNormalizedPosition += moveOffset * speed;
 
 				if (scrollRect.verticalNormalizedPosition < 0) {
@@ -35,27 +38,35 @@ public class MoveOnBorder : MonoBehaviour {
 
 	
 	void OnTriggerEnter2D(Collider2D collider) {
-		if (collider.GetComponent<CommandBox> () != null) {
-			CommandBox c = collider.GetComponent<CommandBox> ();
-			if (c.pressed) 
+		if (collider.GetComponent<CommandBox>() != null) {
+			CommandBox c = collider.GetComponent<CommandBox>();
+			if (c.pressed) {
 				shouldMove = true;
+				elapsedTime = 0.0f;
+			}
 		} else if (collider.GetComponent<ComparisonBox> () != null) {
-			ComparisonBox c = collider.GetComponent<ComparisonBox> ();
-			if (c.pressed) 
+			ComparisonBox c = collider.GetComponent<ComparisonBox>();
+			if (c.pressed) {
 				shouldMove = true;
+				elapsedTime = 0.0f;
+			}
 		}
 	}
 	
 	void OnTriggerExit2D(Collider2D collider) {
-		if (collider.GetComponent<CommandBox> () != null) {
-			CommandBox c = collider.GetComponent<CommandBox> ();
+		if (collider.GetComponent<CommandBox>() != null) {
+			CommandBox c = collider.GetComponent<CommandBox>();
 			if (c.pressed)
 				shouldMove = false;
 
-		} else if (collider.GetComponent<ComparisonBox> () != null) {
-			ComparisonBox c = collider.GetComponent<ComparisonBox> ();
+		} else if (collider.GetComponent<ComparisonBox>() != null) {
+			ComparisonBox c = collider.GetComponent<ComparisonBox>();
 			if (c.pressed) 
 				shouldMove = false;
 		}
+	}
+
+	private void calculateElapsedTime() {
+		elapsedTime += Time.deltaTime;
 	}
 }
