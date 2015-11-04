@@ -13,11 +13,7 @@ public class m2l4 : MonoBehaviour {
 	void Start() {
 		fabricToSetOff = GameObject.Find("Shield Button");
 		fabricToSetOff.SetActive(false);
-		fabricToSetOff = GameObject.Find("If Button");
-		fabricToSetOff.SetActive(false);
-		fabricToSetOff = GameObject.Find("Clockwise Button");
-		fabricToSetOff.SetActive(false);
-		fabricToSetOff = GameObject.Find("Counterclockwise Button");
+		fabricToSetOff = GameObject.Find("DoWhile Button");
 		fabricToSetOff.SetActive(false);
 		
 		GameObject scroll = GameObject.FindWithTag("ScrollPanel");
@@ -34,5 +30,5 @@ public class m2l4 : MonoBehaviour {
 		tabToSetOff = GameObject.Find("VariableTab");
 		tabToSetOff.SetActive(false);
 	}
-	
+
 }
