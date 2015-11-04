@@ -77,11 +77,16 @@ public class FlowCommand : Command {
 				break;
 			default: return false;
 		}
-		
 		if (negateComparison) {
+			if (answer == true) {
+				wasAlreadyUsed = false;
+			}
 			return !answer;
 		}
 		else {
+			if (answer == false) {
+				wasAlreadyUsed = false;
+			}
 			return answer;
 		}
 	}
