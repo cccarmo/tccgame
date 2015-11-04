@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class m2l4 : MonoBehaviour {
-	
-	private Button buttonToSetOff;
+
 	private GameObject fabricToSetOff;
 	private GameObject tabToSetOff;
 

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class m2l3 : MonoBehaviour {
 
-	private Button buttonToSetOff;
 	private GameObject fabricToSetOff;
 	private GameObject tabToSetOff;
 
