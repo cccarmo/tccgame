@@ -4,20 +4,19 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class m2l5 : MonoBehaviour {
-	
-	private Button buttonToSetOff;
+
 	private GameObject fabricToSetOff;
 	private GameObject tabToSetOff;
 
 	// Use this for initialization
 	void Start() {
-		buttonToSetOff = GameObject.Find("Variable").GetComponent<Button>();
-		buttonToSetOff.enabled = false;
 		fabricToSetOff = GameObject.Find("Shield Button");
 		fabricToSetOff.SetActive(false);
-		fabricToSetOff = GameObject.Find("DoWhile Button");
-		fabricToSetOff.SetActive(false);
 		fabricToSetOff = GameObject.Find("If Button");
+		fabricToSetOff.SetActive(false);
+		fabricToSetOff = GameObject.Find("Clockwise Button");
+		fabricToSetOff.SetActive(false);
+		fabricToSetOff = GameObject.Find("Counterclockwise Button");
 		fabricToSetOff.SetActive(false);
 		
 		GameObject scroll = GameObject.FindWithTag("ScrollPanel");
@@ -34,5 +33,5 @@ public class m2l5 : MonoBehaviour {
 		tabToSetOff = GameObject.Find("VariableTab");
 		tabToSetOff.SetActive(false);
 	}
-	
+
 }
