@@ -31,7 +31,9 @@ public class m1l0: MonoBehaviour {
 		GameObject panel = GameObject.FindWithTag("DropPanel");
 		CommandInterpreter interpreter = panel.GetComponent<CommandInterpreter>();
 		interpreter.SetMaxCommands(9);
-		
+
+		tabToSetOff = GameObject.Find("ShipTab");
+		tabToSetOff.SetActive(false);
 		tabToSetOff = GameObject.Find("VariableTab");
 		tabToSetOff.SetActive(false);
 	}

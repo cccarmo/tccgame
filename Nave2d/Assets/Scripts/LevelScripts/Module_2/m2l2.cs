@@ -31,6 +31,8 @@ public class m2l2 : MonoBehaviour {
 		CommandInterpreter interpreter = panel.GetComponent<CommandInterpreter>();
 		interpreter.SetMaxCommands(9);
 
+		tabToSetOff = GameObject.Find("ShipTab");
+		tabToSetOff.SetActive(false);
 		tabToSetOff = GameObject.Find("ControllTab");
 		tabToSetOff.SetActive(false);
 	}
