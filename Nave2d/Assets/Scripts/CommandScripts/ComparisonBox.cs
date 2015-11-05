@@ -115,6 +115,15 @@ public class ComparisonBox : MonoBehaviour {
 		originalTouchPosition = Vector2.zero;
 		pressed = false;
 	}
+
+	public void OnMouseExit() {
+		if (pressed) {
+			if (attached) {
+					disattach ();
+					disattacheable = false;
+			}
+		}
+	}
 	
 	public Comparison getComparison() {
 		return comparison;

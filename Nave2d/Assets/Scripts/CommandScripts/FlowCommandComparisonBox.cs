@@ -32,22 +32,13 @@ public class FlowCommandComparisonBox : FlowCommandBox {
 		comparisonBoxCollider = comparisonObject.GetComponent<Collider2D>();
 		comparisonBox = comparisonObject.GetComponent<ComparisonBox>();
 	}
-	
-	public void MouseExit() {
-		if (comparisonBox != null) {
-			if (comparisonBox.pressed) {
-				comparisonBox.disattach();
-			}
-		}
-
-	}
 
 	public void attachCollider() {
 		isComplete = true;
 		FlowCommand flowCommand = (FlowCommand)command;
 		comparisonBox.attach(flowCommand, this);
 		Vector3 newPosition = transform.position;
-		newPosition.x += (GetComponent<Collider2D>().bounds.size.x + comparisonBoxCollider.bounds.size.x) / 2;
+		newPosition.x += (GetComponent<Collider2D>().bounds.size.x + comparisonBoxCollider.bounds.size.x)  *  0.45f;
 		comparisonBoxCollider.transform.position = newPosition;
 		comparisonBoxCollider.transform.SetParent(transform);
 		comparisonBoxCollider.transform.localScale = transform.localScale;
