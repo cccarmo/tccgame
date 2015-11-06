@@ -34,5 +34,10 @@ public class ScreenTransition : MonoBehaviour {
 		Application.LoadLevel(name);
 	}
 
+	public void Quit (string name) {
+		AudioPlayer.bgMusic.Stop ();
+		StartCoroutine(LevelLoad(name));
+		panelFade.GetComponent<Animator>().Play("FadeOut");
+	}
 
 }
