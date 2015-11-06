@@ -30,7 +30,7 @@ public class ScreenTransition : MonoBehaviour {
 	}
 	
 	IEnumerator LevelLoad(string name) {
-		yield return new WaitForSeconds(0.333f);
+		yield return new WaitForSeconds(1.2f);
 		Application.LoadLevel(name);
 	}
 
