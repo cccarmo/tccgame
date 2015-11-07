@@ -6,6 +6,7 @@ public class SimulationManager : Scheduler {
 	private CommandInterpreter interpreter;
 
 	private bool running;
+	private bool foundSpaceship = false;
 	public GameObject Player;
 	
 	void Start() {
@@ -16,9 +17,11 @@ public class SimulationManager : Scheduler {
 	}
 	
 	void Update() {
-		if (spaceship == null) {
-			if (GameObject.FindWithTag("Player") != null)
+		if (!foundSpaceship) {
+			if (GameObject.FindWithTag("Player") != null) {
 				spaceship = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+				foundSpaceship = true;
+			}
 		}
 		if(running && interpreter.shouldRestartSimulation()) {
 			interpreter.saveCommandList();
@@ -45,7 +48,7 @@ public class SimulationManager : Scheduler {
 			return;
 		}
 
-		if (spaceship == null) {
+		if (!foundSpaceship) {
 			GameObject[] spawners = GameObject.FindGameObjectsWithTag("Spawner");
 			int rand = Random.Range(0, spawners.Length);
 			GameObject spaceshipGO = GameObject.Instantiate(Player, spawners[rand].transform.position, spawners[rand].transform.rotation) as GameObject;
@@ -53,6 +56,7 @@ public class SimulationManager : Scheduler {
 			foreach (GameObject spawner in spawners) {
 				Destroy(spawner);
 			}
+			foundSpaceship = true;
 		}
 
 		if(!running) {
