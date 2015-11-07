@@ -3,12 +3,10 @@ using System.Collections;
 
 public class Planet : MonoBehaviour {
 	public GameObject shotExplosion;
-	private GameController gameController;
 	private GameObject gameScreen;
 		
 	void Start() {
 		gameScreen = GameObject.FindWithTag("GameScreen");
-		gameController = gameScreen.GetComponent<GameController>();
 	}
 	
 	void OnTriggerEnter2D(Collider2D collider) {
@@ -27,11 +25,10 @@ public class Planet : MonoBehaviour {
 		}
 	}
 
-	private IEnumerator ArriveShip (Collider2D ship) {
+	private IEnumerator ArriveShip(Collider2D ship) {
 		PlayerController shipController = ship.GetComponent<PlayerController>();
 		shipController.ArriveAtPlanet(GetComponent<Rigidbody2D>().transform.position);
-		yield return new WaitForSeconds (2.5f);
-		gameController.GameOver ();
+		yield return new WaitForSeconds(2.5f);
 	}
 
 }

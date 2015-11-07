@@ -69,17 +69,18 @@ public class PlayerController : MonoBehaviour {
 		shieldSound = GetComponents<AudioSource>()[3];
 		nextFire = 0.0f;
 		ticks = 0;
-		initRotationDirection ();
+		GameScreen = GameObject.FindWithTag("GameScreen");
+		initRotationDirection();
 
-		GameObject panel = GameObject.FindWithTag ("DropPanel");
-		interpreter = panel.GetComponent<CommandInterpreter> ();
+		GameObject panel = GameObject.FindWithTag("DropPanel");
+		interpreter = panel.GetComponent<CommandInterpreter>();
 
 		GameObject missilesDisplayer = GameObject.FindWithTag("MissilesDisplayer");
 		missilesLabel = missilesDisplayer.GetComponentInChildren<Text>();
 		missilesLabel.text = laserMissiles.ToString();
 	}
 
-	private void initRotationDirection () {
+	private void initRotationDirection() {
 		float lB, hB;
 
 		hB = 382.5f;
@@ -132,8 +133,8 @@ public class PlayerController : MonoBehaviour {
 			dy = 1.08f;
 			break;
 		};
-		Vector3 nextPlace = new Vector3 (body.position.x + dx, body.position.y + dy,0);
-		objectDetector.GetComponent<Rigidbody2D> ().position = nextPlace;
+		Vector3 nextPlace = new Vector3(body.position.x + dx, body.position.y + dy,0);
+		objectDetector.GetComponent<Rigidbody2D>().position = nextPlace;
 		if (interpretCommands && getNumberOfMissiles() == 0) {
 			interpreter.execute();
 			missilesLabel.text = laserMissiles.ToString();
@@ -147,8 +148,8 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	private int getNumberOfMissiles () {
-		return GameObject.FindGameObjectsWithTag ("Shot").Length;
+	private int getNumberOfMissiles() {
+		return GameObject.FindGameObjectsWithTag("Shot").Length;
 	}
 
 	public bool animating() {
@@ -156,14 +157,14 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private bool moveToNextPosition() {
-		Vector3 nextPlace = new Vector3 (nextPosition.x, nextPosition.y,0);
-		body.position = Vector3.MoveTowards (body.position, nextPlace, 0.1f);
+		Vector3 nextPlace = new Vector3(nextPosition.x, nextPosition.y,0);
+		body.position = Vector3.MoveTowards(body.position, nextPlace, 0.1f);
 		ticks = (ticks + 1) % executionTime;
 		if (ticks == 0) {
-			body.position = Vector3.MoveTowards (body.position, nextPlace, 1f);
+			body.position = Vector3.MoveTowards(body.position, nextPlace, 1f);
 		}
-		body.position = new Vector2 (Mathf.Clamp (body.position.x, xMin, xMax), 
-		                             Mathf.Clamp (body.position.y, yMin, yMax));
+		body.position = new Vector2(Mathf.Clamp(body.position.x, xMin, xMax), 
+		                            Mathf.Clamp(body.position.y, yMin, yMax));
 		return (ticks == 0);
 	}
 
@@ -343,37 +344,37 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void playShieldAnimation() {
-		shieldSound.Play ();
-		GetComponent<Animator> ().Play ("ActivateShield");
+		shieldSound.Play();
+		GetComponent<Animator>().Play("ActivateShield");
 	}
   
 	public void ArriveAtPlanet(Vector3 planetPosition) {
-		GameController.SetVictoryPopUpVisible ();
+		GameController.SetVictoryPopUpVisible();
 		tag = "Win";
 		interpretCommands = false;
 		body.velocity = new Vector2(0,0);
-		AudioPlayer.bgMusic.Stop ();
+		AudioPlayer.bgMusic.Stop();
 		AudioPlayer.winMusic.Play();
 		landingSound.Play();
-		GetComponent<Animator> ().Play ("ArriveAtPlanet");
+		GetComponent<Animator>().Play("ArriveAtPlanet");
 		// Set "moving to planet" animation
 		positionToMoveTo = planetPosition;
 		animate = true;
 		currentAnimation = AnimationType.moveToPlanet;
 		ticks = 1000;
-		StartCoroutine (DestroyPlayerObjectAfter (7.3f));
+		StartCoroutine(DestroyPlayerObjectAfter(7.3f));
 	}
 
-	IEnumerator DestroyPlayerObjectAfter (float seconds) {
-		yield return new WaitForSeconds (seconds);
-		Destroy (this.gameObject);
+	IEnumerator DestroyPlayerObjectAfter(float seconds) {
+		yield return new WaitForSeconds(seconds);
+		Destroy(this.gameObject);
 	}
 	
-	public bool MoveToPosition (Vector3 position) {
+	public bool MoveToPosition(Vector3 position) {
 		if (ticks == 1)
-			body.position = Vector3.MoveTowards (body.position, position, 1f);
+			body.position = Vector3.MoveTowards(body.position, position, 1f);
 		else 
-			body.position = Vector3.MoveTowards (body.position, position, .01f);
+			body.position = Vector3.MoveTowards(body.position, position, .01f);
 		ticks--;
 		return ticks > 0;
 	}
