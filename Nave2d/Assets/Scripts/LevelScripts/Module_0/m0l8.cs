@@ -18,9 +18,14 @@ public class m0l8 : MonoBehaviour {
 		fabricToSetOff = GameObject.Find("Shield Button");
 		fabricToSetOff.SetActive(false);
 
+		GameObject scroll = GameObject.FindWithTag("ScrollPanel");
+		ScrollRect scrollRect = scroll.GetComponent<ScrollRect>();
+		scrollRect.enabled = false;
+		GameObject scrollBar = GameObject.FindWithTag("ScrollBar");
+		scrollBar.SetActive(false);
 		GameObject panel = GameObject.FindWithTag("DropPanel");
 		CommandInterpreter interpreter = panel.GetComponent<CommandInterpreter>();
-		interpreter.SetMaxCommands(20);
+		interpreter.SetMaxCommands(9);
 
 		tabToSetOff = GameObject.Find("ControllTab");
 		tabToSetOff.SetActive(false);
