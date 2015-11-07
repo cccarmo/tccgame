@@ -39,7 +39,8 @@ public class LevelController : MonoBehaviour {
 		string moduleName = "Module" + currentModule;
 		GameObject module = GameObject.Find(moduleName) as GameObject;
 		if (module != null) {
-			module.GetComponent<LevelHolder> ().levels [currentLevel].SetActive (true);
+			currentLevelGameObject = module.GetComponent<LevelHolder>().levels[currentLevel];
+			currentLevelGameObject.SetActive(true);
 		}
 	}
 
