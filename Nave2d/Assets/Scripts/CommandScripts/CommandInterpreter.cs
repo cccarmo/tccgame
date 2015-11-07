@@ -51,7 +51,8 @@ public class CommandInterpreter : DataRetriever {
 
 	public void restartSimulation() {
 		nextCommandIndex = 0;
-		startedSimulation = restart = false;
+		startedSimulation = false;
+		setRestart(false);
 		finishedAnimation = true;
 	}
 
@@ -119,12 +120,16 @@ public class CommandInterpreter : DataRetriever {
 			
 			finishedAnimation = currentCommand.execute(ref nextCommandIndex);
 		} catch (IndexOutOfRangeException) {
-			restart = true;
+			setRestart(true);
 		}
 	}
 
 	public bool shouldRestartSimulation() {
 		return restart;
+	}
+
+	public void setRestart(bool shouldRestart) {
+		restart = shouldRestart;
 	}
 
 	private Command getNextCommand(ArrayList commandList) {

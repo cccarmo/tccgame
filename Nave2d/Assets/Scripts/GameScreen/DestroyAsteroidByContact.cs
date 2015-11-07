@@ -4,12 +4,13 @@ using System.Collections;
 public class DestroyAsteroidByContact : Scheduler {
 	public GameObject playerExplosion;
 	public GameObject shotExplosion;
-	private SimulationManager simulationManager;
 	private GameObject gameScreen;
+	private CommandInterpreter commandInterpreter;
 	
 	void Start() {
 		gameScreen = GameObject.FindWithTag("GameScreen");
-		simulationManager = gameScreen.GetComponent<SimulationManager>();
+		GameObject panel = GameObject.FindWithTag("DropPanel");
+		commandInterpreter = panel.GetComponent<CommandInterpreter>();
 	}
 
 	void Explode() {
@@ -43,6 +44,6 @@ public class DestroyAsteroidByContact : Scheduler {
 	}
 	
 	private void restartGameAfterSeconds() {
-		executeAfter(2.5f, new Action(simulationManager.reloadLevel));
+		commandInterpreter.setRestart(true);
 	}
 }

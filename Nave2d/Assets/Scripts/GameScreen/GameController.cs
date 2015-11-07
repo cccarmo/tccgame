@@ -12,7 +12,7 @@ public class GameController : MonoBehaviour {
 		Vector3 position = GameObject.FindWithTag ("TrashCan").transform.position;
 		position.x += 0.01f;
 
-		GameObject.FindWithTag ("TrashCan").transform.position = position;
+		GameObject.FindWithTag("TrashCan").transform.position = position;
 		
 		victoryPopUp = VictoryPopUp;
 

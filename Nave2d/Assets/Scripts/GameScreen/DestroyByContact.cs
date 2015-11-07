@@ -4,12 +4,13 @@ using System.Collections;
 public class DestroyByContact : Scheduler {
 	public GameObject playerExplosion;
 	public GameObject shotExplosion;
-	private SimulationManager simulationManager;
 	private GameObject gameScreen;
+	private CommandInterpreter commandInterpreter;
 
 	void Start() {
 		gameScreen = GameObject.FindWithTag("GameScreen");
-		simulationManager = gameScreen.GetComponent<SimulationManager>();
+		GameObject panel = GameObject.FindWithTag("DropPanel");
+		commandInterpreter = panel.GetComponent<CommandInterpreter>();
 	}
 
 	void OnTriggerEnter2D(Collider2D collider) {
@@ -29,6 +30,6 @@ public class DestroyByContact : Scheduler {
 	}
 
 	public void restartGameAfterSeconds() {
-		executeAfter(2.5f, new Action(simulationManager.reloadLevel));
+		commandInterpreter.setRestart(true);
 	}
 }

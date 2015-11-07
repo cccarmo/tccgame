@@ -25,7 +25,7 @@ public class SimulationManager : Scheduler {
 		}
 		if(running && interpreter.shouldRestartSimulation()) {
 			interpreter.saveCommandList();
-			executeAfter(1.25f, new Action(reloadLevel));
+			executeAfter(1.75f, new Action(reloadLevel));
 		}
 	}
 	
@@ -53,6 +53,7 @@ public class SimulationManager : Scheduler {
 			int rand = Random.Range(0, spawners.Length);
 			GameObject spaceshipGO = GameObject.Instantiate(Player, spawners[rand].transform.position, spawners[rand].transform.rotation) as GameObject;
 			spaceshipGO.transform.parent = spawners[rand].transform.parent;
+			spaceship = spaceshipGO.GetComponent<PlayerController>();
 			foreach (GameObject spawner in spawners) {
 				Destroy(spawner);
 			}
