@@ -28,11 +28,12 @@ public class PlayerController : MonoBehaviour {
 	private AudioSource landingSound;
 	private AudioSource shieldSound;
 
+	private Animator animator;
+
 	private uint ticks;
 	private readonly uint executionTime = 25;
 	private readonly uint shiledTime = 100;
 	public bool isShield;
-
 
 	public Texture2D laserTexture;
 
@@ -78,6 +79,8 @@ public class PlayerController : MonoBehaviour {
 		GameObject missilesDisplayer = GameObject.FindWithTag("MissilesDisplayer");
 		missilesLabel = missilesDisplayer.GetComponentInChildren<Text>();
 		missilesLabel.text = laserMissiles.ToString();
+
+		animator = GetComponent<Animator>();
 	}
 
 	private void initRotationDirection() {
@@ -169,6 +172,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public bool moveForward() {
+		deactivateShield ();
 		if (ticks % executionTime == 0) {
 			nextPosition = body.position;
 			switch (direction) {
@@ -199,6 +203,7 @@ public class PlayerController : MonoBehaviour {
 
 	
 	public bool moveBackward() {
+		deactivateShield ();
 		if (ticks % executionTime == 0) {
 			nextPosition = body.position;
 			switch (direction) {
@@ -228,6 +233,7 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	public bool moveLeftwards() {
+		deactivateShield ();
 		if (ticks % executionTime == 0) {
 			nextPosition = body.position;
 			switch (direction) {
@@ -257,6 +263,7 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	public bool moveRightwards() {
+		deactivateShield ();
 		if (ticks % executionTime == 0) {
 			nextPosition = body.position;
 			switch (direction) {
@@ -331,9 +338,7 @@ public class PlayerController : MonoBehaviour {
 	public bool activateShield() {
 		ticks = (ticks + 1) % shiledTime;
 
-		if (ticks == 0) {
-			isShield = false;
-		} else {
+		if (ticks != 0) {
 			if (!isShield) {
 				playShieldAnimation();
 			}
@@ -343,9 +348,21 @@ public class PlayerController : MonoBehaviour {
 		return (ticks == 0);
 	}
 
+	public void deactivateShield() {
+		if (isShield) {
+			playShieldDeactiateAnimation();
+		}
+		isShield = false;
+	}
+
 	private void playShieldAnimation() {
 		shieldSound.Play();
-		GetComponent<Animator>().Play("ActivateShield");
+		animator.Play("ActivateShield");
+	}
+
+	private void playShieldDeactiateAnimation() {
+		shieldSound.Play();
+		animator.Play("DeactivateShield");
 	}
   
 	public void ArriveAtPlanet(Vector3 planetPosition) {
@@ -356,7 +373,8 @@ public class PlayerController : MonoBehaviour {
 		AudioPlayer.bgMusic.Stop();
 		AudioPlayer.winMusic.Play();
 		landingSound.Play();
-		GetComponent<Animator>().Play("ArriveAtPlanet");
+		animator.Play("ArriveAtPlanet");
+
 		// Set "moving to planet" animation
 		positionToMoveTo = planetPosition;
 		animate = true;
