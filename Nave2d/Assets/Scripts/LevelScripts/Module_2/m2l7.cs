@@ -9,14 +9,9 @@ public class m2l7 : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-		GameObject scroll = GameObject.FindWithTag("ScrollPanel");
-		ScrollRect scrollRect = scroll.GetComponent<ScrollRect>();
-		scrollRect.enabled = false;
-		GameObject scrollBar = GameObject.FindWithTag("ScrollBar");
-		scrollBar.SetActive(false);
 		GameObject panel = GameObject.FindWithTag("DropPanel");
 		CommandInterpreter interpreter = panel.GetComponent<CommandInterpreter>();
-		interpreter.SetMaxCommands(9);
+		interpreter.SetMaxCommands(20);
 		
 		tabToSetOff = GameObject.Find("ControllTab");
 		tabToSetOff.SetActive(false);
