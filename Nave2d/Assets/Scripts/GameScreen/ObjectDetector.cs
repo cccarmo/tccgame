@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ObjectDetector : MonoBehaviour {
 
-	private int hittingType = 0;
+	public int hittingType = 0;
 
 	void OnTriggerStay2D(Collider2D other) {
 		if (other.tag != "Boundary") {

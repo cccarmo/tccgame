@@ -39,7 +39,6 @@ public class ComparisonBox : MonoBehaviour {
 	public void disattach () {
 		GameObject Panel = GameObject.FindWithTag ("DropPanel");
 		transform.SetParent(Panel.transform);
-		Debug.Log("SOLTOU CB");
 		comparisonAttacher.disattach();
 		attached = false;
 	}
@@ -102,15 +101,6 @@ public class ComparisonBox : MonoBehaviour {
 		return Math.Sqrt ((a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y));
 	}
 
-//	public void OnMouseDrag() {
-//		if (attached) {
-//			if (Dist(originalTouchPosition, Input.mousePosition) > 10 && disattacheable) {
-//				disattach ();
-//				disattacheable = false;
-//			}
-//		}
-//	}
-
 	public void OnMouseUp() {
 		if (!attached) {
 			Destroy(this.transform.gameObject);
@@ -122,7 +112,6 @@ public class ComparisonBox : MonoBehaviour {
 	public void OnMouseExit() {
 		if (pressed) {
 			if (attached) {
-					Debug.Log("MOUSEEXIT");
 					disattach ();
 					disattacheable = false;
 			}

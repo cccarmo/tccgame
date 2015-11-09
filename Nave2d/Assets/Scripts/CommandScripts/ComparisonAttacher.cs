@@ -14,7 +14,6 @@ public class ComparisonAttacher : MonoBehaviour {
 	public FlowCommandComparisonBox FCCBox;
 	
 	void OnTriggerEnter2D(Collider2D collider) {
-		Debug.Log (collider.tag);
 		if (collider.tag == "Comparison") {
 			if (!FCCBox.isComplete) {
 				comparisonBoxCollider = collider;
@@ -22,9 +21,7 @@ public class ComparisonAttacher : MonoBehaviour {
 			}
 		}
 		if (collider.tag == "MouseDetector") {
-			Debug.Log("AQUI2.8");
 			if (comparisonBox != null) {
-				Debug.Log("AQUI3");
 				if (comparisonBox.pressed) {
 					attachCollider();
 				}
