@@ -9,7 +9,7 @@ public class MoveOnBorder : MonoBehaviour {
 	public ScrollRect scrollRect;
 	private float elapsedTime = 0.0f;
 	private readonly float speed = 0.007f;
-	private readonly static float clickTransitionTime = 0.3f;
+	private readonly static float clickTransitionTime = 0.5f;
 	
 	void Start () {
 		shouldMove = false;

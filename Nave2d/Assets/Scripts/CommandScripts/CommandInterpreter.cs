@@ -38,8 +38,8 @@ public class CommandInterpreter : DataRetriever {
 					FlowCommandComparisonBox flowBox = box.GetComponent<FlowCommandComparisonBox>();
 					Comparison persistentComparison = (Comparison) comparisonList[currentIndex];
 					GameObject newComparison = addComparison(persistentComparison);
-					flowBox.setComparison(newComparison);
-					flowBox.attachCollider();
+					flowBox.comparisonAttacher.setComparison(newComparison);
+					flowBox.comparisonAttacher.attachCollider();
 				}
 				currentIndex++;
 			}

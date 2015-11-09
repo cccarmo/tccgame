@@ -16,7 +16,7 @@ public class ComparisonBox : MonoBehaviour {
 	private bool attached = false;
 	public bool pressed;
 	private bool disattacheable;
-	private FlowCommandComparisonBox commandBox;
+	private ComparisonAttacher comparisonAttacher;
 	private Comparison comparison;
 	public VariableForComparison variableForComparison;
 
@@ -29,15 +29,18 @@ public class ComparisonBox : MonoBehaviour {
 		this.comparison = comparison;
 	}
 
-	public void attach(FlowCommand flowCommand, FlowCommandComparisonBox cBox) {
+	public void attach(FlowCommand flowCommand, ComparisonAttacher cAttacher) {
 		attached = true;
-		commandBox = cBox;
+		comparisonAttacher = cAttacher;
 		comparison.configureFlowCommand(flowCommand, variableForComparison);
 		highlightColor = new Color(0.1f, 0.5f, 0.5f, 1);
 	}
 
 	public void disattach () {
-		commandBox.disattach();
+		GameObject Panel = GameObject.FindWithTag ("DropPanel");
+		transform.SetParent(Panel.transform);
+		Debug.Log("SOLTOU CB");
+		comparisonAttacher.disattach();
 		attached = false;
 	}
 	
@@ -99,14 +102,14 @@ public class ComparisonBox : MonoBehaviour {
 		return Math.Sqrt ((a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y));
 	}
 
-	public void OnMouseDrag() {
-		if (attached) {
-			if (Dist(originalTouchPosition, Input.mousePosition) > 10 && disattacheable) {
-				disattach ();
-				disattacheable = false;
-			}
-		}
-	}
+//	public void OnMouseDrag() {
+//		if (attached) {
+//			if (Dist(originalTouchPosition, Input.mousePosition) > 10 && disattacheable) {
+//				disattach ();
+//				disattacheable = false;
+//			}
+//		}
+//	}
 
 	public void OnMouseUp() {
 		if (!attached) {
@@ -119,6 +122,7 @@ public class ComparisonBox : MonoBehaviour {
 	public void OnMouseExit() {
 		if (pressed) {
 			if (attached) {
+					Debug.Log("MOUSEEXIT");
 					disattach ();
 					disattacheable = false;
 			}
