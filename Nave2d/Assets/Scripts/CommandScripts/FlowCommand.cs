@@ -19,6 +19,7 @@ public class FlowCommand : Command {
 	private bool isLoop;
 
 	public override void resetRepetitionCounter () {
+		repetitionCounter = 0;
 		wasAlreadyUsed = false;
 	}
 
