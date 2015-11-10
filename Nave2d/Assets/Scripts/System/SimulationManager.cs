@@ -61,7 +61,7 @@ public class SimulationManager : Scheduler {
 		}
 
 		if(!running) {
-			interpreter.startSimulation();
+			executeAfter(0.5f, new Action(interpreter.startSimulation));
 			running = true;
 		}
 		else if(!spaceship.animating()) {
