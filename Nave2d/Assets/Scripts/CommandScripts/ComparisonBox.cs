@@ -15,12 +15,10 @@ public class ComparisonBox : MonoBehaviour {
 	private int ticks;
 	private bool attached = false;
 	public bool pressed;
-	private bool disattacheable;
 	private ComparisonAttacher comparisonAttacher;
 	private Comparison comparison;
 	public VariableForComparison variableForComparison;
 
-	private Vector2 originalTouchPosition;
 
 	public GameObject negativeImage;
 	public GameObject positiveImage;
@@ -90,10 +88,8 @@ public class ComparisonBox : MonoBehaviour {
 	}
 
 	public void OnMouseDown() {
-		disattacheable = true;
 		pressed = true;
 		transform.SetAsLastSibling ();
-		originalTouchPosition = Input.mousePosition;
 		GetComponentInParent<Transform> ().SetAsLastSibling ();
 	}
 
@@ -105,7 +101,6 @@ public class ComparisonBox : MonoBehaviour {
 		if (!attached) {
 			Destroy(this.transform.gameObject);
 		}
-		originalTouchPosition = Vector2.zero;
 		pressed = false;
 	}
 
@@ -113,7 +108,6 @@ public class ComparisonBox : MonoBehaviour {
 		if (pressed) {
 			if (attached) {
 					disattach ();
-					disattacheable = false;
 			}
 		}
 	}
