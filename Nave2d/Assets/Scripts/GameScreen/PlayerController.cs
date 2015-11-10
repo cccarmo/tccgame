@@ -31,8 +31,8 @@ public class PlayerController : MonoBehaviour {
 	private Animator animator;
 
 	private uint ticks;
-	private readonly uint executionTime = 25;
-	private readonly uint shiledTime = 100;
+	private readonly uint executionTime = 15;
+	private readonly uint shiledTime = 75;
 	public bool isShield;
 
 	public Texture2D laserTexture;
@@ -296,7 +296,7 @@ public class PlayerController : MonoBehaviour {
 		if (ticks == 0) {
 			direction = (direction + 1) % 8;
 		}
-		body.rotation -= 1.8f;
+		body.rotation -= 3f;
 
 
 		ticks = (ticks + 1) % executionTime;
@@ -312,7 +312,7 @@ public class PlayerController : MonoBehaviour {
 			if (direction == -1)
 				direction = 7;
 		}
-		body.rotation += 1.8f;
+		body.rotation += 3f;
 
 
 		ticks = (ticks + 1) % executionTime;
