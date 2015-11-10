@@ -4,8 +4,9 @@ using System.Collections;
 public class LevelController : MonoBehaviour {
 
 	// Deletar a inicialização quando a referencia vier de fora automaticamente pela setModuleAndLevel.
-	public static int currentModule = 2;
-	public static int currentLevel = 9;
+	public static int currentModule = 99;
+	public static int currentLevel = 0;
+
 	private static GameObject currentLevelGameObject;
 	public static bool[] showPigAtLevel;
 
