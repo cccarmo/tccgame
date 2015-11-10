@@ -5,7 +5,7 @@ public class Collectible : MonoBehaviour {
 	public GameObject collectionParticle;
 	public GameObject shotExplosion;
 	private GameObject gameScreen;
-	
+
 	void Start() {
 		gameScreen = GameObject.FindWithTag("GameScreen");
 		Rigidbody2D body = GetComponentInChildren<Rigidbody2D> ();
