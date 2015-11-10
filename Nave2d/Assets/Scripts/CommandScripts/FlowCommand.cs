@@ -18,6 +18,10 @@ public class FlowCommand : Command {
 	private bool wasAlreadyUsed = false;
 	private bool isLoop;
 
+	public override void resetRepetitionCounter () {
+		wasAlreadyUsed = false;
+	}
+
 	// Constructor
 	public FlowCommand(FlowCallback flowCallback, string label, GameObject boxPreFab, int indentLevel, bool IsLoop) {
 		isLoop = IsLoop;

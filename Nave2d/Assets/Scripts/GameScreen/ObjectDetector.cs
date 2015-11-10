@@ -5,6 +5,10 @@ public class ObjectDetector : MonoBehaviour {
 
 	public int hittingType = 0;
 
+	void Start() {
+		hittingType = 0;
+	}
+
 	void OnTriggerStay2D(Collider2D other) {
 		if (other.tag != "Boundary") {
 			if (other.tag == "Asteroid") {
