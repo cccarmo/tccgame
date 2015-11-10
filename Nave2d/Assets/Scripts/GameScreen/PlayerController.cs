@@ -311,7 +311,6 @@ public class PlayerController : MonoBehaviour {
 
 	public bool turnCounterclockwise() {
 		if (ticks == 0) {
-			Debug.Log("MUDOU");
 			direction = (direction - 1);
 			if (direction == -1)
 				direction = 7;
