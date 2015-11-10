@@ -20,11 +20,10 @@ public class DestroyAsteroidByContact : Scheduler {
 		newExplosion.transform.parent = gameScreen.transform;
 		Destroy(this.gameObject);
 		if (isOnDetector) {
-			detector.GetComponent<ObjectDetector>().hittingType = 0;
+			detector.GetComponent<ObjectDetector>().hitting1 = false;
 		}
 	}
 
-	
 	void OnTriggerEnter2D(Collider2D collider) {
 		if (collider.tag == "ObjectDetector") {
 			isOnDetector = true;

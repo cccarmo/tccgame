@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
-	void FixedUpdate() {
+	void Update () {
 		float dx = 0.35f;
 		float dy = 0.35f;
 		switch (direction) {
@@ -137,7 +137,10 @@ public class PlayerController : MonoBehaviour {
 			break;
 		};
 		Vector3 nextPlace = new Vector3(body.position.x + dx, body.position.y + dy,0);
-		objectDetector.GetComponent<Rigidbody2D>().position = nextPlace;
+		objectDetector.transform.position = nextPlace;
+	}
+
+	void FixedUpdate() {
 		if (interpretCommands && getNumberOfMissiles() == 0) {
 			interpreter.execute();
 			missilesLabel.text = laserMissiles.ToString();

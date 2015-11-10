@@ -16,7 +16,7 @@ abstract public class Command {
 		return commandBoxPreFab;
 	}
 
-	public void resetRepetitionCounter() {
+	public virtual void resetRepetitionCounter() {
 		repetitionCounter = 0;
 	}
 
