@@ -27,7 +27,6 @@ public class Collectible : MonoBehaviour {
 			if (isOnDetector && !alreadyDestroyed) {
 				alreadyDestroyed = true;
 				detector.GetComponent<ObjectDetector>().hitting3--;
-				Debug.Log("DIMINUI" + this.name); 
 			}
 		}
 		else if (collider.tag == "Shot") {

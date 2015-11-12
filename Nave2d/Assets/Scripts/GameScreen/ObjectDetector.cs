@@ -30,12 +30,10 @@ public class ObjectDetector : MonoBehaviour {
 //	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		Debug.Log (other.tag);
 		if (other.tag != "Boundary") {
 			if (other.tag == "Asteroid") {
 				hitting1++;
 			} else if (other.tag == "Collectible") {
-				Debug.Log("PILHA");
 				hitting3++;
 			} else if (other.tag == "Obstacle") {
 				hitting2++;
