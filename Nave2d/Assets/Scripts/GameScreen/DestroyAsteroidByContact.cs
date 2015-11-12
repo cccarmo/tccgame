@@ -8,6 +8,7 @@ public class DestroyAsteroidByContact : Scheduler {
 	private CommandInterpreter commandInterpreter;
 	private bool isOnDetector = false;
 	private Collider2D detector;
+	private bool alreadyDestroyed = false;
 	
 	void Start() {
 		gameScreen = GameObject.FindWithTag("GameScreen");
@@ -19,8 +20,9 @@ public class DestroyAsteroidByContact : Scheduler {
 		GameObject newExplosion = GameObject.Instantiate(shotExplosion, transform.position, transform.rotation) as GameObject;
 		newExplosion.transform.parent = gameScreen.transform;
 		Destroy(this.gameObject);
-		if (isOnDetector) {
-			detector.GetComponent<ObjectDetector>().hitting1 = false;
+		if (isOnDetector && !alreadyDestroyed) {
+			alreadyDestroyed = true;
+			detector.GetComponent<ObjectDetector>().hitting1--;;
 		}
 	}
 

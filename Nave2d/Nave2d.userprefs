@@ -1,9 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/CommandScripts/ComparisonBox.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../MGA/Unity projects/MGAnityIphone/Assets/Scripts/Scene Scripts/DeadLines.cs">
     <Files>
-      <File FileName="Assets/Scripts/CommandScripts/ComparisonBox.cs" Line="100" Column="2" />
-      <File FileName="Assets/Scripts/CommandScripts/FlowCommandComparisonBox.cs" Line="17" Column="24" />
+      <File FileName="../../../../MGA/Unity projects/MGAnityIphone/Assets/Scripts/Scene Scripts/DeadLines.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

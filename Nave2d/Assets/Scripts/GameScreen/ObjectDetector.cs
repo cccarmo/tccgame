@@ -4,18 +4,19 @@ using System.Collections;
 public class ObjectDetector : MonoBehaviour {
 
 	public int hittingType = 0;
-	public bool hitting1 = false;
-	public bool hitting2 = false;
-	public bool hitting3 = false;
+	public int hitting1 = 0;
+	public int hitting2 = 0;
+	public int hitting3 = 0;
 
 
-	void Start() {
-		hittingType = 0;
-		hitting1 = false;
-		hitting2 = false;
-		hitting3 = false;
-	}
-//
+//	void Start() {
+//		Debug.Log("START");
+//		hittingType = 0;
+//		hitting1 = false;
+//		hitting2 = false;
+//		hitting3 = false;
+//	}
+
 //	void OnTriggerStay2D(Collider2D other) {
 //		if (other.tag != "Boundary") {
 //			if (other.tag == "Asteroid") {
@@ -29,13 +30,15 @@ public class ObjectDetector : MonoBehaviour {
 //	}
 
 	void OnTriggerEnter2D(Collider2D other) {
+		Debug.Log (other.tag);
 		if (other.tag != "Boundary") {
 			if (other.tag == "Asteroid") {
-				hitting1 = true;
+				hitting1++;
 			} else if (other.tag == "Collectible") {
-				hitting3 = true;
+				Debug.Log("PILHA");
+				hitting3++;
 			} else if (other.tag == "Obstacle") {
-				hitting2 = true;
+				hitting2++;
 			} 
 		}
 	}
@@ -43,23 +46,31 @@ public class ObjectDetector : MonoBehaviour {
 	void OnTriggerExit2D(Collider2D other) {
 		if (other.tag != "Boundary") {
 			if (other.tag == "Asteroid") {
-				hitting1 = false;
+				hitting1--;
 			} else if (other.tag == "Collectible") {
-				hitting3 = false;
+				hitting3--;
 			} else if (other.tag == "Obstacle") {
-				hitting2 = false;
+				hitting2--;
 			} 
 		}
 	}
 
-	public int getCollisionType () {
-		if (hitting1)
-			return 1;
-		else if (hitting2)
-			return 2;
-		else if (hitting3)
-			return 3;
-		else
-			return 0;
+	public bool getCollisionType (int type) {
+
+		switch (type) {
+		case 1:
+			if (hitting1 > 0)
+				return true;
+			break;
+		case 2:
+			if (hitting2 > 0)
+				return true;
+			break;
+		case 3:
+			if (hitting3 > 0)
+				return true;
+			break;
+		};
+		return false;
 	}
 }

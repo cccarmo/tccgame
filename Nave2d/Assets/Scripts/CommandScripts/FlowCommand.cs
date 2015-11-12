@@ -63,22 +63,15 @@ public class FlowCommand : Command {
 		}
 		
 		bool answer = false;
-		int hittingType = GameObject.FindWithTag ("ObjectDetector").GetComponent<ObjectDetector> ().getCollisionType ();
 		switch(variableForComparison) {
 			case VariableForComparison.AsteroidsAhead:
-				if (hittingType == 1) {
-					answer = true;
-				}
+				answer = GameObject.FindWithTag ("ObjectDetector").GetComponent<ObjectDetector> ().getCollisionType (1);
 				break;
 			case VariableForComparison.ForceFieldAhead:
-				if (hittingType == 2) {
-					answer = true;
-				}
+				answer = GameObject.FindWithTag ("ObjectDetector").GetComponent<ObjectDetector> ().getCollisionType (2);
 				break;
 			case VariableForComparison.BatteryAhead:
-				if (hittingType == 3) {
-					answer = true;
-				}
+				answer = GameObject.FindWithTag ("ObjectDetector").GetComponent<ObjectDetector> ().getCollisionType (3);
 				break;
 			default: return false;
 		}
