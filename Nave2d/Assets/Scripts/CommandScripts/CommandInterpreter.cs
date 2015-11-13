@@ -124,6 +124,14 @@ public class CommandInterpreter : DataRetriever {
 		}
 	}
 
+	public int getCommandsListCount() {
+		return commandsDrawn.Count;
+	}
+
+	public int getMaxCommands() {
+		return maxCommands;
+	}
+
 	public bool shouldRestartSimulation() {
 		return restart;
 	}
