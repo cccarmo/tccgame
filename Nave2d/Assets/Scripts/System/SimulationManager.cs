@@ -8,6 +8,7 @@ public class SimulationManager : Scheduler {
 	private bool running;
 	private bool foundSpaceship = false;
 	public GameObject Player;
+	public GameObject panelBlock;
 	
 	void Start() {
 		GameObject panel = GameObject.FindWithTag ("DropPanel");
@@ -61,6 +62,7 @@ public class SimulationManager : Scheduler {
 		}
 
 		if(!running) {
+			panelBlock.SetActive(true);
 			executeAfter(0.5f, new Action(interpreter.startSimulation));
 			running = true;
 		}
